@@ -1,0 +1,13 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/assets/js/vendors.min.js": "/assets/js/vendors.min.js",
+    "/assets/js/plugins.min.js": "/assets/js/plugins.min.js",
+    "/assets/js/search.min.js": "/assets/js/search.min.js",
+    "/assets/js/custom/custom-script.min.js": "/assets/js/custom/custom-script.min.js",
+    "/assets/vendors/vendors.min.css": "/assets/vendors/vendors.min.css",
+    "/assets/css/themes/vertical-modern-menu-template/materialize.min.css": "/assets/css/themes/vertical-modern-menu-template/materialize.min.css",
+    "/assets/css/themes/vertical-modern-menu-template/style.min.css": "/assets/css/themes/vertical-modern-menu-template/style.min.css",
+    "/assets/css/pages/login.css": "/assets/css/pages/login.css",
+    "/assets/css/custom/custom.css": "/assets/css/custom/custom.css"
+}

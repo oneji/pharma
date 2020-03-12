@@ -105,12 +105,11 @@
                                                 <span></span>
                                             </label>
                                         </th>
-                                        <th>Фото</th>
                                         <th>ФИО</th>
                                         <th>Email</th>
                                         <th>Телефона</th>
                                         <th>Заметки</th>
-                                        {{-- <th>Роли</th> --}}
+                                        <th>Роль</th>
                                         <th>Действия</th>
                                     </tr>
                                 </thead>
@@ -123,20 +122,11 @@
                                                     <span></span>
                                                 </label>
                                             </td>
-                                            <td>
-                                                <span class="avatar-contact avatar-online">
-                                                    <img src="{{ asset('assets/images/user/user.png') }}" alt="avatar">
-                                                </span>
-                                            </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
-                                            {{-- <td>
-                                                @foreach ($user->roles as $role)
-                                                    {{ $role->display_name }}
-                                                @endforeach
-                                            </td> --}}
                                             <td>{{ $user->note }}</td>
+                                            <td><span class="badge blue">{{ $user->roles->first()->display_name }}</span></td>
                                             <td>
                                                 <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>
 

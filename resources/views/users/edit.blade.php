@@ -94,10 +94,10 @@
                                                 <div class="col s12 input-field">
                                                     <select name="role">
                                                         @foreach ($roles as $role)
-                                                            <option value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                                            <option {{ $user->roles->first()->id === $role->id ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <label>Role</label>
+                                                    <label>Роль</label>
                                                 </div>
                                                 <div class="col s12 input-field">
                                                     <select name="status">

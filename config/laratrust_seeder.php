@@ -5,7 +5,11 @@ return [
         'superadministrator' => [
             'users' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
-            'price-lists' => 'c,r,u,d'
+            'price-lists' => 'c,r,u,d',
+            'reports' => 'c,r,u,d',
+            'requests' => 'c,r,u,d',
+            'brands' => 'c,r,u,d',
+            'medicines' => 'c,r,u,d'
         ],
         'director' => [
             'reports' => 'c,r,u,d',

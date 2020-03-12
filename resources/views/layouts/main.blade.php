@@ -15,16 +15,18 @@
         {{-- <link rel="apple-touch-icon" href="../../../app-assets/images/favicon/apple-touch-icon-152x152.png"> --}}
         {{-- <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/favicon/favicon-32x32.png"> --}}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!-- BEGIN: VENDOR CSS-->
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/vendors/vendors.min.css') }}">
-        <!-- END: VENDOR CSS-->
-        <!-- BEGIN: Page Level CSS-->
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
-        <!-- END: Page Level CSS-->
-        <!-- BEGIN: Custom CSS-->
-        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/custom/custom.css') }}">
-        <!-- END: Custom CSS-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">
+        <style>
+            .sidenav li a.active {
+                box-shadow: none;
+            }
+            .modal {
+                overflow: visible;
+            }
+        </style>
     @show
     
 </head>
@@ -34,18 +36,13 @@
     <!-- BEGIN: Header-->
     <header class="page-topbar" id="header">
         <div class="navbar navbar-fixed"> 
-            <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-purple no-shadow">
+            <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-light-blue no-shadow">
                 <div class="nav-wrapper">
-                    <div class="header-search-wrapper hide-on-med-and-down"><i class="material-icons">search</i>
-                        <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize" data-search="template-list">
-                        <ul class="search-list collection display-none"></ul>
-                    </div>
                     <ul class="navbar-list right">
                         <li class="dropdown-language"><a class="waves-effect waves-block waves-light translation-button" href="#" data-target="translation-dropdown"><span class="flag-icon flag-icon-gb"></span></a></li>
                         <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
-                        <li class="hide-on-large-only search-input-wrapper"><a class="waves-effect waves-block waves-light search-button" href="javascript:void(0);"><i class="material-icons">search</i></a></li>
                         <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a></li>
-                        <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="{{ asset('assets/images/avatar/avatar-7.png') }}" alt="avatar"><i></i></span></a></li>
+                        <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="{{ asset('assets/images/user/user.png') }}" alt="avatar"><i></i></span></a></li>
                     </ul>
                     <!-- translation-button-->
                     <ul class="dropdown-content" id="translation-dropdown">
@@ -78,25 +75,25 @@
                     </ul>
                     <!-- profile-dropdown-->
                     <ul class="dropdown-content" id="profile-dropdown">
-                        <li><a class="grey-text text-darken-1" href="user-profile-page.html"><i class="material-icons">person_outline</i> Profile</a></li>
-                        <li><a class="grey-text text-darken-1" href="app-chat.html"><i class="material-icons">chat_bubble_outline</i> Chat</a></li>
-                        <li><a class="grey-text text-darken-1" href="page-faq.html"><i class="material-icons">help_outline</i> Help</a></li>
+                        {{-- <li><a class="grey-text text-darken-1" href="user-profile-page.html"><i class="material-icons">person_outline</i> Profile</a></li> --}}
                         <li class="divider"></li>
-                        <li><a class="grey-text text-darken-1" href="user-lock-screen.html"><i class="material-icons">lock_outline</i> Lock</a></li>
-                        <li><a class="grey-text text-darken-1" href="user-login.html"><i class="material-icons">keyboard_tab</i> Logout</a></li>
+                        <li>
+                            <a 
+                                class="grey-text text-darken-1" 
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();"
+                            >
+                                <i class="material-icons">keyboard_tab</i> 
+                                Выйти
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </div>
-                <nav class="display-none search-sm">
-                    <div class="nav-wrapper">
-                        <form id="navbarForm">
-                            <div class="input-field search-input-sm">
-                                <input class="search-box-sm mb-0" type="search" required="" id="search" placeholder="Explore Materialize" data-search="template-list">
-                                <label class="label-icon" for="search"><i class="material-icons search-sm-icon">search</i></label><i class="material-icons search-sm-close">close</i>
-                                <ul class="search-list collection search-list-sm display-none"></ul>
-                            </div>
-                        </form>
-                    </div>
-                </nav>
             </nav>
         </div>
     </header>
@@ -227,17 +224,31 @@
     <!-- BEGIN: SideNav-->
     <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
         <div class="brand-sidebar">
-            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="index.html"><img class="hide-on-med-and-down" src="{{ asset('assets/images/logo/materialize-logo-color') }}.png" alt="materialize logo"/><img class="show-on-medium-and-down hide-on-med-and-up" src="{{ asset('assets/images/logo/materialize-logo.png') }}" alt="materialize logo"/><span class="logo-text hide-on-med-and-down">Materialize</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
+            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="{{ route('home') }}"><img class="hide-on-med-and-down" src="{{ asset('assets/images/logo/materialize-logo-color') }}.png" alt="materialize logo"/><img class="show-on-medium-and-down hide-on-med-and-up" src="{{ asset('assets/images/logo/materialize-logo.png') }}" alt="materialize logo"/><span class="logo-text hide-on-med-and-down">Materialize</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
         </div>
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
-            <li class="bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">settings_input_svideo</i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge pill orange float-right mr-10">3</span></a>
+            <li class="bold active"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">list_alt</i><span class="menu-title" data-i18n="Dashboard">Справочники</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        <li><a href="dashboard-modern.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Modern</span></a></li>
-                        <li><a href="dashboard-ecommerce.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">eCommerce</span></a></li>
-                        <li><a href="dashboard-analytics.html"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Analytics</span></a></li>
+                        @permission('read-users')
+                            <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
+                        @endpermission
+                        <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
+                        <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
                     </ul>
                 </div>
+            </li>
+            <li class="bold">
+                <a class="waves-effect waves-cyan " href="app-kanban.html">
+                    <i class="material-icons">list_alt</i>
+                    <span class="menu-title" data-i18n="Kanban">Прайс листы</span>
+                </a>
+            </li>
+            <li class="bold">
+                <a class="waves-effect waves-cyan " href="app-kanban.html">
+                    <i class="material-icons">assignment_returned</i>
+                    <span class="menu-title" data-i18n="Kanban">Заявки</span>
+                </a>
             </li>
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
@@ -247,55 +258,15 @@
     <!-- BEGIN: Page Main-->
     <div id="main">
         <div class="row">
-            <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-            <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-                <!-- Search for small screen-->
-                <div class="container">
-                    <div class="row">
-                        <div class="col s10 m6 l6">
-                            <h5 class="breadcrumbs-title mt-0 mb-0"><span>Blank Page</span></h5>
-                            <ol class="breadcrumbs mb-0">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item active">Blank Page</li>
-                            </ol>
-                        </div>
-                        <div class="col s2 m6 l6"><a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Settings</span><i class="material-icons right">arrow_drop_down</i></a>
-                            <ul class="dropdown-content" id="dropdown1" tabindex="0">
-                                <li tabindex="0"><a class="grey-text text-darken-2" href="user-profile-page.html">Profile<span class="new badge red">2</span></a></li>
-                                <li tabindex="0"><a class="grey-text text-darken-2" href="app-contacts.html">Contacts</a></li>
-                                <li tabindex="0"><a class="grey-text text-darken-2" href="page-faq.html">FAQ</a></li>
-                                <li class="divider" tabindex="-1"></li>
-                                <li tabindex="0"><a class="grey-text text-darken-2" href="user-login.html">Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col s12">
-                <div class="container">
-                    <div class="section">
-                        <div class="card">
-                            <div class="card-content">
-                                <p class="caption mb-0">
-                                    Sample blank page for getting start!! Created and designed by Google, Material Design is a design
-                                    language that combines the classic principles of successful design along with innovation and
-                                    technology.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-overlay"></div>
-            </div>
+            <div class="content-wrapper-before gradient-45deg-indigo-light-blue"></div>
+            
+            @yield('content')
         </div>
     </div>
     <!-- END: Page Main-->
     
     <!-- BEGIN: Footer-->
-    <footer class="page-footer footer footer-static footer-dark gradient-45deg-indigo-purple gradient-shadow navbar-border navbar-shadow">
+    <footer class="page-footer footer footer-static footer-dark gradient-45deg-indigo-light-blue gradient-shadow navbar-border navbar-shadow">
         <div class="footer-copyright">
             <div class="container">
                 <span>2020 &copy; All rights reserved.</span>
@@ -305,20 +276,10 @@
     <!-- END: Footer-->
 
     @section('scripts')
-        <!-- BEGIN VENDOR JS-->
-        <script src="{{ mix('assets/js/vendors.min.js') }}"></script>
-        <!-- BEGIN VENDOR JS-->
-        <!-- BEGIN PAGE VENDOR JS-->
-        <!-- END PAGE VENDOR JS-->
-        <!-- BEGIN THEME  JS-->
-        <script src="{{ mix('assets/js/plugins.min.js') }}"></script>
-        <script src="{{ mix('assets/js/search.min.js') }}"></script>
-        <script src="{{ mix('assets/js/custom/custom-script.min.js') }}"></script>
-        <!-- END THEME  JS-->
-        <!-- BEGIN PAGE LEVEL JS-->
-        <!-- END PAGE LEVEL JS-->
+        <script src="{{ asset('assets/js/vendors.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
+        <script src="{{ asset('assets/js/search.min.js') }}"></script>
+        <script src="{{ asset('assets/js/custom/custom-script.min.js') }}"></script>
     @show
   </body>
-
-<!-- Mirrored from pixinvent.com/materialize-material-design-admin-template/html/ltr/vertical-modern-menu-template/page-blank.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 11 Mar 2020 10:36:43 GMT -->
 </html>

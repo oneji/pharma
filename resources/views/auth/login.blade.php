@@ -1,77 +1,3 @@
-{{-- @extends('layouts.app') --}}
-
-{{-- @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection --}}
-
 <!DOCTYPE html>
 <html class="loading" data-textdirection="ltr">
 <head>
@@ -82,19 +8,19 @@
     <meta name="keywords" content="">
     <meta name="author" content="Kamilov T">
     <title>Войти</title>
-    {{-- <link rel="apple-touch-icon" href="{{ mix('assets/images/favicon/apple-touch-icon-152x152.png') }}"> --}}
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ mix('assets/images/favicon/favicon-32x32.png') }}"> --}}
+    {{-- <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon/apple-touch-icon-152x152.png') }}"> --}}
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/favicon-32x32.png') }}"> --}}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- BEGIN: VENDOR CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/vendors/vendors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
     <!-- END: VENDOR CSS-->
     <!-- BEGIN: Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/pages/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/login.css') }}">
     <!-- END: Page Level CSS-->
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/custom/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">
     <!-- END: Custom CSS-->
 </head>
   <!-- END: Head-->
@@ -149,14 +75,14 @@
     </div>
 
     <!-- BEGIN VENDOR JS-->
-    <script src="{{ mix('assets/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors.min.js') }}"></script>
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <!-- END PAGE VENDOR JS-->
     <!-- BEGIN THEME  JS-->
-    <script src="{{ mix('assets/js/plugins.min.js') }}"></script>
-    {{-- <script src="{{ mix('assets/js/search.min.js') }}"></script> --}}
-    {{-- <script src="{{ mix('assets/js/custom/custom-script.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/search.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/custom/custom-script.min.js') }}"></script> --}}
     <!-- END THEME  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- END PAGE LEVEL JS-->

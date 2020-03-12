@@ -5,20 +5,30 @@ return [
         'superadministrator' => [
             'users' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
-            'profile' => 'r,u'
+            'price-lists' => 'c,r,u,d'
         ],
-        'administrator' => [
-            'users' => 'c,r,u,d',
-            'profile' => 'r,u'
+        'director' => [
+            'reports' => 'c,r,u,d',
         ],
-        'user' => [
-            'profile' => 'r,u'
+        'head_manager' => [
+            'requests' => 'r,u'
+        ],
+        'manager' => [
+            'requests' => 'r,u'
+        ],
+        'cashier' => [
+            'requests' => 'r,u'
+        ],
+        'logist' => [
+            'requests' => 'r,u'
+        ],
+        'client' => [
+            'price-lists' => 'c,r,u,d',
+            'requests' => 'c,r,u,d'
         ],
     ],
     'permission_structure' => [
-        'cru_user' => [
-            'profile' => 'c,r,u'
-        ],
+        
     ],
     'permissions_map' => [
         'c' => 'create',

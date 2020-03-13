@@ -39,17 +39,9 @@
             <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-light-blue no-shadow">
                 <div class="nav-wrapper">
                     <ul class="navbar-list right">
-                        <li class="dropdown-language"><a class="waves-effect waves-block waves-light translation-button" href="#" data-target="translation-dropdown"><span class="flag-icon flag-icon-gb"></span></a></li>
                         <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
                         <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a></li>
                         <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="{{ asset('assets/images/user/user.png') }}" alt="avatar"><i></i></span></a></li>
-                    </ul>
-                    <!-- translation-button-->
-                    <ul class="dropdown-content" id="translation-dropdown">
-                        <li class="dropdown-item"><a class="grey-text text-darken-1" href="#!" data-language="en"><i class="flag-icon flag-icon-gb"></i> English</a></li>
-                        <li class="dropdown-item"><a class="grey-text text-darken-1" href="#!" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a></li>
-                        <li class="dropdown-item"><a class="grey-text text-darken-1" href="#!" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></li>
-                        <li class="dropdown-item"><a class="grey-text text-darken-1" href="#!" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a></li>
                     </ul>
                     <!-- notifications-dropdown-->
                     <ul class="dropdown-content" id="notifications-dropdown">
@@ -239,7 +231,7 @@
                 </div>
             </li>
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="app-kanban.html">
+                <a class="waves-effect waves-cyan " href="{{ route('price_lists.index') }}">
                     <i class="material-icons">list_alt</i>
                     <span class="menu-title" data-i18n="Kanban">Прайс листы</span>
                 </a>
@@ -279,7 +271,6 @@
         <script src="{{ asset('assets/js/vendors.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
         <script src="{{ asset('assets/js/search.min.js') }}"></script>
-        <script src="{{ asset('assets/js/custom/custom-script.min.js') }}"></script>
     @show
   </body>
 </html>

@@ -27,4 +27,10 @@ Route::post('brands', 'BrandController@store')->name('brands.store');
 Route::get('medicine', 'MedicineController@index')->name('medicine.index');
 Route::post('medicine', 'MedicineController@store')->name('medicine.store');
 
+// Price lists
+Route::get('price-lists', 'PriceListController@index')->name('price_lists.index');
+Route::get('price-lists/create', 'PriceListController@create')->name('price_lists.create');
+Route::get('price-lists/{id}', 'PriceListController@view')->name('price_lists.view');
+Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
+
 

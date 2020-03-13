@@ -7,11 +7,10 @@
 @section('head')
     @parent
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/flag-icon/css/flag-icon.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/css/select.dataTables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/data-tables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
+
 @endsection
 
 @section('content')
@@ -57,79 +56,48 @@
         </form>
     </div>
 
-    <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
-        <!-- Search for small screen-->
-        <div class="container">
-            <div class="row">
-                <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>DataTable</span></h5>
-                    <ol class="breadcrumbs mb-0">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item"><a href="#">Table</a>
-                        </li>
-                        <li class="breadcrumb-item active">DataTable
-                        </li>
-                    </ol>
-                </div>
-                <div class="col s2 m6 l6"><a
-                        class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!"
-                        data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span
-                            class="hide-on-small-onl">Settings</span><i
-                            class="material-icons right">arrow_drop_down</i></a>
-                    <ul class="dropdown-content" id="dropdown1" tabindex="0">
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="user-profile-page.html">Profile<span
-                                    class="new badge red">2</span></a></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="app-contacts.html">Contacts</a></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="page-faq.html">FAQ</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="user-login.html">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="col s12">
         <div class="container">
-            <div class="section section-data-tables">
 
-                <div class="row">
-                    <div class="col s12">
-                        <div class="card">
-                            <div class="card-content">
-                                <h4 class="card-title">Список товаров</h4>
-                                <div class="row">
-                                    <div class="col s12">
-                                        <table id="medicine-datatable" class="display">
-                                            <thead>
-                                                <tr>
-                                                    <th>Название</th>
-                                                    <th>Производитель</th>
-                                                    <th>Действия</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($medicine as $idx => $med)
-                                                    <tr>
-                                                        <td>{{ $med->medicine_name }}</td>
-                                                        <td>{{ $med->brand_name }}</td>
-                                                        <td >
-                                                            <a href="#" style="color: green">
-                                                                <span><i class="material-icons delete">edit</i></span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <section class="invoice-list-wrapper section">
+                <!-- create brand button-->
+                <div class="invoice-create-btn">
+                    <a href="#addMedicineModal"
+                        class="btn waves-effect waves-light border-round z-depth-1 modal-trigger">
+                        <i class="material-icons">add</i>
+                        <span class="hide-on-small-only">Добавить товар</span>
+                    </a>
                 </div>
-            </div>
+                <div class="responsive-table">
+                    <table class="table invoice-data-table white border-radius-4 pt-1">
+                        <thead>
+                            <tr>
+                                <th class="center-align">#</th>
+                                <th>Название</th>
+                                <th>Производитель</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($medicine as $idx => $med)
+                                <tr>
+                                    <td class="center-align">{{ $idx + 1 }}</td>
+                                    <td>{{ $med->medicine_name }}</td>
+                                    <td>{{ $med->brand_name }}</td>
+                                    <td>
+                                        <div class="invoice-action">
+                                            <a href="app-invoice-edit.html" class="invoice-action-edit">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -143,13 +111,5 @@
     <script src="{{ asset('assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/data-tables/js/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/advance-ui-modals.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $("#medicine-datatable").DataTable({
-                responsive: !0,
-                lengthMenu: [ [ 10, 25, 50, -1 ], [ 10, 25, 50, "All" ] ]
-            });
-        }); 
-    </script>
+    <script src="{{ asset('assets/js/custom/medicine.js') }}"></script>
 @endsection

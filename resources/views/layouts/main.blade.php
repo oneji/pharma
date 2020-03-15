@@ -67,7 +67,7 @@
                     </ul>
                     <!-- profile-dropdown-->
                     <ul class="dropdown-content" id="profile-dropdown">
-                        {{-- <li><a class="grey-text text-darken-1" href="user-profile-page.html"><i class="material-icons">person_outline</i> Profile</a></li> --}}
+                        <li><a class="grey-text text-darken-1" href="{{ route('password.edit') }}"><i class="material-icons">person_outline</i> Изменить пароль</a></li>
                         <li class="divider"></li>
                         <li>
                             <a 
@@ -233,7 +233,7 @@
             <li class="bold">
                 <a class="waves-effect waves-cyan " href="{{ route('price_lists.index') }}">
                     <i class="material-icons">list_alt</i>
-                    <span class="menu-title" data-i18n="Kanban">Прайс листы</span>
+                    <span class="menu-title" data-i18n="Kanban">Прайс лист</span>
                 </a>
             </li>
             <li class="bold">

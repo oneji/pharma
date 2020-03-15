@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 class User extends Authenticatable
 {
@@ -77,6 +78,37 @@ class User extends Authenticatable
         // Change user's role
         if(isset($userData['role'])) {
             $user->roles()->attach($userData['role']);
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function changeStatus($id, $status)
+    {
+        $user = static::find($id);
+        $user->status = $status;
+        $user->save(); 
+    }
+
+    /**
+     * 
+     */
+    public static function updatePassword($oldPassword, $newPassword)
+    {
+        $user = static::find(Auth::user()->id);
+
+        if (Hash::check($oldPassword, $user->password)) {
+            $user->password = Hash::make($newPassword);
+            $user->save();
+
+            Session::flash('password.success', 'Пароль успешно изменен.');
+            return [ 'ok' => true ];
+        } else {
+            return [
+                'ok' => false,
+                'message' => 'Старый пароль не совпадает.'
+            ];
         }
     }
 }

@@ -31,6 +31,12 @@ Route::post('medicine', 'MedicineController@store')->name('medicine.store');
 Route::get('price-lists', 'PriceListController@index')->name('price_lists.index');
 Route::get('price-lists/create', 'PriceListController@create')->name('price_lists.create');
 Route::get('price-lists/{id}', 'PriceListController@view')->name('price_lists.view');
-Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
+Route::get('price-lists/{id}/edit', 'PriceListController@edit')->name('price_lists.edit');
 
+Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
+Route::put('price-lists/{id}/update', 'PriceListController@update')->name('price_lists.update');
+
+// Password
+Route::get('password', 'UserController@editPassword')->name('password.edit');
+Route::put('password/change', 'UserController@changePassword')->name('password.change');
 

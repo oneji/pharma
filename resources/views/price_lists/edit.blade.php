@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Создать прайс лист
+    Изменить прайс лист
 @endsection
 
 @section('head')
@@ -42,15 +42,15 @@
                                     <div class="row mb-3">
                                         <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6"></div>
                                         <div class="col m3 s12 pull-m6">
-                                            <h4 class="indigo-text">Создать прайс лист</h4>
+                                            <h4 class="indigo-text">Изменить прайс лист</h4>
                                         </div>
                                     </div>
                                     <!-- product details table-->
                                     <div class="invoice-product-details mb-3">
-                                        <form action="{{ route('price_lists.store') }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
+                                        <form action="{{ route('price_lists.update', [ 'id' => $priceList['id'] ]) }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
                                             @csrf
+                                            @method('PUT')
                                             <div data-repeater-list="price_list_data">
-                                                <!-- invoice Titles -->
                                                 <div class="row mb-1">
                                                     <div class="col s3 m3">
                                                         <h6 class="m-0">Товар</h6>
@@ -68,47 +68,49 @@
                                                         <h6 class="m-0">Кол-во</h6>
                                                     </div>
                                                 </div>
-                                                <div class="invoice-item display-flex mb-1" data-repeater-item>
-                                                    <div class="invoice-item-filed row" style="width: 100%">
-                                                        <div class="col s12 m3 my-10">
-                                                            <select class="select2 browser-default" name="medicine_id" required>
-                                                                @foreach ($medicine as $idx => $med)
-                                                                    <option {{ $idx === 0 ? 'selected' : null }} value="{{ $med->id }}">{{ $med->name }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                @foreach ($priceList['items'] as $item)
+                                                    <div class="invoice-item display-flex mb-1" data-repeater-item>
+                                                        <div class="invoice-item-filed row" style="width: 100%">
+                                                            <div class="col s12 m3 my-10">
+                                                                <select class="select2 browser-default" name="medicine_id" required>
+                                                                    @foreach ($medicine as $idx => $med)
+                                                                        <option {{ $med->id === $item->medicine_id ? 'selected' : null }} value="{{ $med->id }}">{{ $med->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col s12 m3 my-10">
+                                                                <select class="select2 browser-default" name="brand_id" required>
+                                                                    @foreach ($brands as $idx => $brand)
+                                                                        <option {{ $brand->id === $item->brand_id ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col s12 m2 my-10">
+                                                                <input name="exp_date" type="text" class="datepicker" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
+                                                            </div>
+                                                            <div class="col s12 m2 my-10">
+                                                                <input name="price" type="text" placeholder="Введите цену" value="{{ $item->price }}" required>
+                                                            </div>
+                                                            <div class="col s12 m2 my-10">
+                                                                <input name="quantity" type="number" placeholder="Введите количество" value="{{ $item->quantity }}" required>
+                                                            </div>
                                                         </div>
-                                                        <div class="col s12 m3 my-10">
-                                                            <select class="select2 browser-default" name="brand_id" required>
-                                                                @foreach ($brands as $idx => $brand)
-                                                                    <option {{ $idx === 0 ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                        <div
+                                                            class="invoice-icon display-flex flex-column justify-content-between">
+                                                            <span data-repeater-delete class="delete-row-btn">
+                                                                <i class="material-icons">clear</i>
+                                                            </span>
                                                         </div>
-                                                        <div class="col s12 m2 my-10">
-                                                            <input name="exp_date" type="text" class="datepicker" required>
-                                                        </div>
-                                                        <div class="col s12 m2 my-10">
-                                                            <input name="price" type="text" placeholder="Введите цену" required>
-                                                        </div>
-                                                        <div class="col s12 m2 my-10">
-                                                            <input name="quantity" type="number" placeholder="Введите количество" required>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="invoice-icon display-flex flex-column justify-content-between">
-                                                        <span data-repeater-delete class="delete-row-btn">
-                                                            <i class="material-icons">clear</i>
-                                                        </span>
-                                                    </div>
-                                                </div>
+                                                    </div>                                                    
+                                                @endforeach
                                             </div>
-                                            <div class="input-field">
+                                            <div class="input-field display-flex justify-content-end">
                                                 <button class="btn invoice-repeat-btn blue" data-repeater-create type="button">
                                                     <i class="material-icons left">add</i>
                                                     <span>Добавить товар</span>
                                                 </button>
-                                                <button class="btn green create-price-list-submit-btn" type="submit">
-                                                    <span>Создать</span>
+                                                <button class="btn green create-price-list-submit-btn ml-1" type="submit">
+                                                    <span>Сохранить изменения</span>
                                                 </button>
                                             </div>
                                         </form>
@@ -129,4 +131,9 @@
     <script src="{{ asset('assets/vendors/form_repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom/price_lists.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 @endsection

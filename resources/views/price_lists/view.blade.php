@@ -38,8 +38,8 @@
                                     <!-- header section -->
                                     <div class="row invoice-date-number">
                                         <div class="col xl4 s12">
-                                            <span class="invoice-number mr-1">Прайс лист от:</span>
-                                            <span>{{ $priceList['created_at'] }}</span>
+                                            <span class="invoice-number mr-1">Прайс лист от: </span>
+                                            <span>{{ \Carbon\Carbon::parse($priceList->updated_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</span>
                                         </div>
                                     </div>
                                     <!-- logo and title -->
@@ -57,17 +57,17 @@
                                                 <tr>
                                                     <th>Продукт</th>
                                                     <th>Производитель</th>
-                                                    <th>Срок годности</th>
+                                                    <th>Срок годности (до)</th>
                                                     <th>Кол-во (шт.)</th>
                                                     <th class="right-align">Цена (с.)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($priceList['items'] as $item)
+                                                @foreach ($priceList->items as $item)
                                                     <tr>
                                                         <td>{{ $item->medicine_name }}</td>
                                                         <td>{{ $item->brand_name }}</td>
-                                                        <td>{{ $item->exp_date }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                         <td>{{ $item->quantity }}</td>
                                                         <td class="indigo-text right-align">${{ $item->price }}</td>
                                                     </tr>                                                    
@@ -96,7 +96,7 @@
                                         </a>
                                     </div>
                                     <div class="invoice-action-btn">
-                                        <a href="app-invoice-edit.html"
+                                        <a href="{{ route('price_lists.edit', [ 'id' => $priceList['id'] ]) }}"
                                             class="btn-block btn btn-light-indigo waves-effect waves-light">
                                             <span>Изменить прайс лист</span>
                                         </a>

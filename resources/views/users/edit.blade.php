@@ -20,14 +20,10 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Users edit</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Изменить пользователя</span></h5>
                     <ol class="breadcrumbs mb-0">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item"><a href="#">User</a>
-                        </li>
-                        <li class="breadcrumb-item active">Users Edit
-                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Главная</a></li>
+                        <li class="breadcrumb-item active">Изменить пользователя</li>
                     </ol>
                 </div>
             </div>
@@ -139,61 +135,6 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2();
-
-            // $('#addUserForm').validate({
-            //     rules: {
-            //         name: {
-            //             required: true
-            //         },
-            //         email: {
-            //             required: true,
-            //             email: true
-            //         },
-            //         password: {
-            //             required: true,
-            //             minlength: 6
-            //         },
-            //         password_confirmation: {
-            //             required: true,
-            //             minlength: 6,
-            //             equalTo: "#password"
-            //         },
-            //         role: {
-            //             required: true,
-            //         },
-            //     },
-            //     //For custom messages
-            //     messages: {
-            //         name: {
-            //             required: 'Обязательное поле.'
-            //         },
-            //         email: {
-            //             required: 'Обязательное поле.',
-            //             email: 'Введите действительный email aдрес.'
-            //         },
-            //         password: {
-            //             required: 'Обязательное поле.',
-            //             minlength: 'Введите минимум 6 символов.'
-            //         },
-            //         password_confirmation: {
-            //             required: 'Обязательное поле.',
-            //             minlength: 'Введите минимум 6 символов.',
-            //             equalTo: 'Пароли должны совпадать.'
-            //         },
-            //         role: {
-            //             required: 'Обязательное поле.'
-            //         },
-            //     },
-            //     errorElement : 'div',
-            //     errorPlacement: function(error, element) {
-            //         var placement = $(element).data('error');
-            //         if (placement) {
-            //             $(placement).append(error)
-            //         } else {
-            //             error.insertAfter(element);
-            //         }
-            //     }
-            // });
         }); 
     </script>
 @endsection

@@ -10,31 +10,35 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::middleware([ 'check_password_changed' ])->group(function () {
 
-// Users
-Route::resource('users', 'UserController');
-Route::put('users/{user}/status/{status}', 'UserController@changeStatus')->name('users.status');
+    Route::get('/', 'HomeController@index')->name('home');
 
-// Brands
-Route::get('brands', 'BrandController@index')->name('brands.index');
-Route::post('brands', 'BrandController@store')->name('brands.store');
+    // Users
+    Route::resource('users', 'UserController');
+    Route::put('users/{user}/status/{status}', 'UserController@changeStatus')->name('users.status');
 
-// Medicine
-Route::get('medicine', 'MedicineController@index')->name('medicine.index');
-Route::post('medicine', 'MedicineController@store')->name('medicine.store');
+    // Brands
+    Route::get('brands', 'BrandController@index')->name('brands.index');
+    Route::post('brands', 'BrandController@store')->name('brands.store');
 
-// Price lists
-Route::get('price-lists', 'PriceListController@index')->name('price_lists.index');
-Route::get('price-lists/create', 'PriceListController@create')->name('price_lists.create');
-Route::get('price-lists/{id}', 'PriceListController@view')->name('price_lists.view');
-Route::get('price-lists/{id}/edit', 'PriceListController@edit')->name('price_lists.edit');
+    // Medicine
+    Route::get('medicine', 'MedicineController@index')->name('medicine.index');
+    Route::post('medicine', 'MedicineController@store')->name('medicine.store');
 
-Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
-Route::put('price-lists/{id}/update', 'PriceListController@update')->name('price_lists.update');
+    // Price lists
+    Route::get('price-lists', 'PriceListController@index')->name('price_lists.index');
+    Route::get('price-lists/create', 'PriceListController@create')->name('price_lists.create');
+    Route::get('price-lists/{id}', 'PriceListController@view')->name('price_lists.view');
+    Route::get('price-lists/{id}/edit', 'PriceListController@edit')->name('price_lists.edit');
+
+    Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
+    Route::put('price-lists/{id}/update', 'PriceListController@update')->name('price_lists.update');
+});
+
+
 
 // Password
 Route::get('password', 'UserController@editPassword')->name('password.edit');

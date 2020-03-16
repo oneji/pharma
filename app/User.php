@@ -100,6 +100,7 @@ class User extends Authenticatable
 
         if (Hash::check($oldPassword, $user->password)) {
             $user->password = Hash::make($newPassword);
+            $user->password_changed = 1;
             $user->save();
 
             Session::flash('password.success', 'Пароль успешно изменен.');
@@ -110,5 +111,10 @@ class User extends Authenticatable
                 'message' => 'Старый пароль не совпадает.'
             ];
         }
+    }
+
+    public static function isPasswordChanged()
+    {
+        return Auth::user()->password_changed === 0 ? false : true;
     }
 }

@@ -44,18 +44,23 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $itemIds = [];
-        for ($i = 0; $i < count($request->data); $i++) 
-            $itemIds[] = $request->data[$i]['id'];
+
+        foreach ($request->quantity as $id => $quantity) {
+            if($id !== null) {
+                $itemIds[] = $id;
+            }
+        }
 
         $paymentAmount = RequestModel::setPaymentAmount($itemIds);
         
         $req = RequestModel::createRequest([
             'request_number' => $request->requestNumber,
             'payment_amount' => $paymentAmount
-        ], $request->data);
+        ], $request->quantity);
         
-        return response()->json($req);
+        return redirect()->route('requests.view', [ 'id' => $req->id ]);
     }
 
     /**
@@ -89,5 +94,25 @@ class RequestController extends Controller
         $item = RequestModel::removeItem($id, $request->comment);
 
         return response()->json($item);
+    }
+
+    /**
+     * 
+     */
+    public function send($id)
+    {
+        $req = RequestModel::send($id);
+
+        return redirect()->route('requests.view', [ 'id' => $req->id ]);
+    }
+
+    /**
+     * 
+     */
+    public function writeOut($id)
+    {
+        $req = RequestModel::writeOut($id);
+
+        return redirect()->route('requests.view', [ 'id' => $req->id ]);
     }
 }

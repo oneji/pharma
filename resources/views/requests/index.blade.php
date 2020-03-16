@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Пользователи
+    Заявки
 @endsection
 
 @section('head')

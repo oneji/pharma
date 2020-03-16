@@ -43,8 +43,12 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('requests/view/{id}', 'RequestController@getById')->name('requests.view');
     
     Route::post('requests', 'RequestController@store')->name('requests.store');
-    Route::put('requests/updateItem/{id}', 'RequestController@updateItem')->name('requests.updateItem');
+    
     Route::delete('requests/removeItem/{id}', 'RequestController@removeItem')->name('requests.removeItem');
+    
+    Route::put('requests/updateItem/{id}', 'RequestController@updateItem')->name('requests.updateItem');
+    Route::put('requests/send/{id}', 'RequestController@send')->name('requests.send');
+    Route::put('requests/writeOut/{id}', 'RequestController@writeOut')->name('requests.writeOut');
 });
 
 

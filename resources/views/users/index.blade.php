@@ -98,7 +98,7 @@
                                         <option value="{{ $manager->id }}">{{ $manager->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="role">Роли</label>
+                                <label for="role">Ответственный менеджер</label>
                             </div>
 
                             @foreach ($errors->all() as $error)

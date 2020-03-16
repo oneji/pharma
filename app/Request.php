@@ -53,22 +53,33 @@ class Request extends Model
         $req = new Request();
         $req->request_number = $data['request_number'];
         $req->payment_amount = $data['payment_amount'];
-        $req->sent = 1;
         $req->user_id = Auth::user()->id;
         $req->save();
 
         // Save items
         $reqItems = [];
-        for ($i = 0; $i < count($items); $i++) { 
+        // for ($i = 0; $i < count($items); $i++) { 
             
-            $reqItems[] = [
-                'quantity' => $items[$i]['quantity'],
-                'price_list_item_id' => $items[$i]['id'],
-                'request_id' => $req->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
+        //     $reqItems[] = [
+        //         'quantity' => $items[$i]['quantity'],
+        //         'price_list_item_id' => $items[$i]['id'],
+        //         'request_id' => $req->id,
+        //         'created_at' => Carbon::now(),
+        //         'updated_at' => Carbon::now(),
+        //     ];
 
+        // }
+
+        foreach ($items as $id => $quantity) {
+            if($id !== null) {
+                $reqItems[] = [
+                    'quantity' => $quantity,
+                    'price_list_item_id' => $id,
+                    'request_id' => $req->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            }
         }
 
         RequestItem::insert($reqItems);
@@ -81,13 +92,56 @@ class Request extends Model
      */
     public static function getById($id)
     {
+        $req = static::find($id);
+
+        if((int) $req->sent === 1) {
+            return static::getWithoutRemovedItems($id);
+        } else {
+            return static::getWithRemovedItems($id);
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function getWithRemovedItems($id)
+    {
         return static::where('requests.id', $id)
             ->join('users', 'users.id', '=', 'requests.user_id')
             ->select('users.name as username', 'requests.*')
             ->with([ 
-                'request_payments', 
+                'request_payments',
                 'request_items' => function($query) {
                     $query
+                        ->join('price_list_items', 'price_list_items.id', '=', 'request_items.price_list_item_id')
+                        ->join('medicines', 'medicines.id', '=', 'price_list_items.medicine_id')
+                        ->join('brands', 'brands.id', '=', 'price_list_items.brand_id')
+                        ->select(
+                            'request_items.*', 
+                            'price_list_items.medicine_id', 
+                            'price_list_items.brand_id', 
+                            'price_list_items.exp_date', 
+                            'medicines.name as medicine_name', 
+                            'brands.name as brand_name',
+                        );
+                } 
+            ])
+            ->first();
+    }
+
+    /**
+     * 
+     */
+    public static function getWithoutRemovedItems($id)
+    {
+        return static::where('requests.id', $id)
+            ->join('users', 'users.id', '=', 'requests.user_id')
+            ->select('users.name as username', 'requests.*')
+            ->with([ 
+                'request_payments',
+                'request_items' => function($query) {
+                    $query
+                        ->where('removed', 0)
                         ->join('price_list_items', 'price_list_items.id', '=', 'request_items.price_list_item_id')
                         ->join('medicines', 'medicines.id', '=', 'price_list_items.medicine_id')
                         ->join('brands', 'brands.id', '=', 'price_list_items.brand_id')
@@ -129,5 +183,30 @@ class Request extends Model
         $item->save();
 
         return $item;
+    }
+
+    /**
+     * 
+     */
+    public static function send($id)
+    {
+        $req = static::find($id);
+        $req->sent = 1;
+        $req->sent_by = Auth::user()->id;
+        $req->save();
+
+        return $req;
+    }
+
+    /**
+     * 
+     */
+    public static function writeOut($id)
+    {
+        $req = static::find($id);
+        $req->written_out = 1;
+        $req->save();
+
+        return $req;
     }
 }

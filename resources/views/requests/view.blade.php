@@ -67,12 +67,23 @@
                                                         <span class="badge green">{{ $item->price }}</span>
                                                     </td> --}}
                                                     <td class="display-flex align-items-center quantity-cell">
-                                                        @if ($item->changed === 1 && $item->changed_quantity !== 0)
+                                                        @if ($req->sent === 0 && $item->changed_quantity !== 0)
                                                             <span class="badge green m-0">{{ $item->changed_quantity }}</span>
                                                             <i class="material-icons">{{ $item->quantity > $item->changed_quantity ? 'arrow_downward' : 'arrow_upward' }}</i>
-                                                        @else
+                                                        @endif
+
+                                                        @if ($req->sent === 1 && $item->changed_quantity !== 0)
+                                                            {{ $item->changed_quantity }}
+                                                        @endif
+
+                                                        @if ($req->sent === 1 && $item->changed_quantity === 0)
                                                             {{ $item->quantity }}
                                                         @endif
+
+                                                        @if ($req->sent === 0 && $item->changed_quantity === 0)
+                                                            {{ $item->quantity }}
+                                                        @endif
+
                                                     </td>
                                                     <td class="comment-cell">{{ $item->comment }}</td>
                                                     <td>
@@ -83,11 +94,23 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="divider mt-3"></div>
+                                    <div class="divider mt-3 mb-1"></div>
 
                                     <div class="row">
-                                        <div class="col s12 m12 l12">
-                                            <a href="#" class="btn waves-effect waves-light blue send-btn mt-2" style="float: right">Отправить на склад</a>
+                                        <div class="col s12 m12 l12 display-flex align-items-center justify-content-flex-end">
+                                            @if ($req->sent === 0)
+                                                <form action="{{ route('requests.send', [ 'id' => $req->id ]) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn waves-effect waves-light blue">Отправить на склад</button>
+                                                </form>
+                                            @endif
+
+                                            <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="ml-1">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn waves-effect waves-light green">Выписать</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

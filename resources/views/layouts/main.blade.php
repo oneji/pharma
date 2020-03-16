@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Kamilov T">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@section('title')@show</title>
 
     @section('head')
@@ -237,7 +238,7 @@
                 </a>
             </li>
             <li class="bold">
-                <a class="waves-effect waves-cyan " href="app-kanban.html">
+                <a class="waves-effect waves-cyan " href="{{ route('requests.index') }}">
                     <i class="material-icons">assignment_returned</i>
                     <span class="menu-title" data-i18n="Kanban">Заявки</span>
                 </a>

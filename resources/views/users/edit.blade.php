@@ -102,6 +102,11 @@
                                             <label for="note">Записи</label>
                                         </div>
 
+                                        <div class="input-field col s6">
+                                            <input name="discount_amount" type="number" min="0" max="100" class="validate" value="{{ $user->discount_amount }}">
+                                            <label for="discount_amount">Скидка %</label>
+                                        </div>
+
                                         <div class="col s12 m6 l6 xl6 input-field">
                                             <select name="responsible_manager_id">
                                                 <option value="" selected>Не выбран</option>

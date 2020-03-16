@@ -51,6 +51,7 @@ class User extends Authenticatable
         $user->password = Hash::make($userData['password']);
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
+        $user->discount_amount = $userData['discount_amount'];
         $user->responsible_manager_id = $userData['responsible_manager_id'];
         $user->save();
 
@@ -70,6 +71,7 @@ class User extends Authenticatable
         $user->email = $userData['email'];
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
+        $user->discount_amount = $userData['discount_amount'];
         $user->status = $userData['status'];
         $user->responsible_manager_id = $userData['responsible_manager_id'];
         $user->save();

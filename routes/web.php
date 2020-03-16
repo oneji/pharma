@@ -13,7 +13,6 @@
 Auth::routes();
 
 Route::middleware([ 'check_password_changed' ])->group(function () {
-
     Route::get('/', 'HomeController@index')->name('home');
 
     // Users
@@ -36,6 +35,16 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
 
     Route::post('price-lists', 'PriceListController@createPriceList')->name('price_lists.store');
     Route::put('price-lists/{id}/update', 'PriceListController@update')->name('price_lists.update');
+
+    // Requests
+    Route::get('requests', 'RequestController@index')->name('requests.index');
+    Route::get('requests/create', 'RequestController@create')->name('requests.create');
+    Route::get('requests/edit/{id}', 'RequestController@edit')->name('requests.edit');
+    Route::get('requests/view/{id}', 'RequestController@getById')->name('requests.view');
+    
+    Route::post('requests', 'RequestController@store')->name('requests.store');
+    Route::put('requests/updateItem/{id}', 'RequestController@updateItem')->name('requests.updateItem');
+    Route::delete('requests/removeItem/{id}', 'RequestController@removeItem')->name('requests.removeItem');
 });
 
 

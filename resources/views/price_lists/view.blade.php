@@ -83,7 +83,7 @@
                             <div class="card invoice-action-wrapper">
                                 <div class="card-content">
                                     <div class="invoice-action-btn">
-                                        <a href="#"
+                                        <a href="{{ route('requests.create') }}"
                                             class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                                             <i class="material-icons mr-4">check</i>
                                             <span class="text-nowrap">Создать заявку</span>

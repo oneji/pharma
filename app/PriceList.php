@@ -94,4 +94,14 @@ class PriceList extends Model
 
         return $priceList;
     }
+
+    /**
+     * 
+     */
+    public static function getTheOnlyPriceList()
+    {
+        $priceListId = PriceList::all()->first()->id;
+
+        return static::getWithItems($priceListId);
+    }
 }

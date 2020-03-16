@@ -51,6 +51,7 @@ class UserController extends Controller
             'password' => 'required|confirmed|min:6',
             'phone' => 'nullable',
             'note' => 'nullable',
+            'discount_amount' => 'integer|nullable',
             'role' => 'required',
             'responsible_manager_id' => 'nullable'
         ]);
@@ -105,6 +106,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'phone' => 'nullable',
             'note' => 'nullable',
+            'discount_amount' => 'nullable',
             'status' => 'integer|in:1,0',
             'role' => 'required',
             'responsible_manager_id' => 'nullable'

@@ -51,6 +51,7 @@ class User extends Authenticatable
         $user->password = Hash::make($userData['password']);
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
+        $user->responsible_manager_id = $userData['responsible_manager_id'];
         $user->save();
 
         // Attach role the user
@@ -70,6 +71,7 @@ class User extends Authenticatable
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
         $user->status = $userData['status'];
+        $user->responsible_manager_id = $userData['responsible_manager_id'];
         $user->save();
 
         // Detach the user's roles
@@ -116,5 +118,13 @@ class User extends Authenticatable
     public static function isPasswordChanged()
     {
         return Auth::user()->password_changed === 0 ? false : true;
+    }
+
+    /**
+     * 
+     */
+    public static function getManagers()
+    {
+        return Role::with('users')->where('name', 'manager')->first()->users;
     }
 }

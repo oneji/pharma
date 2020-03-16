@@ -18,10 +18,12 @@ class UserController extends Controller
     {
         $users = User::getAllUsers();
         $roles = Role::all();
+        $managers = User::getManagers();
 
         return view('users.index', [ 
             'users' => $users, 
-            'roles' => $roles
+            'roles' => $roles,
+            'managers' => $managers
         ]);
     }
 
@@ -49,7 +51,8 @@ class UserController extends Controller
             'password' => 'required|confirmed|min:6',
             'phone' => 'nullable',
             'note' => 'nullable',
-            'role' => 'required'
+            'role' => 'required',
+            'responsible_manager_id' => 'nullable'
         ]);
 
         User::createUser($validatedData);
@@ -78,10 +81,12 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::all();
+        $managers = User::getManagers();
 
         return view('users.edit', [ 
             'user' => $user,
-            'roles' => $roles
+            'roles' => $roles,
+            'managers' => $managers
         ]);
     }
 
@@ -94,13 +99,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email',
             'phone' => 'nullable',
             'note' => 'nullable',
             'status' => 'integer|in:1,0',
-            'role' => 'required'
+            'role' => 'required',
+            'responsible_manager_id' => 'nullable'
         ]);
 
         User::updateUser($validatedData, $id);

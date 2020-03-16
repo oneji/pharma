@@ -63,51 +63,55 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
-                                        <div class="col s12 m6">
-                                            <div class="row">
-                                                <div class="col s12 input-field">
-                                                    <input id="name" name="name" type="text" class="validate"
-                                                        value="{{ $user->name }}" data-error=".errorTxt2">
-                                                    <label for="name">ФИО</label>
-                                                    <small class="errorTxt2"></small>
-                                                </div>
-                                                <div class="col s12 input-field">
-                                                    <input id="email" name="email" type="email" class="validate"
-                                                        value="{{ $user->email }}" data-error=".errorTxt3">
-                                                    <label for="email">E-mail</label>
-                                                    <small class="errorTxt3"></small>
-                                                </div>
-                                                <div class="col s12 input-field">
-                                                    <input id="phone" name="phone" type="text" class="validate"
-                                                        value="{{ $user->phone }}" data-error=".errorTxt3">
-                                                    <label for="phone">Телефон</label>
-                                                    <small class="errorTxt3"></small>
-                                                </div>
-                                            </div>
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <input id="name" name="name" type="text" class="validate"
+                                                value="{{ $user->name }}" data-error=".errorTxt2">
+                                            <label for="name">ФИО</label>
+                                            <small class="errorTxt2"></small>
                                         </div>
-                                        <div class="col s12 m6">
-                                            <div class="row">
-                                                <div class="col s12 input-field">
-                                                    <select name="role">
-                                                        @foreach ($roles as $role)
-                                                            <option {{ $user->roles->first()->id === $role->id ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <label>Роль</label>
-                                                </div>
-                                                <div class="col s12 input-field">
-                                                    <select name="status">
-                                                        <option {{ $user->status === 1 ? 'selected' : null }} value="1">Активный</option>
-                                                        <option {{ $user->status === 0 ? 'selected' : null }} value="0">Не активный</option>
-                                                    </select>
-                                                    <label>Статус</label>
-                                                </div>
-                                                <div class="col s12 input-field">
-                                                    <input id="note" name="note" type="text" class="validate" value="{{ $user->note }}">
-                                                    <label for="note">Записи</label>
-                                                </div>
-                                            </div>
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <input id="email" name="email" type="email" class="validate"
+                                                value="{{ $user->email }}" data-error=".errorTxt3">
+                                            <label for="email">E-mail</label>
+                                            <small class="errorTxt3"></small>
                                         </div>
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <input id="phone" name="phone" type="text" class="validate"
+                                                value="{{ $user->phone }}" data-error=".errorTxt3">
+                                            <label for="phone">Телефон</label>
+                                            <small class="errorTxt3"></small>
+                                        </div>
+                                        
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <select name="role">
+                                                @foreach ($roles as $role)
+                                                    <option {{ $user->roles->first()->id === $role->id ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label>Роль</label>
+                                        </div>
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <select name="status">
+                                                <option {{ $user->status === 1 ? 'selected' : null }} value="1">Активный</option>
+                                                <option {{ $user->status === 0 ? 'selected' : null }} value="0">Не активный</option>
+                                            </select>
+                                            <label>Статус</label>
+                                        </div>
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <input id="note" name="note" type="text" class="validate" value="{{ $user->note }}">
+                                            <label for="note">Записи</label>
+                                        </div>
+
+                                        <div class="col s12 m6 l6 xl6 input-field">
+                                            <select name="responsible_manager_id">
+                                                <option value="" selected>Не выбран</option>
+                                                @foreach ($managers as $manager)
+                                                    <option {{ $manager->id === $user->responsible_manager_id ? 'selected' : null }} value="{{ $manager->id }}">{{ $manager->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label>Ответственный менеджер</label>
+                                        </div>
+
                                         <div class="col s12 display-flex justify-content-end mt-3">
                                             <button type="submit" class="waves-effect waves-light btn green">Сохранить</button>
                                         </div>

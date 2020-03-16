@@ -872,6 +872,17 @@
                                 <label for="role">Роли</label>
                             </div>
 
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <select name="responsible_manager_id">
+                                    <option value="" selected>Не выбран</option>
+                                    @foreach ($managers as $manager)
+                                        <option value="{{ $manager->id }}">{{ $manager->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="role">Роли</label>
+                            </div>
+
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach

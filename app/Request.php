@@ -29,9 +29,32 @@ class Request extends Model
      */
     public static function getAll()
     {
-        return static::join('users', 'users.id', '=', 'requests.user_id')
-            ->select('users.name as username', 'requests.*')
-            ->get();
+        $user = Auth::user();
+        $userRole = $user->roles()->first()->name;
+
+        if($userRole === 'head_manager' || $userRole === 'superadministrator') {
+            return static::join('users', 'users.id', '=', 'requests.user_id')
+                ->select('users.name as username', 'requests.*')
+                ->get();
+        }
+
+        if($userRole === 'manager') {
+            $underUsers = User::where('responsible_manager_id', $user->id)->pluck('id');
+
+            return static::whereIn('user_id', $underUsers)
+                ->orWhere('user_id', $user->id)
+                ->join('users', 'users.id', '=', 'requests.user_id')
+                ->select('users.name as username', 'requests.*')
+                ->get();
+        } 
+        
+        if($userRole === 'logist') {
+            return static::join('users', 'users.id', '=', 'requests.user_id')
+                ->select('users.name as username', 'requests.*')
+                ->get();
+        }
+
+        return $userRole;
     }
 
     /**
@@ -43,6 +66,17 @@ class Request extends Model
         $discountAmount = Auth::user()->discount_amount;
 
         return $paymentAmount - (($paymentAmount * $discountAmount) / 100);
+    }
+
+    /**
+     * 
+     */
+    public static function getPaymentAmount($id)
+    {
+        $req = static::find($id);
+        $paid = RequestPayment::where('request_id', $id)->sum('amount');
+
+        return ($req->payment_amount - $paid);
     }
 
     /**

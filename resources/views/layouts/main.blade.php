@@ -39,6 +39,9 @@
         <div class="navbar navbar-fixed"> 
             <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-light-blue no-shadow">
                 <div class="nav-wrapper">
+                    <div class="header-search-wrapper hide-on-med-and-down">
+                        <input class="header-search-input z-depth-2" type="text" value="{{ Auth::user()->name }}">
+                    </div>
                     <ul class="navbar-list right">
                         <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
                         <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a></li>

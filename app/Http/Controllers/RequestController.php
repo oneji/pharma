@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Request as RequestModel;
 use App\PriceList;
+use App\RequestPayment;
+use Auth;
 
 class RequestController extends Controller
 {
@@ -28,8 +30,12 @@ class RequestController extends Controller
     public function getById($id)
     {
         $req = RequestModel::getById($id);
+        $reqPayment = RequestModel::getPaymentAmount($id);
 
-        return view('requests.view', [ 'req' => $req ]);
+        return view('requests.view', [ 
+            'req' => $req,
+            'reqPayment' => $reqPayment  
+        ]);
     }
 
     /**
@@ -128,5 +134,31 @@ class RequestController extends Controller
         $req = RequestModel::writeOut($id);
 
         return redirect()->route('requests.view', [ 'id' => $req->id ]);
+    }
+
+    /**
+     * 
+     */
+    public function pay(Request $request, $id)
+    {
+        $req = RequestModel::find($id);
+        
+        if($req->payment_amount < $request->amount) {
+            return redirect()->route('requests.view', [ 'id' => $id ])->withErrors([
+                'payment' => 'Сумма выплаты превышает сумму долга.'
+            ]);
+        }
+
+        RequestPayment::pay($id, $request->amount);
+
+        return redirect()->route('requests.view', [ 'id' => $id ]);
+    }
+
+    /**
+     * 
+     */
+    public function setAsPaid($id)
+    {
+        return $id;
     }
 }

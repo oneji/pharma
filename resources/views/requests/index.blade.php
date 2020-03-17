@@ -67,23 +67,31 @@
                                         @foreach ($requests as $idx => $req)
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
-                                            <td>#{{ $req->request_number }}</td>
+                                            <td>
+                                                <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}">#{{ $req->request_number }}</a>
+                                            </td>
                                             <td><span class="badge green">{{ $req->payment_amount }}c.</span></td>
                                             <td>
-                                                @if ($req->sent === 1)
-                                                    <span class="badge blue">Отправлена</span>
-                                                @elseif ($req->written_out === 1)
+                                                @if ($req->sent === 1 && $req->written_out === 0)
+                                                    <span class="badge green">Отправлена</span>
+                                                @endif
+
+                                                @if ($req->written_out === 1 && $req->paid === 0)
                                                     <span class="badge orange">Выписана</span>
-                                                @elseif ($req->paid === 1)
+                                                @endif
+                                                
+                                                @if ($req->paid === 1)
                                                     <span class="badge green">Оплачена</span>
-                                                @else
+                                                @endif
+
+                                                @if($req->sent === 0)
                                                     <span class="badge blue">В рассмотрении</span>
                                                 @endif
                                             </td>
                                             <td>{{ $req->username }}</td>
                                             <td>
                                                 <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}"><span><i class="material-icons">remove_red_eye</i></span></a>
-                                                <a href="{{ route('requests.edit', [ 'id' => $req->id ]) }}"><span><i class="material-icons">edit</i></span></a>
+                                                {{-- <a href="{{ route('requests.edit', [ 'id' => $req->id ]) }}"><span><i class="material-icons">edit</i></span></a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -15,7 +15,7 @@ class CreateRequestPaymentsTable extends Migration
     {
         Schema::create('request_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('amount');
+            $table->double('amount', 8, 2);
             $table->unsignedBigInteger('request_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

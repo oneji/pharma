@@ -8,8 +8,12 @@
     @parent
 
     <style>
+        .contact-checkbox {
+            padding: 0 10px 0 25px !important;
+        }
+
         .request-pl-table td {
-            padding: 10px 5px;
+            padding: 0;
         }
     </style>
 
@@ -49,9 +53,9 @@
                                             <table class="striped responsive-table request-pl-table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="background-image-none center-align">
+                                                        {{-- <th class="background-image-none center-align">
                                                             <i class="material-icons">check</i>
-                                                        </th>
+                                                        </th> --}}
                                                         <th>Продукт</th>
                                                         <th>Производитель</th>
                                                         <th>Срок годности (до)</th>
@@ -63,7 +67,7 @@
                                                 <tbody>
                                                     @foreach ($priceList->items as $item)
                                                         <tr>
-                                                            <td class="center-align contact-checkbox">
+                                                            <td class="contact-checkbox">
                                                                 <label class="checkbox-label">
                                                                     <input
                                                                         type="checkbox" 
@@ -72,10 +76,10 @@
                                                                         data-discount="{{ Auth::user()->discount_amount }}"
                                                                         data-item-id="{{ $item->id }}"
                                                                     />
-                                                                    <span></span>
+                                                                    <span>{{ $item->medicine_name }}</span>
                                                                 </label>
                                                             </td>
-                                                            <td>{{ $item->medicine_name }}</td>
+                                                            {{-- <td>{{ $item->medicine_name }}</td> --}}
                                                             <td>{{ $item->brand_name }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                             <td class="indigo-text center-align price">

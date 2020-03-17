@@ -49,11 +49,15 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::put('requests/updateItem/{id}', 'RequestController@updateItem')->name('requests.updateItem');
     Route::put('requests/send/{id}', 'RequestController@send')->name('requests.send');
     Route::put('requests/writeOut/{id}', 'RequestController@writeOut')->name('requests.writeOut');
+
+    // ACL
+    Route::get('acl', 'AclController@index')->name('acl.index');
+    Route::post('acl/set', 'AclController@setPermissionsToRoles')->name('acl.set');
+    Route::post('acl/role', 'AclController@storeRole')->name('acl.storeRole');
+    Route::post('acl/permission', 'AclController@storePermission')->name('acl.storePermission');
 });
 
-
-
 // Password
-Route::get('password', 'UserController@editPassword')->name('password.edit');
-Route::put('password/change', 'UserController@changePassword')->name('password.change');
+Route::get('password', 'PasswordController@editPassword')->name('password.edit');
+Route::put('password/change', 'PasswordController@changePassword')->name('password.change');
 

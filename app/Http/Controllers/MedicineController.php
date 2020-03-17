@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreMedicine;
 use App\Medicine;
 use App\Brand;
 
@@ -27,14 +28,12 @@ class MedicineController extends Controller
     /**
      * 
      */
-    public function store(Request $request)
+    public function store(StoreMedicine $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'brand_id' => 'required|exists:brands,id'
+        Medicine::saveMedicine([
+            'name' => $request->name,
+            'brand_id' => $request->brand_id
         ]);
-
-        Medicine::saveMedicine($validatedData);
 
         return redirect()->route('medicine.index');
     }

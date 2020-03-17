@@ -39,7 +39,7 @@
                                             </div>
     
                                             <div class="col s12 m4 l4 ml-0">
-                                                <button class="btn btn-small indigo waves-effect waves-light show-chosen-btn" style="float: right">Показать выбранные</button>
+                                                <button type="button" class="btn btn-small indigo waves-effect waves-light show-chosen-btn" style="float: right">Показать выбранные</button>
                                             </div>
                                         </div>
                                         

@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ChangeUserPassword;
 use App\User;
 use App\Role;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:read-users');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,20 +49,18 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
-            'phone' => 'nullable',
-            'note' => 'nullable',
-            'discount_amount' => 'integer|nullable',
-            'role' => 'required',
-            'responsible_manager_id' => 'nullable'
+        User::createUser([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'phone' => $request->phone,
+            'note' => $request->note,
+            'discount_amount' => $request->discount_amount,
+            'role' => $request->role,
+            'responsible_manager_id' => $request->responsible_manager_id
         ]);
-
-        User::createUser($validatedData);
 
         return redirect()->route('users.index');
     }
@@ -98,21 +102,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
-        // return $request;
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email',
-            'phone' => 'nullable',
-            'note' => 'nullable',
-            'discount_amount' => 'nullable',
-            'status' => 'integer|in:1,0',
-            'role' => 'required',
-            'responsible_manager_id' => 'nullable'
-        ]);
-
-        User::updateUser($validatedData, $id);
+        User::updateUser([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'note' => $request->note,
+            'discount_amount' => $request->discount_amount,
+            'status' => $request->status,
+            'role' => $request->role,
+            'responsible_manager_id' => $request->responsible_manager_id
+        ], $id);
 
         return redirect()->route('users.edit', [ 'user' => $id ]);
     }
@@ -136,29 +137,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * 
-     */
-    public function editPassword()
-    {
-        return view('auth.passwords.change');
-    }
-
-    /**
-     * 
-     */
-    public function changePassword(ChangeUserPassword $request)
-    {
-        $result = User::updatePassword($request->old_password, $request->password);
-
-        if(!$result['ok']) {
-            return redirect()->route('password.edit')->withErrors([
-                'passwordError' => $result['message']
-            ]);
-        }
-
-        return redirect()->route('password.edit');
     }
 }

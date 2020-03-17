@@ -9,6 +9,8 @@ $(document).ready(function() {
             var itemPrice = Number($(this).data('price'));
             discountAmount = Number($(this).data('discount'))
 
+            $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+
             totalPrice += Number(itemPrice);
         });
 
@@ -17,7 +19,6 @@ $(document).ready(function() {
         $('.request-total-price').html(totalPrice + 'с.');
         $('.request-discount-amount').html('- ' + totalPriceDiscount + 'c.');
         $('.request-total-discount-price').html(Number(totalPrice) - Number(totalPriceDiscount) + 'с.');
-        
     });
 
     $('.show-chosen-btn').click(function() {
@@ -41,11 +42,10 @@ $(document).ready(function() {
         var formControlsIdsForValidationRules = generateValidationRules(formControlsIds);
         var formControlsIdsForValidationMessages = generateValidationMessages(formControlsIds);
 
-        console.log(formControlsIdsForValidationRules)
-
         $('#createRequestForm').validate({
             rules: formControlsIdsForValidationRules,
             messages: formControlsIdsForValidationMessages,
+            errorElement: 'div',
             errorPlacement: function (error, element) {
                 var placement = $(element).data('error');
                 if (placement) {
@@ -53,40 +53,45 @@ $(document).ready(function() {
                 } else {
                     error.insertAfter(element);
                 }
+            },
+            submitHandler: function(form) {
+                var requestData = [];
+                var reqNumber = $('#request-number').val().trim();
+
+                $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+                    var itemId = $(this).data('item-id');
+                    var itemQuantity = $(this).parent().parent().parent().find('.request-pl-item-quantity').val();
+
+                    $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+
+                    requestData.push({
+                        id: itemId,
+                        quantity: itemQuantity
+                    });
+                });
+
+
+                $.ajax({
+                    url: '/requests',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        requestNumber: reqNumber,
+                        data: requestData
+                    },
+                    success: function (data) {
+                        if(data.ok) {
+                            window.location.href = '/requests/view/' + data.request.id;
+                        } else {
+                            alert(data.message)
+                        }
+                    }
+                });
             }
         });
 
+
         $('#createRequestForm').submit();
-    });
-
-    $('#createRequestForm').submit(function(e) {
-        // e.preventDefault();
-
-        var requestData = [];
-        var reqNumber = $('#request-number').val().trim();
-
-        $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
-            var itemId = $(this).data('item-id');
-            var itemQuantity = $(this).parent().parent().parent().find('.request-pl-item-quantity').val();
-
-            requestData.push({
-                id: itemId,
-                quantity: itemQuantity
-            });
-        });
-
-        // $.ajax({
-        //     url: '/requests',
-        //     type: 'POST',
-        //     data: {
-        //         _token: $('meta[name="csrf-token"]').attr('content'),
-        //         requestNumber: reqNumber,
-        //         data: requestData
-        //     },
-        //     success: function(request){
-        //         window.location.href = '/requests/view/' + request.id;
-        //     }
-        // });
     });
 
     function collectValidationFields(form) {
@@ -109,6 +114,8 @@ $(document).ready(function() {
             validationRules[`quantity[${id}]`] = { required: true }
         });
 
+        validationRules.request_number = { required: true };
+
         return validationRules;
     }
 
@@ -116,8 +123,10 @@ $(document).ready(function() {
         var validationMessages = {};
 
         controlIds.map(function(id) {
-            validationMessages[id] = { required: 'Обязательное поле.' }
+            validationMessages[`quantity[${id}]`] = { required: 'Обязательное поле.' }
         });
+
+        validationMessages.request_number = { required: 'Обязательное поле.' };
 
         return validationMessages;
     }

@@ -58,28 +58,16 @@ class Request extends Model
 
         // Save items
         $reqItems = [];
-        // for ($i = 0; $i < count($items); $i++) { 
+        for ($i = 0; $i < count($items); $i++) { 
             
-        //     $reqItems[] = [
-        //         'quantity' => $items[$i]['quantity'],
-        //         'price_list_item_id' => $items[$i]['id'],
-        //         'request_id' => $req->id,
-        //         'created_at' => Carbon::now(),
-        //         'updated_at' => Carbon::now(),
-        //     ];
+            $reqItems[] = [
+                'quantity' => $items[$i]['quantity'],
+                'price_list_item_id' => $items[$i]['id'],
+                'request_id' => $req->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
 
-        // }
-
-        foreach ($items as $id => $quantity) {
-            if($id !== null) {
-                $reqItems[] = [
-                    'quantity' => $quantity,
-                    'price_list_item_id' => $id,
-                    'request_id' => $req->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ];
-            }
         }
 
         RequestItem::insert($reqItems);

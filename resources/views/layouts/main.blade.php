@@ -223,26 +223,36 @@
             <li class="bold active"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">list_alt</i><span class="menu-title" data-i18n="Dashboard">Справочники</span></a>
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                        @permission('read-acl')
+                            <li><a class="{{ Route::currentRouteName() === 'acl.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('acl.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Права доступа и роли</span></a></li>
+                        @endpermission
+
                         @permission('read-users')
                             <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
                         @endpermission
+
                         <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
                         <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
                     </ul>
                 </div>
             </li>
-            <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('price_lists.index') }}">
-                    <i class="material-icons">list_alt</i>
-                    <span class="menu-title" data-i18n="Kanban">Прайс лист</span>
-                </a>
-            </li>
-            <li class="bold">
-                <a class="waves-effect waves-cyan " href="{{ route('requests.index') }}">
-                    <i class="material-icons">assignment_returned</i>
-                    <span class="menu-title" data-i18n="Kanban">Заявки</span>
-                </a>
-            </li>
+            @permission('read-price-lists')
+                <li class="bold">
+                    <a class="{{ Route::currentRouteName() === 'price_lists.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('price_lists.index') }}">
+                        <i class="material-icons">list_alt</i>
+                        <span class="menu-title" data-i18n="Kanban">Прайс лист</span>
+                    </a>
+                </li>
+            @endpermission
+            
+            @permission('read-requests')
+                <li class="bold">
+                    <a class="{{ Route::currentRouteName() === 'requests.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('requests.index') }}">
+                        <i class="material-icons">assignment_returned</i>
+                        <span class="menu-title" data-i18n="Kanban">Заявки</span>
+                    </a>
+                </li>
+            @endpermission
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
     </aside>

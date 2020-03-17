@@ -11,16 +11,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // $user = DB::table('users')->insert([
-        //     'name' => 'Superadmin',
-        //     'email' => 'superadmin@gmail.com',
-        //     'password' => bcrypt('123456789'),
-        // ]);
-
-        // $user->attachRole('superadministrator');
-
         factory(App\User::class, 1)->create()->each(function ($user) {
-            $user->attachRole('superadministrator');
+            $user->roles()->attach([1]);
         });
     }
 }

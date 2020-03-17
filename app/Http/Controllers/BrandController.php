@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreBrand;
 use App\Brand;
 
 class BrandController extends Controller
@@ -22,11 +23,9 @@ class BrandController extends Controller
     /**
      * 
      */
-    public function store(Request $request)
+    public function store(StoreBrand $request)
     {
-        $brand = new Brand();
-        $brand->name = $request->name;
-        $brand->save();
+        Brand::saveBrand($request->name);
 
         return redirect()->route('brands.index');
     }

@@ -98,19 +98,35 @@
 
                                     <div class="row">
                                         <div class="col s12 m12 l12 display-flex align-items-center justify-content-flex-end">
-                                            @if ($req->sent === 0)
-                                                <form action="{{ route('requests.send', [ 'id' => $req->id ]) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn waves-effect waves-light blue">Отправить на склад</button>
-                                                </form>
-                                            @endif
+                                            @permission('send-requests')
+                                                @if ($req->sent === 0)
+                                                    <form action="{{ route('requests.send', [ 'id' => $req->id ]) }}" method="POST" class="mr-1">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn waves-effect waves-light blue">Отправить на склад</button>
+                                                    </form>
+                                                @endif
+                                            @endpermission
+                                            
+                                            @permission('write-out-requests')
+                                                @if ($req->written_out === 0 && $req->sent !== 0)
+                                                    <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="mr-1">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn waves-effect waves-light green">Выписать</button>
+                                                    </form>
+                                                @endif
+                                            @endpermission
 
-                                            <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="ml-1">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn waves-effect waves-light green">Выписать</button>
-                                            </form>
+                                            @permission('pay-requests')
+                                                @if ($req->written_out === 1)
+                                                    <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="mr-1">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn waves-effect waves-light orange">Выплатить</button>
+                                                    </form>
+                                                @endif
+                                            @endpermission
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +147,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="input-field col s12">
-                            {{-- <input type="text" disabled value="" class="current-quantity"> --}}
                             <div class="card-alert card green">
                                 <div class="card-content white-text">
                                     <p ><i class="material-icons mr-2">check</i><span class="current-quantity"></span></p>

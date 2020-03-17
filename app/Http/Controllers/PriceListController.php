@@ -13,6 +13,11 @@ use Carbon\Carbon;
 
 class PriceListController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:read-price-lists');
+    }
+
     /**
      * 
      */

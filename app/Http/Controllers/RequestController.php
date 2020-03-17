@@ -8,6 +8,11 @@ use App\PriceList;
 
 class RequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:read-requests');
+    }
+
     public function index()
     {
         $requests = RequestModel::getAll();
@@ -44,12 +49,18 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        if($request->data === null) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'Для создания заявки выберите данные.'
+            ]);
+        }
+
         $itemIds = [];
 
-        foreach ($request->quantity as $id => $quantity) {
-            if($id !== null) {
-                $itemIds[] = $id;
+        foreach ($request->data as $item) {
+            if($item['id'] !== null) {
+                $itemIds[] = $item['id'];
             }
         }
 
@@ -58,9 +69,12 @@ class RequestController extends Controller
         $req = RequestModel::createRequest([
             'request_number' => $request->requestNumber,
             'payment_amount' => $paymentAmount
-        ], $request->quantity);
+        ], $request->data);
         
-        return redirect()->route('requests.view', [ 'id' => $req->id ]);
+        return response()->json([
+            'ok' => true,
+            'request' => $req
+        ]);
     }
 
     /**

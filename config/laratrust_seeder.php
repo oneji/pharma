@@ -7,9 +7,9 @@ return [
             'acl' => 'c,r,u,d',
             'price-lists' => 'c,r,u,d',
             'reports' => 'c,r,u,d',
-            'requests' => 'c,r,u,d',
+            'requests' => 'c,r,u,d,s,w,p',
             'brands' => 'c,r,u,d',
-            'medicines' => 'c,r,u,d'
+            'medicines' => 'c,r,u,d',
         ],
         'director' => [
             'reports' => 'c,r,u,d',
@@ -18,13 +18,13 @@ return [
             'requests' => 'r,u'
         ],
         'manager' => [
-            'requests' => 'r,u'
+            'requests' => 'c,r,u,d,s'
         ],
         'cashier' => [
-            'requests' => 'r,u'
+            'requests' => 'r,u,p'
         ],
         'logist' => [
-            'requests' => 'r,u'
+            'requests' => 'r,u,w'
         ],
         'client' => [
             'price-lists' => 'c,r,u,d',
@@ -38,6 +38,9 @@ return [
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',
-        'd' => 'delete'
+        'd' => 'delete',
+        's' => 'send',
+        'w' => 'write-out',
+        'p' => 'pay'
     ]
 ];

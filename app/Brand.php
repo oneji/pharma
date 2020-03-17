@@ -13,4 +13,14 @@ class Brand extends Model
     {
         return $this->belongsToMany('App\Medicine');
     }
+
+    /**
+     * 
+     */
+    public static function saveBrand($brandName)
+    {
+        $brand = new Brand();
+        $brand->name = $brandName;
+        $brand->save();
+    }
 }

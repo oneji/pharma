@@ -8,6 +8,12 @@ use Carbon\Carbon;
 
 class Request extends Model
 {
+    const STATUS_UNDER_REVISION = 'under_revision';
+    const STATUS_SENT = 'sent';
+    const STATUS_WRITTEN_OUT = 'written_out';
+    const STATUS_BEING_PREPARED = 'being_prepared';
+    const STATUS_SHIPPED = 'shipped';
+    const STATUS_PAID = 'paid';
     /**
      * Get the payments for the request.
      */
@@ -54,7 +60,9 @@ class Request extends Model
                 ->get();
         }
 
-        return $userRole;
+        return static::join('users', 'users.id', '=', 'requests.user_id')
+            ->select('users.name as username', 'requests.*')
+            ->get();
     }
 
     /**
@@ -76,7 +84,7 @@ class Request extends Model
         $req = static::find($id);
         $paid = RequestPayment::where('request_id', $id)->sum('amount');
 
-        return ($req->payment_amount - $paid);
+        return round($req->payment_amount - $paid, 2);
     }
 
     /**
@@ -116,10 +124,10 @@ class Request extends Model
     {
         $req = static::find($id);
 
-        if((int) $req->sent === 1) {
-            return static::getWithoutRemovedItems($id);
-        } else {
+        if($req->status === static::STATUS_UNDER_REVISION) {
             return static::getWithRemovedItems($id);
+        } else {
+            return static::getWithoutRemovedItems($id);
         }
     }
 
@@ -213,7 +221,7 @@ class Request extends Model
     public static function send($id)
     {
         $req = static::find($id);
-        $req->sent = 1;
+        $req->status = static::STATUS_SENT;
         $req->sent_by = Auth::user()->id;
         $req->save();
 
@@ -226,7 +234,51 @@ class Request extends Model
     public static function writeOut($id)
     {
         $req = static::find($id);
-        $req->written_out = 1;
+        $req->status = static::STATUS_WRITTEN_OUT;
+        $req->save();
+
+        return $req;
+    }
+
+    /**
+     * 
+     */
+    public static function prepare($id)
+    {
+        $req = static::find($id);
+        $req->status = static::STATUS_BEING_PREPARED;
+        $req->save();
+
+        return $req;
+    }
+    
+    /**
+     * 
+     */
+    public static function ship($id)
+    {
+        $req = static::find($id);
+        $req->status = static::STATUS_SHIPPED;
+        $req->save();
+
+        return $req;
+    }
+
+    /**
+     * 
+     */
+    public static function setAsPaid($id)
+    {
+        static::where('id', $id)->update([ 'paid' => static::STATUS_PAID ]);
+    }
+
+    /**
+     * 
+     */
+    public static function changeStatus($id, $status)
+    {
+        $req = static::find($id);
+        $req->status = $status;
         $req->save();
 
         return $req;

@@ -142,16 +142,17 @@ class RequestController extends Controller
     public function pay(Request $request, $id)
     {
         $req = RequestModel::find($id);
+        $paymentAmount = RequestModel::getPaymentAmount($id);
         
-        if($req->payment_amount < $request->amount) {
+        if((double)$paymentAmount < (double)$request->amount) {
             return redirect()->route('requests.view', [ 'id' => $id ])->withErrors([
                 'payment' => 'Сумма выплаты превышает сумму долга.'
             ]);
+        } else {
+            RequestPayment::pay($id, $request->amount);
+    
+            return redirect()->route('requests.view', [ 'id' => $id ]);
         }
-
-        RequestPayment::pay($id, $request->amount);
-
-        return redirect()->route('requests.view', [ 'id' => $id ]);
     }
 
     /**
@@ -159,6 +160,18 @@ class RequestController extends Controller
      */
     public function setAsPaid($id)
     {
-        return $id;
+        RequestModel::setAsPaid($id);
+
+        return redirect()->route('requests.view', [ 'id' => $id ]);
+    }
+
+    /**
+     * 
+     */
+    public function changeStatus($id, $status)
+    {
+        RequestModel::changeStatus($id, $status);
+
+        return redirect()->route('requests.view', [ 'id' => $id ]);
     }
 }

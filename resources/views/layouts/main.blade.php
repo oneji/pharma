@@ -264,7 +264,9 @@
     <!-- BEGIN: Page Main-->
     <div id="main">
         <div class="row">
-            <div class="content-wrapper-before gradient-45deg-indigo-light-blue"></div>
+            @if (Route::currentRouteName() !== 'home')
+                <div class="content-wrapper-before gradient-45deg-indigo-light-blue"></div>
+            @endif
             
             @yield('content')
         </div>
@@ -275,7 +277,7 @@
     <footer class="page-footer footer footer-static footer-dark gradient-45deg-indigo-light-blue gradient-shadow navbar-border navbar-shadow">
         <div class="footer-copyright">
             <div class="container">
-                <span>2020 &copy; All rights reserved.</span>
+                <span>2020 &copy; Все права защищены.</span>
             </div>
         </div>
     </footer>

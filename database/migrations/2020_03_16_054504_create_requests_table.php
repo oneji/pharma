@@ -17,9 +17,7 @@ class CreateRequestsTable extends Migration
             $table->bigIncrements('id');
             $table->string('request_number')->nullable();
             $table->double('payment_amount', 8, 2)->default(0);
-            $table->integer('sent')->default(0);
-            $table->integer('written_out')->default(0);
-            $table->integer('paid')->default(0);
+            $table->string('status')->default('under_revision');
             $table->unsignedBigInteger('user_id')->default(0);
             $table->timestamps();
 

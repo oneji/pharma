@@ -66,45 +66,100 @@
             <div class="container">
                 <section class="section">
                     <div class="row">
-                        <div class="col xl12 m12 s12">
+                        <div class="col s12 {{ $req->request_payments->count() > 0 ? 'm9 xl9' : 'm12 xl12' }}">
                             <div class="card">
                                 <div class="card-content">
+                                    <div class="row">
+                                        <div class="col s12 m12 l12">
+                                            @foreach ($errors->all() as $error)
+                                                <div class="card-alert card orange m-0">
+                                                    <div class="card-content white-text">
+                                                        <ul class="m-0">
+                                                            <li><i class="material-icons mr-2">warning</i> Ошибка! {{ $error }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    
                                     <div class="row display-flex align-items-center mt-1">
-                                        <div class="col s12 m8 l8 ml-0">
-                                            <h4 class="indigo-text">Заявка №{{ $req->request_number }}</h4>
+                                        <div class="col s12 m8 l8 ml-0 display-flex align-items-center">
+                                            <h4 class="indigo-text">
+                                                Заявка №{{ $req->request_number }}
+                                            </h4>
+                                            @if($req->status === 'under_revision')
+                                                <span class="badge blue">В рассмотрении</span>
+                                            @endif
+
+                                            @if ($req->status === 'sent')
+                                                <span class="badge green">Отправлена</span>
+                                            @endif
+
+                                            @if ($req->status === 'being_prepared')
+                                                <span class="badge orange">Готовится</span>
+                                            @endif
+
+                                            @if ($req->status === 'shipped')
+                                                <span class="badge orange">Отгружена</span>
+                                            @endif
+                                            
+                                            @if ($req->status === 'paid')
+                                                <span class="badge green">Оплачена</span>
+                                            @endif
                                         </div>
 
                                         <div class="col s12 m4 l4 ml-0">
                                             @permission('send-requests')
-                                                @if ($req->sent === 0)
-                                                    <form action="{{ route('requests.send', [ 'id' => $req->id ]) }}" method="POST" class="mr-1" style="float: right">
+                                                @if ($req->status === 'under_revision')
+                                                    <form action="{{ route('requests.status', [ 'id' => $req->id, 'status' => 'sent' ]) }}" method="POST" class="mr-1" style="float: right">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="submit" class="btn waves-effect waves-light blue">Отправить на склад</button>
+                                                        <button type="submit" class="btn btn-small waves-effect waves-light blue">Отправить на склад</button>
                                                     </form>
                                                 @endif
                                             @endpermission
 
-                                            @permission('write-out-requests')
-                                                @if ($req->written_out === 0 && $req->sent !== 0)
-                                                    <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="mr-1" style="float: right">
+                                            @role('logist')
+                                                @if ($req->status === 'sent')
+                                                    <form action="{{ route('requests.status', [ 'id' => $req->id, 'status' => 'being_prepared' ]) }}" method="POST" class="mr-1" style="float: right">
                                                         @csrf
                                                         @method('PUT')
-                                                        <button type="submit" class="btn waves-effect waves-light green">Выписать</button>
+                                                        <button type="submit" class="btn btn-small waves-effect waves-light green">Готовится</button>
                                                     </form>
                                                 @endif
-                                            @endpermission
+                                            @endrole
+                                            
+                                            @role('logist')
+                                                @if ($req->status === 'being_prepared')
+                                                    <form action="{{ route('requests.status', [ 'id' => $req->id, 'status' => 'shipped' ]) }}" method="POST" class="mr-1" style="float: right">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-small waves-effect waves-light green">Отгрузить</button>
+                                                    </form>
+                                                @endif
+                                            @endrole
 
                                             @permission('pay-requests')
-                                                @if ($req->written_out === 1)
-                                                    <a href="#requestPaymentModal" class="btn waves-effect waves-light orange modal-trigger" style="float: right">Выплатить</a>
-                                                    <a href="#" class="btn waves-effect waves-light green pay-request-btn mr-1" style="float: right">Выплачено</a>
+                                                @if ($req->status === 'shipped')
+                                                    @if ((double)$reqPayment !== (double)0)
+                                                        <a href="#requestPaymentModal" class="btn btn-small waves-effect waves-light orange modal-trigger" style="float: right">Выплатить</a>
+                                                    @endif
+                                                    @if ((double)$reqPayment === (double)0)
+                                                        <a href="#" class="btn btn-small waves-effect waves-light green pay-request-btn mr-1" style="float: right">Выплачено</a>
+
+                                                        <form action="{{ route('requests.status', [ 'id' => $req->id, 'status' => 'paid' ]) }}" method="POST" id="setAsPaidForm">
+                                                            @csrf
+                                                            @method('PUT')
+                                                        </form>
+                                                    @endif
                                                 @endif
                                             @endpermission
                                         </div>
                                     </div>
 
                                     <div class="divider"></div>
+
                                     <table class="striped responsive-table request-pl-table">
                                         <thead>
                                             <tr>
@@ -112,10 +167,9 @@
                                                 <th>Продукт</th>
                                                 <th>Производитель</th>
                                                 <th>Срок годности (до)</th>
-                                                {{-- <th class="right-center">Цена (с.)</th> --}}
                                                 <th>Кол-во (шт.)</th>
                                                 <th>Коммент</th>
-                                                @if ($req->sent !== 1)
+                                                @if (Auth::user()->hasPermission('update-requests') && $req->status !== 'shipped' && $req->status !== 'being_prepared' && $req->status !== 'paid')
                                                     <th>Действия</th>
                                                 @endif
                                             </tr>
@@ -127,30 +181,31 @@
                                                     <td>{{ $item->medicine_name }}</td>
                                                     <td>{{ $item->brand_name }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
-                                                    {{-- <td class="indigo-text center-align price">
-                                                        <span class="badge green">{{ $item->price }}</span>
-                                                    </td> --}}
                                                     <td class="display-flex align-items-center quantity-cell">
-                                                        @if ($req->sent === 0 && $item->changed_quantity !== 0)
-                                                            <span class="badge green m-0">{{ $item->changed_quantity }}</span>
-                                                            <i class="material-icons">{{ $item->quantity > $item->changed_quantity ? 'arrow_downward' : 'arrow_upward' }}</i>
+                                                        @if ((int)$item->changed_quantity === 0)
+                                                            @if ($req->status === 'sent' || $req->status === 'under_revision' || $req->status === 'being_prepared' || $req->status === 'shipped')
+                                                                {{ $item->quantity }}
+                                                            @endif
                                                         @endif
 
-                                                        @if ($req->sent === 1 && $item->changed_quantity !== 0)
-                                                            {{ $item->changed_quantity }}
-                                                        @endif
+                                                        @if ($item->changed_quantity !== 0)
+                                                            @if ($req->status === 'under_revision')
+                                                                <span class="badge green m-0">{{ $item->changed_quantity }}</span>
+                                                                <i class="material-icons">{{ $item->quantity > $item->changed_quantity ? 'arrow_downward' : 'arrow_upward' }}</i>
+                                                            @endif
 
-                                                        @if ($req->sent === 1 && $item->changed_quantity === 0)
-                                                            {{ $item->quantity }}
-                                                        @endif
+                                                            @if ($req->status === 'being_prepared' || $req->status === 'sent')
+                                                                <span class="badge green m-0">{{ $item->changed_quantity }}</span>
+                                                                <i class="material-icons">{{ $item->quantity > $item->changed_quantity ? 'arrow_downward' : 'arrow_upward' }}</i>
+                                                            @endif
 
-                                                        @if ($req->sent === 0 && $item->changed_quantity === 0)
-                                                            {{ $item->quantity }}
+                                                            @if ($req->status === 'shipped')
+                                                                {{ $item->quantity }}
+                                                            @endif
                                                         @endif
-
                                                     </td>
                                                     <td class="comment-cell">{{ $item->comment }}</td>
-                                                    @if ($req->sent !== 1)
+                                                    @if (Auth::user()->hasPermission('update-requests') && $req->status !== 'shipped' && $req->status !== 'being_prepared' && $req->status !== 'paid')
                                                         <td>
                                                             <a href="#" data-id="{{ $item->id }}" data-quantity="{{ $item->quantity }}"  class="edit-item-btn"><span><i class="material-icons">edit</i></span></a>
                                                             <a href="#" data-id="{{ $item->id }}" class="remove-item-btn"><span><i class="material-icons">delete_forever</i></span></a>
@@ -160,41 +215,33 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    {{-- <div class="divider mt-3 mb-1"></div> --}}
-
-                                    {{-- <div class="row">
-                                        <div class="col s12 m12 l12 display-flex align-items-center justify-content-flex-end">
-                                            @permission('send-requests')
-                                                @if ($req->sent === 0)
-                                                    <form action="{{ route('requests.send', [ 'id' => $req->id ]) }}" method="POST" class="mr-1">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn waves-effect waves-light blue">Отправить на склад</button>
-                                                    </form>
-                                                @endif
-                                            @endpermission
-                                            
-                                            @permission('write-out-requests')
-                                                @if ($req->written_out === 0 && $req->sent !== 0)
-                                                    <form action="{{ route('requests.writeOut', [ 'id' => $req->id ]) }}" method="POST" class="mr-1">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <button type="submit" class="btn waves-effect waves-light green">Выписать</button>
-                                                    </form>
-                                                @endif
-                                            @endpermission
-
-                                            @permission('pay-requests')
-                                                @if ($req->written_out === 1)
-                                                    <a href="#requestPaymentModal" class="btn waves-effect waves-light orange modal-trigger">Выплатить</a>
-                                                    <a href="#" class="btn waves-effect waves-light green pay-request-btn ml-1">Выплачено</a>
-                                                @endif
-                                            @endpermission
-                                        </div> --}}
-                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        @if ($req->request_payments->count() > 0)
+                            <div class="col s12 m3 l3">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <span class="card-title">
+                                            История выплат
+                                            <span style="float: right">Сумма: {{ $req->payment_amount }}с.</span>
+                                        </span>
+                                        @foreach ($req->request_payments as $payment)
+                                            <div class="list-feed-item display-flex flex-nowrap">
+                                                <span class="mr-3">
+                                                    {{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('D MMMM, YYYY') }}:
+                                                    <span class="badge green">{{ $payment->amount }}с.</span>
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                        @if ((double)$reqPayment === (double)0)
+                                            <button type="button" class="btn btn-block btn-small green mt-2 z-depth-1">Все выплаты сделаны</button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </section>
             </div>
@@ -261,63 +308,65 @@
         </form>
     </div>
 
-    <div id="requestPaymentModal" class="modal" style="width: 40%">
-        <form action="{{ route('requests.pay', [ 'id' => $req->id ]) }}" method="POST" id="requestPaymentForm">
-            @csrf
-            <div class="modal-content">
-                <h5>Выплата</h5>
-                    
-                <div class="container">
-                    <div class="row">
-                        <div class="col s6 p-0">
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="links-feed">
-                                                @foreach ($req->request_payments as $payment)
-                                                    <div class="list-feed-item display-flex flex-nowrap">
-                                                        <span class="mr-3">
-                                                            {{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('D MMMM, YYYY') }}:
-                                                            <span class="badge green">{{ $payment->amount }}с</span>
-                                                        </span>
-                                                    </div>
-                                                @endforeach
+    @if ((double)$reqPayment !== (double)0)
+        <div id="requestPaymentModal" class="modal" style="width: 40%">
+            <form action="{{ route('requests.pay', [ 'id' => $req->id ]) }}" method="POST" id="requestPaymentForm">
+                @csrf
+                <div class="modal-content">
+                    <h5>Выплата</h5>
+                        
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s6 p-0">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <div class="links-feed">
+                                                    @foreach ($req->request_payments as $payment)
+                                                        <div class="list-feed-item display-flex flex-nowrap">
+                                                            <span class="mr-3">
+                                                                {{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('D MMMM, YYYY') }}:
+                                                                <span class="badge green">{{ $payment->amount }}с.</span>
+                                                            </span>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col s6">
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <div class="card-alert card green m-0">
-                                        <div class="card-content white-text">
-                                            <ul class="m-0">
-                                                <li><i class="material-icons mr-2">check</i>Общая сумма: {{ $req->payment_amount }}с.</li>
-                                                <li><i class="material-icons mr-2">check</i>Сумма долга: {{ $reqPayment }}с.</li>
-                                            </ul>
+                            <div class="col s6">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <div class="card-alert card green m-0">
+                                            <div class="card-content white-text">
+                                                <ul class="m-0">
+                                                    <li><i class="material-icons mr-2">check</i>Общая сумма: {{ $req->payment_amount }}с.</li>
+                                                    <li><i class="material-icons mr-2">check</i>Сумма долга: {{ $reqPayment }}с.</li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="input-field col s12 mt-8">
-                                    <input name="amount" type="text" min="0" class="validate" placeholder="Введите сумму" required>
-                                    <label for="amount">Сумма выплаты</label>
+                                    <div class="input-field col s12 mt-8">
+                                        <input name="amount" type="text" min="0" class="validate" placeholder="Введите сумму" required>
+                                        <label for="amount">Сумма выплаты</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal-footer">
-                <button type="submit" class="waves-effect waves-light btn green">
-                    <span>Сохранить</span>
-                </button>
-            </div>
-        </form>
-    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="waves-effect waves-light btn green">
+                        <span>Сохранить</span>
+                    </button>
+                </div>
+            </form>
+        </div>        
+    @endif
 @endsection
 
 @section('scripts')
@@ -339,6 +388,7 @@
                 quantity = $(this).data('quantity');
 
                 $('#editRequestItemModal .current-quantity').text('Текущее количество: ' + quantity);
+                $('#editRequestItemModal input[name=changed_quantity]').val(quantity);
 
                 // Show modal
                 $('#editRequestItemModal').modal('open');
@@ -408,7 +458,7 @@
                     },
                 }).then(function(e) {
                     if(e) {
-                        // ...
+                        $('#setAsPaidForm').submit();
                     } else {
 
                     }

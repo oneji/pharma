@@ -72,26 +72,33 @@
                                             </td>
                                             <td><span class="badge green">{{ $req->payment_amount }}c.</span></td>
                                             <td>
-                                                @if ($req->sent === 1 && $req->written_out === 0)
+                                                @if($req->status === 'under_revision')
+                                                    <span class="badge blue">В рассмотрении</span>
+                                                @endif
+
+                                                @if ($req->status === 'sent')
                                                     <span class="badge green">Отправлена</span>
                                                 @endif
 
-                                                @if ($req->written_out === 1 && $req->paid === 0)
+                                                @if ($req->status === 'written_out')
                                                     <span class="badge orange">Выписана</span>
                                                 @endif
-                                                
-                                                @if ($req->paid === 1)
-                                                    <span class="badge green">Оплачена</span>
+
+                                                @if ($req->status === 'being_prepared')
+                                                    <span class="badge orange">Готовится</span>
                                                 @endif
 
-                                                @if($req->sent === 0)
-                                                    <span class="badge blue">В рассмотрении</span>
+                                                @if ($req->status === 'shipped')
+                                                    <span class="badge orange">Отгружена</span>
+                                                @endif
+                                                
+                                                @if ($req->status === 'paid')
+                                                    <span class="badge green">Оплачена</span>
                                                 @endif
                                             </td>
                                             <td>{{ $req->username }}</td>
                                             <td>
                                                 <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}"><span><i class="material-icons">remove_red_eye</i></span></a>
-                                                {{-- <a href="{{ route('requests.edit', [ 'id' => $req->id ]) }}"><span><i class="material-icons">edit</i></span></a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

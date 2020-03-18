@@ -39,9 +39,6 @@
         <div class="navbar navbar-fixed"> 
             <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-light-blue no-shadow">
                 <div class="nav-wrapper">
-                    <div class="header-search-wrapper hide-on-med-and-down">
-                        <input class="header-search-input z-depth-2" type="text" value="{{ Auth::user()->name }}">
-                    </div>
                     <ul class="navbar-list right">
                         <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
                         <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a></li>
@@ -94,133 +91,11 @@
         </div>
     </header>
     <!-- END: Header-->
-
-    <ul class="display-none" id="default-search-main">
-        <li class="auto-suggestion-title">
-            <a class="collection-item" href="#">
-                <h6 class="search-title">FILES</h6>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                        <div class="avatar"><img src="{{ asset('assets/images/icon/pdf-image.png') }}" width="24" height="30" alt="sample image"></div>
-                        <div class="member-info display-flex flex-column"><span class="black-text">Two new item submitted</span><small class="grey-text">Marketing Manager</small></div>
-                    </div>
-                    <div class="status"><small class="grey-text">17kb</small></div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img src="{{ asset('assets/images/icon/doc-image.png') }}" width="24" height="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">52 Doc file Generator</span><small class="grey-text">FontEnd Developer</small></div>
-                    </div>
-                    <div class="status"><small class="grey-text">550kb</small></div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img src="{{ asset('assets/images/icon/xls-image.png') }}" width="24" height="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">25 Xls File Uploaded</span><small class="grey-text">Digital Marketing Manager</small></div>
-                    </div>
-                    <div class="status"><small class="grey-text">20kb</small></div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img src="{{ asset('assets/images/icon/jpg-image.png') }}" width="24" height="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">Anna Strong</span><small class="grey-text">Web Designer</small></div>
-                    </div>
-                    <div class="status"><small class="grey-text">37kb</small></div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion-title">
-            <a class="collection-item" href="#">
-                <h6 class="search-title">MEMBERS</h6>
-            </a>
-        </li>
-        
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img class="circle" src="{{ asset('assets/images/avatar/avatar-7.png') }}" width="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">John Doe</span><small class="grey-text">UI designer</small></div>
-                    </div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img class="circle" src="{{ asset('assets/images/avatar/avatar-8.png') }}" width="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">Michal Clark</span><small class="grey-text">FontEnd Developer</small></div>
-                    </div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img class="circle" src="{{ asset('assets/images/avatar/avatar-10.png') }}" width="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">Milena Gibson</span><small class="grey-text">Digital Marketing</small></div>
-                    </div>
-                </div>
-            </a>
-        </li>
-
-        <li class="auto-suggestion">
-            <a class="collection-item" href="#">
-                <div class="display-flex">
-                    <div class="display-flex align-item-center flex-grow-1">
-                    <div class="avatar"><img class="circle" src="{{ asset('assets/images/avatar/avatar-12.png') }}" width="30" alt="sample image"></div>
-                    <div class="member-info display-flex flex-column"><span class="black-text">Anna Strong</span><small class="grey-text">Web Designer</small></div>
-                    </div>
-                </div>
-            </a>
-        </li>
-    </ul>
-
-    <ul class="display-none" id="page-search-title">
-        <li class="auto-suggestion-title">
-            <a class="collection-item" href="#">
-                <h6 class="search-title">PAGES</h6>
-            </a>
-        </li>
-    </ul>
-
-    <ul class="display-none" id="search-not-found">
-        <li class="auto-suggestion">
-            <a class="collection-item display-flex align-items-center" href="#">
-                <span class="material-icons">error_outline</span><span class="member-info">No results found.</span>
-            </a>
-        </li>
-    </ul>
-
+    
     <!-- BEGIN: SideNav-->
     <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
         <div class="brand-sidebar">
-            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="{{ route('home') }}"><img class="hide-on-med-and-down" src="{{ asset('assets/images/logo/materialize-logo-color') }}.png" alt="materialize logo"/><img class="show-on-medium-and-down hide-on-med-and-up" src="{{ asset('assets/images/logo/materialize-logo.png') }}" alt="materialize logo"/><span class="logo-text hide-on-med-and-down">Materialize</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
+            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="{{ route('home') }}"><img class="hide-on-med-and-down" src="{{ asset('assets/images/logo/materialize-logo-color') }}.png" alt="materialize logo"/><img class="show-on-medium-and-down hide-on-med-and-up" src="{{ asset('assets/images/logo/materialize-logo.png') }}" alt="materialize logo"/><span class="logo-text hide-on-med-and-down">Главная</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
         </div>
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
             <li class="bold active"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">list_alt</i><span class="menu-title" data-i18n="Dashboard">Справочники</span></a>

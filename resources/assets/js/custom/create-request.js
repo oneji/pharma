@@ -56,7 +56,6 @@ $(document).ready(function() {
             },
             submitHandler: function(form) {
                 var requestData = [];
-                var reqNumber = $('#request-number').val().trim();
 
                 $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
                     var itemId = $(this).data('item-id');
@@ -76,7 +75,6 @@ $(document).ready(function() {
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
-                        requestNumber: reqNumber,
                         data: requestData
                     },
                     success: function (data) {
@@ -114,8 +112,6 @@ $(document).ready(function() {
             validationRules[`quantity[${id}]`] = { required: true }
         });
 
-        validationRules.request_number = { required: true };
-
         return validationRules;
     }
 
@@ -125,8 +121,6 @@ $(document).ready(function() {
         controlIds.map(function(id) {
             validationMessages[`quantity[${id}]`] = { required: 'Обязательное поле.' }
         });
-
-        validationMessages.request_number = { required: 'Обязательное поле.' };
 
         return validationMessages;
     }

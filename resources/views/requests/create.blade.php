@@ -30,13 +30,6 @@
                                 <form action="{{ route('requests.store') }}" method="POST" id="createRequestForm">
                                     @csrf()
                                     <div class="card-content">
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <input type="text" id="request-number" name="request_number">
-                                                <label class="active">Номер заявки</label>
-                                            </div>
-                                        </div>
-    
                                         <div class="row display-flex align-items-center mt-1">
                                             <div class="col s12 m8 l8 ml-0">
                                                 <h4 class="indigo-text">Создание заявки</h4>
@@ -53,15 +46,11 @@
                                             <table class="striped responsive-table request-pl-table">
                                                 <thead>
                                                     <tr>
-                                                        {{-- <th class="background-image-none center-align">
-                                                            <i class="material-icons">check</i>
-                                                        </th> --}}
                                                         <th>Продукт</th>
                                                         <th>Производитель</th>
                                                         <th>Срок годности (до)</th>
                                                         <th class="right-center">Цена (с.)</th>
                                                         <th>Кол-во (шт.)</th>
-                                                        {{-- <th>Коммент</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -79,7 +68,6 @@
                                                                     <span>{{ $item->medicine_name }}</span>
                                                                 </label>
                                                             </td>
-                                                            {{-- <td>{{ $item->medicine_name }}</td> --}}
                                                             <td>{{ $item->brand_name }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                             <td class="indigo-text center-align price">
@@ -88,9 +76,6 @@
                                                             <td style="max-width: 100px;">
                                                                 <input type="number"  min="0" name="quantity[{{ $item->id }}]" class="request-pl-item-quantity">
                                                             </td>
-                                                            {{-- <td>
-                                                                <input type="text" class="request-pl-item-comment">
-                                                            </td> --}}
                                                         </tr>                                                    
                                                     @endforeach
                                                 </tbody>

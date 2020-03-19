@@ -96,7 +96,6 @@ class Request extends Model
     public static function createRequest($data, $items)
     {
         $req = new Request();
-        $req->request_number = $data['request_number'];
         $req->payment_amount = $data['payment_amount'];
         $req->user_id = Auth::user()->id;
         $req->save();

@@ -55,8 +55,7 @@
                                 <table id="requests-list" class="table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Номер заявки №</th>
+                                            <th>№ заявки</th>
                                             <th>Сумма долга</th>
                                             <th>Статус</th>
                                             <th>Создал</th>
@@ -66,9 +65,8 @@
                                     <tbody>
                                         @foreach ($requests as $idx => $req)
                                         <tr>
-                                            <td>{{ $idx + 1 }}</td>
                                             <td>
-                                                <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}">#{{ $req->request_number }}</a>
+                                                <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}">#{{ $req->id }}</a>
                                             </td>
                                             <td><span class="badge green">{{ $req->payment_amount }}c.</span></td>
                                             <td>

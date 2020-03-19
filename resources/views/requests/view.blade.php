@@ -94,7 +94,7 @@
                                         <div class="row display-flex align-items-center mt-1">
                                             <div class="col s12 m8 l8 ml-0 display-flex align-items-center">
                                                 <h4 class="indigo-text">
-                                                    Заявка №{{ $req->request_number }}
+                                                    Заявка №{{ $req->id }}
                                                 </h4>
                                                 @if($req->status === 'under_revision')
                                                     <span class="badge blue">В рассмотрении</span>
@@ -123,7 +123,7 @@
 
                                             <div class="col s12 m4 l4 ml-0">
                                                 @permission('cancel-requests')
-                                                    @if ($req->status !== 'cancelled')
+                                                    @if ($req->status !== 'cancelled' && $req->status !== 'paid')
                                                         <a href="#cancelRequestModal" class="btn btn-small waves-effect waves-light red mr-1 modal-trigger" style="float: right">Отмена заявки</a>
                                                     @endif
                                                 @endpermission

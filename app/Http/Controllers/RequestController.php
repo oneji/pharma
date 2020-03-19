@@ -76,7 +76,6 @@ class RequestController extends Controller
         $paymentAmount = RequestModel::setPaymentAmount($itemIds);
         
         $req = RequestModel::createRequest([
-            'request_number' => $request->requestNumber,
             'payment_amount' => $paymentAmount
         ], $request->data);
 

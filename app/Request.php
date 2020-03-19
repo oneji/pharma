@@ -127,6 +127,8 @@ class Request extends Model
     {
         $req = static::find($id);
 
+        if(!$req) return abort(404);
+
         if($req->status === static::STATUS_UNDER_REVISION) {
             return static::getWithRemovedItems($id);
         } else {

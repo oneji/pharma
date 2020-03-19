@@ -88,6 +88,8 @@ class UserController extends Controller
         $roles = Role::all();
         $managers = User::getManagers();
 
+        if(!$user) return abort(404);
+
         return view('users.edit', [ 
             'user' => $user,
             'roles' => $roles,

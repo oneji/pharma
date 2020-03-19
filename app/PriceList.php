@@ -56,6 +56,9 @@ class PriceList extends Model
     public static function getWithItems($id)
     {
         $priceList = static::find($id);
+
+        if(!$priceList) return abort(404);
+        
         $priceListItems = PriceListItem::where('price_list_id', $id)
             ->where('removed', 0)
             ->join('medicines', 'medicines.id', '=', 'price_list_items.medicine_id')

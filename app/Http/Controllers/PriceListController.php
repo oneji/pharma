@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreatePriceList;
 use Illuminate\Support\Facades\DB;
 use App\PriceList;
+use App\PriceListItem;
 use App\Medicine;
 use App\Brand;
 use Carbon\Carbon;
+use App\ActionLog;
 
 
 class PriceListController extends Controller
@@ -80,6 +82,11 @@ class PriceListController extends Controller
     {
         $priceList = PriceList::create($request->price_list_data);
 
+        ActionLog::create([
+            'text' => ActionLog::ACTION_PRICE_LIST_CREATED,
+            'price_list_id' => $priceList
+        ]);
+
         return redirect()->route('price_lists.view', [ 'id' => $priceList->id ]);
     }
 
@@ -104,7 +111,24 @@ class PriceListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = PriceList::change($id, $request->price_list_data);
+        $itemIds = [];
+        $itemsToUpdate = [];
+        $itemsToAdd = [];
+
+        foreach ($request->price_list_data as $value) {
+            if($value['id'] !== null) {
+                $itemsToUpdate[] = $value;
+                $itemIds[] = $value['id'];
+            } else {
+                $itemsToAdd[] = $value;
+            }
+        }
+
+        $itemsToDelete = PriceListItem::whereNotIn('id', $itemIds)->pluck('id');
+
+        PriceList::massiveUpdate($id, $itemsToAdd, $itemsToUpdate, $itemsToDelete);
+
+        // return $itemsToUpdate;
 
         return redirect()->route('price_lists.index');
     }

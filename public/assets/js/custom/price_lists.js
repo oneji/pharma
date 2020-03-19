@@ -51,7 +51,8 @@ $(document).ready(function() {
         form.each(function() {
             $(this).find(':input').each(function() {
                 var controlName = $(this).attr('name');
-                if(controlName !== undefined && controlName !== '_token') {
+                var inputHasId = $(this).hasClass('item-id');
+                if(controlName !== undefined && controlName !== '_token' && !inputHasId) {
                     formControlsNames.push($(this).attr('name'));
                 }
             });
@@ -83,5 +84,4 @@ $(document).ready(function() {
 
         return validationMessages;
     }
-    
 });

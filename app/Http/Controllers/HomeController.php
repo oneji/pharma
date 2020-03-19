@@ -26,6 +26,8 @@ class HomeController extends Controller
     {
         $stats = Statistics::getFull();
 
+        // return $stats;
+
         return view('home', [ 'stats' => $stats ]);
     }
 }

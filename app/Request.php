@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
+use App\ActionLog;
 
 class Request extends Model
 {
@@ -14,6 +15,7 @@ class Request extends Model
     const STATUS_BEING_PREPARED = 'being_prepared';
     const STATUS_SHIPPED = 'shipped';
     const STATUS_PAID = 'paid';
+    const STATUS_CANCELLED = 'cancelled';
     /**
      * Get the payments for the request.
      */
@@ -60,7 +62,8 @@ class Request extends Model
                 ->get();
         }
 
-        return static::join('users', 'users.id', '=', 'requests.user_id')
+        return static::where('user_id', $user->id)
+            ->join('users', 'users.id', '=', 'requests.user_id')
             ->select('users.name as username', 'requests.*')
             ->get();
     }
@@ -171,7 +174,7 @@ class Request extends Model
                 'request_payments',
                 'request_items' => function($query) {
                     $query
-                        ->where('removed', 0)
+                        ->where('request_items.removed', 0)
                         ->join('price_list_items', 'price_list_items.id', '=', 'request_items.price_list_item_id')
                         ->join('medicines', 'medicines.id', '=', 'price_list_items.medicine_id')
                         ->join('brands', 'brands.id', '=', 'price_list_items.brand_id')
@@ -218,31 +221,6 @@ class Request extends Model
     /**
      * 
      */
-    public static function send($id)
-    {
-        $req = static::find($id);
-        $req->status = static::STATUS_SENT;
-        $req->sent_by = Auth::user()->id;
-        $req->save();
-
-        return $req;
-    }
-
-    /**
-     * 
-     */
-    public static function writeOut($id)
-    {
-        $req = static::find($id);
-        $req->status = static::STATUS_WRITTEN_OUT;
-        $req->save();
-
-        return $req;
-    }
-
-    /**
-     * 
-     */
     public static function prepare($id)
     {
         $req = static::find($id);
@@ -267,18 +245,23 @@ class Request extends Model
     /**
      * 
      */
-    public static function setAsPaid($id)
+    public static function changeStatus($id, $status)
     {
-        static::where('id', $id)->update([ 'paid' => static::STATUS_PAID ]);
+        $req = static::find($id);
+        $req->status = $status;
+        $req->save();
+
+        return $req;
     }
 
     /**
      * 
      */
-    public static function changeStatus($id, $status)
+    public static function cancel($id, $comment)
     {
         $req = static::find($id);
-        $req->status = $status;
+        $req->status = static::STATUS_CANCELLED;
+        $req->cancel_comment = $comment;
         $req->save();
 
         return $req;

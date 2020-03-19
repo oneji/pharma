@@ -57,9 +57,11 @@ class PriceList extends Model
     {
         $priceList = static::find($id);
         $priceListItems = PriceListItem::where('price_list_id', $id)
+            ->where('removed', 0)
             ->join('medicines', 'medicines.id', '=', 'price_list_items.medicine_id')
             ->join('brands', 'brands.id', '=', 'price_list_items.brand_id')
             ->select('price_list_items.*', 'medicines.name as medicine_name', 'brands.name as brand_name')
+            ->orderBy('id', 'asc')
             ->get();
 
         $priceList->items = $priceListItems;
@@ -103,5 +105,45 @@ class PriceList extends Model
         $priceListId = PriceList::all()->first()->id;
 
         return static::getWithItems($priceListId);
+    }
+
+    /**
+     * 
+     */
+    public static function massiveUpdate($id, $itemsToAdd, $itemsToUpdate, $itemsToDelete)
+    {
+        // Add items
+        $add = [];
+        foreach ($itemsToAdd as $item) {
+            $add[] = [
+                'price_list_id' => $id,
+                'medicine_id' => $item['medicine_id'],
+                'brand_id' => $item['brand_id'],
+                'exp_date' => Carbon::createFromFormat('d/m/Y', $item['exp_date']),
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        }
+
+        PriceListItem::insert($add);
+
+        // Delete items
+        PriceListItem::whereIn('id', $itemsToDelete)->update([ 'removed' => 1 ]);
+        
+        // Update items
+        foreach ($itemsToUpdate as $item) {
+
+            PriceListItem::where('id', $item['id'])->update([
+                'medicine_id' => $item['medicine_id'],
+                'brand_id' => $item['brand_id'],
+                'exp_date' => Carbon::createFromFormat('d/m/Y', $item['exp_date']),
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'updated_at' => Carbon::now(),
+            ]);
+            
+        }
     }
 }

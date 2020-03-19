@@ -7,7 +7,7 @@ return [
             'acl' => 'c,r,u,d',
             'price-lists' => 'c,r,u,d',
             'reports' => 'c,r,u,d',
-            'requests' => 'c,r,u,d,s,w,p',
+            'requests' => 'c,r,u,d,s,w,p,pr,sh,ca',
             'brands' => 'c,r,u,d',
             'medicines' => 'c,r,u,d',
         ],
@@ -15,16 +15,16 @@ return [
             'reports' => 'c,r,u,d',
         ],
         'head_manager' => [
-            'requests' => 'r,u'
+            'requests' => 'r,u,s'
         ],
         'manager' => [
-            'requests' => 'c,r,u,d,s'
+            'requests' => 'c,r,u,d,s,ca'
         ],
         'cashier' => [
             'requests' => 'r,u,p'
         ],
         'logist' => [
-            'requests' => 'r,u,w'
+            'requests' => 'r,u,w,pr,sh'
         ],
         'client' => [
             'price-lists' => 'c,r,u,d',
@@ -41,6 +41,9 @@ return [
         'd' => 'delete',
         's' => 'send',
         'w' => 'write-out',
-        'p' => 'pay'
+        'p' => 'pay',
+        'pr' => 'prepare',
+        'sh' => 'ship',
+        'ca' => 'cancel'
     ]
 ];

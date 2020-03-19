@@ -24,6 +24,27 @@
         .error {
             color: red;
         }
+        .delete-row-btn > i {
+            font-size: 24px !important;
+        }
+
+        .save-btn {
+            cursor: pointer;
+        }
+
+        .select2-container--default .select2-selection--multiple, 
+        .select2-container--default .select2-selection--single, 
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #ddd;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: transparent;
+        }
+
+        .price-list-table td {
+            padding: 5px;
+        }
     </style>
 
 @endsection
@@ -37,75 +58,112 @@
                         <!-- invoice view page -->
                         <div class="col xl12 m12 s12">
                             <div class="card">
-                                <div class="card-content">
+                                <div class="card-content pl-0 pr-0">
                                     <!-- logo and title -->
-                                    <div class="row mb-3">
-                                        <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6"></div>
-                                        <div class="col m3 s12 pull-m6">
-                                            <h4 class="indigo-text">Изменить прайс лист</h4>
+                                    <div class="row mb-1">
+                                        <div class="col s12 m12 xl12">
+                                            <h4 class="indigo-text ml-2">Изменить прайс лист</h4>
                                         </div>
                                     </div>
                                     <!-- product details table-->
-                                    <div class="invoice-product-details mb-3">
+                                    <div class="">
                                         <form action="{{ route('price_lists.update', [ 'id' => $priceList['id'] ]) }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
                                             @csrf
                                             @method('PUT')
-                                            <div data-repeater-list="price_list_data">
-                                                <div class="row mb-1">
-                                                    <div class="col s3 m3">
-                                                        <h6 class="m-0">Товар</h6>
-                                                    </div>
-                                                    <div class="col s3 m3">
-                                                        <h6 class="m-0">Производитель</h6>
-                                                    </div>
-                                                    <div class="col s3 m2">
-                                                        <h6 class="m-0">Срок годности</h6>
-                                                    </div>
-                                                    <div class="col s3 m2">
-                                                        <h6 class="m-0">Цена</h6>
-                                                    </div>
-                                                    <div class="col s3 m2">
-                                                        <h6 class="m-0">Кол-во</h6>
-                                                    </div>
-                                                </div>
-                                                @foreach ($priceList['items'] as $item)
-                                                    <div class="invoice-item display-flex mb-1" data-repeater-item>
-                                                        <div class="invoice-item-filed row" style="width: 100%">
-                                                            <div class="col s12 m3 my-10">
+                                            <table class="striped responsive-table price-list-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-align">#</th>
+                                                        <th>Продукт</th>
+                                                        <th>Производитель</th>
+                                                        <th>Срок годности (до)</th>
+                                                        <th class="center-align">Цена</th>
+                                                        <th class="center-align">Кол-во (шт.)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody data-repeater-list="price_list_data">
+                                                    @foreach ($priceList['items'] as $item)
+                                                        <tr data-repeater-item>
+                                                            <td>
+                                                                <input class="center-align item-id" name="id" readonly value="{{ $item->id }}" />
+                                                            </td>
+                                                            <td>
                                                                 <select class="select2 browser-default" name="medicine_id" required>
                                                                     @foreach ($medicine as $idx => $med)
                                                                         <option {{ $med->id === $item->medicine_id ? 'selected' : null }} value="{{ $med->id }}">{{ $med->name }}</option>
                                                                     @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col s12 m3 my-10">
+                                                                </select>    
+                                                            </td>
+                                                            <td>
                                                                 <select class="select2 browser-default" name="brand_id" required>
                                                                     @foreach ($brands as $idx => $brand)
                                                                         <option {{ $brand->id === $item->brand_id ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
                                                                     @endforeach
                                                                 </select>
-                                                            </div>
-                                                            <div class="col s12 m2 my-10">
+                                                            </td>
+                                                            <td>
                                                                 <input name="exp_date" type="text" class="datepicker" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
-                                                            </div>
-                                                            <div class="col s12 m2 my-10">
-                                                                <input name="price" type="text" placeholder="Введите цену" value="{{ $item->price }}" required>
-                                                            </div>
-                                                            <div class="col s12 m2 my-10">
-                                                                <input name="quantity" type="number" placeholder="Введите количество" value="{{ $item->quantity }}" required>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            class="invoice-icon display-flex flex-column justify-content-between">
-                                                            <span data-repeater-delete class="delete-row-btn">
-                                                                <i class="material-icons">clear</i>
-                                                            </span>
-                                                        </div>
-                                                    </div>                                                    
-                                                @endforeach
-                                            </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="center-align" name="price" type="text" placeholder="Цена" value="{{ $item->price }}" required>
+                                                            </td>
+                                                            <td>
+                                                                <input class="center-align" name="quantity" type="number" placeholder="Кол-во" value="{{ $item->quantity }}" required>
+                                                            </td>
+                                                            <td>
+                                                                <span data-repeater-delete class="delete-row-btn">
+                                                                    <i class="material-icons">delete</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>                                                    
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                            {{-- <div class="invoice-item display-flex mb-1" data-repeater-item>
+                                                <div class="invoice-item-filed row" style="width: 100%">
+                                                    <div class="col s12 m1">
+                                                        <input class="center-align item-id" name="id" readonly value="{{ $item->id }}" />
+                                                    </div>
+                                                    <div class="col s12 m3">
+                                                        <select class="select2 browser-default" name="medicine_id" required>
+                                                            @foreach ($medicine as $idx => $med)
+                                                                <option {{ $med->id === $item->medicine_id ? 'selected' : null }} value="{{ $med->id }}">{{ $med->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col s12 m3">
+                                                        <select class="select2 browser-default" name="brand_id" required>
+                                                            @foreach ($brands as $idx => $brand)
+                                                                <option {{ $brand->id === $item->brand_id ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col s12 m2">
+                                                        <input name="exp_date" type="text" class="datepicker" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
+                                                    </div>
+                                                    <div class="col s12 m1">
+                                                        <input class="center-align" name="price" type="text" placeholder="Цена" value="{{ $item->price }}" required>
+                                                    </div>
+                                                    <div class="col s12 m1">
+                                                        <input class="center-align" name="quantity" type="number" placeholder="Кол-во" value="{{ $item->quantity }}" required>
+                                                    </div>
+                                                    <div class="col s3 m1 display-flex align-items-center" style="height: 100%">
+                                                        <a href="#">
+                                                            <i class="material-icons">save</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="invoice-icon display-flex flex-column justify-content-between">
+                                                    <span data-repeater-delete class="delete-row-btn">
+                                                        <i class="material-icons">clear</i>
+                                                    </span>
+                                                </div>
+                                            </div> --}}
+                                        {{-- @endforeach --}}
                                             <div class="input-field display-flex justify-content-end">
-                                                <button class="btn invoice-repeat-btn blue" data-repeater-create type="button">
+                                                <button class="btn blue" data-repeater-create type="button">
                                                     <i class="material-icons left">add</i>
                                                     <span>Добавить товар</span>
                                                 </button>

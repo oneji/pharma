@@ -7,18 +7,98 @@
 @section('head')
     @parent
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/animate-css/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/chartist-js/chartist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/chartist-js/chartist-plugin-tooltip.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/dashboard.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/dashboard-modern.css') }}">
 @endsection
 
 @section('content')
 <div class="container">
     <div class="section">
+        <div id="card-stats" class="row">
+            <div class="col s12 m6 xl3">
+                <div class="card">
+                    <div class="card-content cyan white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Заявки в рассмотрении</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['underRevision'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_up</i> 15%
+                            <span class="cyan text text-lighten-5">from yesterday</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 xl3">
+                <div class="card">
+                    <div class="card-content red accent-2 white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Отправленные заявки</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['sent'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_up</i> 70%
+                            <span class="red-text text-lighten-5">last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 xl3">
+                <div class="card">
+                    <div class="card-content orange lighten-1 white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Заявки в подготовке</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['prepared'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_up</i> 80%
+                            <span class="orange-text text-lighten-5">from yesterday</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 xl3">
+                <div class="card">
+                    <div class="card-content green lighten-1 white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Отгруженные заявки</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['shipped'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_down</i> 3%
+                            <span class="green-text text-lighten-5">from last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 xl6">
+                <div class="card">
+                    <div class="card-content blue lighten-1 white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Оплаченные заявки</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['paid'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_down</i> 3%
+                            <span class="green-text text-lighten-5">from last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 xl6">
+                <div class="card">
+                    <div class="card-content red lighten-1 white-text">
+                        <p class="card-stats-title"><i class="material-icons">content_copy</i> Отмененные заявки</p>
+                        <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['cancelled'] }}</h4>
+                        <p class="card-stats-compare">
+                            <i class="material-icons">keyboard_arrow_down</i> 3%
+                            <span class="green-text text-lighten-5">from last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--card stats start-->
         <div id="card-stats" class="pt-0">
             <div class="row">
                 <div class="col s12 m6 l6 xl3">
-                    <div
-                        class="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text animate fadeLeft">
+                    <div class="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text animate fadeLeft">
                         <div class="padding-4">
                             <div class="row">
                                 <div class="col s7 m7">
@@ -34,8 +114,7 @@
                 </div>
 
                 <div class="col s12 m6 l6 xl3">
-                    <div
-                        class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text animate fadeLeft">
+                    <div class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text animate fadeLeft">
                         <div class="padding-4">
                             <div class="row">
                                 <div class="col s7 m7">
@@ -51,8 +130,7 @@
                 </div>
                 
                 <div class="col s12 m6 l6 xl3">
-                    <div
-                        class="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text animate fadeRight">
+                    <div class="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text animate fadeRight">
                         <div class="padding-4">
                             <div class="row">
                                 <div class="col s7 m7">
@@ -68,8 +146,7 @@
                 </div>
 
                 <div class="col s12 m6 l6 xl3">
-                    <div
-                        class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text animate fadeRight">
+                    <div class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text animate fadeRight">
                         <div class="padding-4">
                             <div class="row">
                                 <div class="col s7 m7">
@@ -86,6 +163,13 @@
             </div>
         </div>
         <!--card stats end-->
+
+        
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    @parent
+
 @endsection

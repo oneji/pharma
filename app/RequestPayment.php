@@ -26,12 +26,4 @@ class RequestPayment extends Model
         $payment->user_id = Auth::user()->id;
         $payment->save();
     }
-
-    /**
-     * 
-     */
-    public static function setAsPaid($id)
-    {
-        return $id;
-    }
 }

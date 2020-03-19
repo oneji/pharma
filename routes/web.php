@@ -48,9 +48,8 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::delete('requests/removeItem/{id}', 'RequestController@removeItem')->name('requests.removeItem');
     
     Route::put('requests/updateItem/{id}', 'RequestController@updateItem')->name('requests.updateItem');
-    Route::put('requests/paid/{id}', 'RequestController@setAsPaid')->name('requests.paid');
-
     Route::put('requests/{id}/status/{status}', 'RequestController@changeStatus')->name('requests.status');
+    Route::put('requests/{id}/cancel', 'RequestController@cancel')->name('requests.cancel');
 
     // ACL
     Route::get('acl', 'AclController@index')->name('acl.index');

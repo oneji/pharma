@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Request as RequestModel;
 use App\PriceList;
 use App\RequestPayment;
+use App\ActionLog;
 use Auth;
 
 class RequestController extends Controller
@@ -31,10 +32,12 @@ class RequestController extends Controller
     {
         $req = RequestModel::getById($id);
         $reqPayment = RequestModel::getPaymentAmount($id);
+        $reqActions = ActionLog::getRequestActions($id);
 
         return view('requests.view', [ 
             'req' => $req,
-            'reqPayment' => $reqPayment  
+            'reqPayment' => $reqPayment,
+            'reqActions' => $reqActions
         ]);
     }
 
@@ -76,6 +79,11 @@ class RequestController extends Controller
             'request_number' => $request->requestNumber,
             'payment_amount' => $paymentAmount
         ], $request->data);
+
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_CREATED,
+            'request_id' => $req->id
+        ]);
         
         return response()->json([
             'ok' => true,
@@ -103,6 +111,11 @@ class RequestController extends Controller
             'comment' => $request->comment
         ]);
 
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_EDITED,
+            'request_id' => $reqItem->request_id
+        ]);
+
         return response()->json($reqItem);
     }
     
@@ -119,48 +132,26 @@ class RequestController extends Controller
     /**
      * 
      */
-    public function send($id)
-    {
-        $req = RequestModel::send($id);
-
-        return redirect()->route('requests.view', [ 'id' => $req->id ]);
-    }
-
-    /**
-     * 
-     */
-    public function writeOut($id)
-    {
-        $req = RequestModel::writeOut($id);
-
-        return redirect()->route('requests.view', [ 'id' => $req->id ]);
-    }
-
-    /**
-     * 
-     */
     public function pay(Request $request, $id)
     {
         $req = RequestModel::find($id);
         $paymentAmount = RequestModel::getPaymentAmount($id);
         
-        if((double)$paymentAmount < (double)$request->amount) {
-            return redirect()->route('requests.view', [ 'id' => $id ])->withErrors([
-                'payment' => 'Сумма выплаты превышает сумму долга.'
-            ]);
-        } else {
-            RequestPayment::pay($id, $request->amount);
-    
-            return redirect()->route('requests.view', [ 'id' => $id ]);
-        }
-    }
+        if((double)$paymentAmount < (double)$request->amount) {            
+            return redirect()->route('requests.view', [ 'id' => $id ])->withErrors([ 'payment' => 'Сумма выплаты превышает сумму долга.' ]);
+        } 
 
-    /**
-     * 
-     */
-    public function setAsPaid($id)
-    {
-        RequestModel::setAsPaid($id);
+        RequestPayment::pay($id, $request->amount);
+
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_PAID . ' на сумму ' . $request->amount . ' сомони',
+            'request_id' => $id
+        ]);
+
+        if((double)$paymentAmount === (double)$request->amount) {
+            
+            $this->changeStatus($id, 'paid');
+        }
 
         return redirect()->route('requests.view', [ 'id' => $id ]);
     }
@@ -171,6 +162,26 @@ class RequestController extends Controller
     public function changeStatus($id, $status)
     {
         RequestModel::changeStatus($id, $status);
+
+        ActionLog::create([
+            'text' => ActionLog::getLogTextByRequestStatus($status),
+            'request_id' => $id
+        ]);
+
+        return redirect()->route('requests.view', [ 'id' => $id ]);
+    }
+
+    /**
+     * 
+     */
+    public function cancel($id, Request $request)
+    {
+        RequestModel::cancel($id, $request->cancel_comment);
+
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_CANCELLED,
+            'request_id' => $id
+        ]);
 
         return redirect()->route('requests.view', [ 'id' => $id ]);
     }

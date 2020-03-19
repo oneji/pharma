@@ -95,6 +95,10 @@
                                                 @if ($req->status === 'paid')
                                                     <span class="badge green">Оплачена</span>
                                                 @endif
+
+                                                @if ($req->status === 'cancelled')
+                                                    <span class="badge red">Отменена</span>
+                                                @endif
                                             </td>
                                             <td>{{ $req->username }}</td>
                                             <td>

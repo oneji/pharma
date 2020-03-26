@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Прайс листы
+    Прайс лист
 @endsection
 
 @section('head')
@@ -49,7 +49,7 @@
                                             <h4 class="indigo-text">Прайс лист</h4>
                                         </div>
                                     </div>
-                                    <div class="divider mb-3 mt-3"></div>
+                                    <div class="divider mb-1 mt-1"></div>
                                     <!-- product details table-->
                                     <div class="invoice-product-details">
                                         <table class="striped responsive-table">
@@ -58,7 +58,7 @@
                                                     <th>Продукт</th>
                                                     <th>Производитель</th>
                                                     <th>Срок годности (до)</th>
-                                                    <th>Кол-во (шт.)</th>
+                                                    <th class="center-align">Кол-во (шт.)</th>
                                                     <th class="right-align">Цена (с.)</th>
                                                 </tr>
                                             </thead>
@@ -68,8 +68,8 @@
                                                         <td>{{ $item->medicine_name }}</td>
                                                         <td>{{ $item->brand_name }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
-                                                        <td>{{ $item->quantity }}</td>
-                                                        <td class="indigo-text right-align">${{ $item->price }}</td>
+                                                        <td class="center-align">{{ $item->quantity }}</td>
+                                                        <td class="indigo-text right-align">{{ $item->price }}с.</td>
                                                     </tr>                                                    
                                                 @endforeach
                                             </tbody>

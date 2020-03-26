@@ -12,7 +12,7 @@ class ActionLog extends Model
     const ACTION_REQUEST_SENT =         'отправил заявку на склад';
     const ACTION_REQUEST_PREPARED =     'подготовил заявку';
     const ACTION_REQUEST_SHIPPED =      'отгрузил заявку';
-    const ACTION_REQUEST_PAID =         'принял оплату заявку';
+    const ACTION_REQUEST_PAID =         'принял оплату';
     const ACTION_REQUEST_FULLY_PAID =   'полностью закрыл долг по заявке';
     const ACTION_REQUEST_CANCELLED =    'отменил заявку';
     const ACTION_PRICE_LIST_CREATED =   'создал прайс лист';

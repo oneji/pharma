@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Заявка №{{ $req->request_number }}
+    Заявка №{{ $req->id }}
 @endsection
 
 @section('head')
@@ -92,7 +92,7 @@
                                         </div>
                                         
                                         <div class="row display-flex align-items-center mt-1">
-                                            <div class="col s12 m8 l8 ml-0 display-flex align-items-center">
+                                            <div class="col s12 m6 l6 ml-0 display-flex align-items-center">
                                                 <h4 class="indigo-text">
                                                     Заявка №{{ $req->id }}
                                                 </h4>
@@ -121,7 +121,7 @@
                                                 @endif
                                             </div>
 
-                                            <div class="col s12 m4 l4 ml-0">
+                                            <div class="col s12 m6 l6 ml-0">
                                                 @permission('cancel-requests')
                                                     @if ($req->status !== 'cancelled' && $req->status !== 'paid')
                                                         <a href="#cancelRequestModal" class="btn btn-small waves-effect waves-light red mr-1 modal-trigger" style="float: right">Отмена заявки</a>

@@ -124,4 +124,8 @@ $(document).ready(function() {
 
         return validationMessages;
     }
+
+    $('.request-pl-item-quantity').focus(function() {
+        $(this).parent().parent().find('.choose-pl-item').attr('checked', 'checked');
+    });
 });

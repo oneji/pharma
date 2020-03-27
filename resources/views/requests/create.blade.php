@@ -6,17 +6,6 @@
 
 @section('head')
     @parent
-
-    <style>
-        .contact-checkbox {
-            padding: 0 10px 0 25px !important;
-        }
-
-        .request-pl-table td {
-            padding: 0;
-        }
-    </style>
-
 @endsection
 
 @section('content')

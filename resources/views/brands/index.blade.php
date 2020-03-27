@@ -10,15 +10,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
-
-    <style>
-        .addBrandForm {
-            float: right;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 @endsection
 
 @section('content')

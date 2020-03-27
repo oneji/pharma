@@ -11,21 +11,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/form-select2.min.css') }}">
-
-    <style>
-        .invoice-edit-wrapper .invoice-item .invoice-item-filed {
-            padding: 0 10px;
-        }
-
-        .my-10 {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .error {
-            color: red;
-        }
-    </style>
-
 @endsection
 
 @section('content')

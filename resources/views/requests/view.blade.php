@@ -6,58 +6,6 @@
 
 @section('head')
     @parent
-
-    <style>
-        .request-pl-table td {
-            padding: 10px 5px;
-        }
-        
-        .removed-item {
-            text-decoration: line-through;
-            color: #ccc;
-        }
-
-        .list-feed-item {
-            position: relative;
-            padding-bottom: 1.25rem;
-            padding-left: 1.75rem;
-        }
-
-        .list-feed-item:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: .31252rem;
-            background-color: #fff;
-            display: inline-block;
-            border: 2px solid #607d8b;
-            z-index: 3;
-            width: .5rem;
-            height: .5rem;
-            border-radius: 50%;
-        }
-
-        .list-feed-item:first-child:after {
-            top: .5rem;
-        }
-
-        .list-feed-item:after {
-            content: '';
-            position: absolute;
-            top: .31252rem;
-            left: .1875rem;
-            bottom: -.43752rem;
-            width: 0;
-            border-left: 1px solid #607d8b;
-            border-right: 1px solid #607d8b;
-            z-index: 2;
-        }
-
-        .list-feed-item:last-child {
-            padding-bottom: 0;
-        }
-    </style>
-
 @endsection
 
 @section('content')
@@ -179,7 +127,7 @@
 
                                         <div class="divider"></div>
 
-                                        <table class="striped responsive-table request-pl-table">
+                                        <table class="striped responsive-table request-pl-table view-request-table">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -440,106 +388,7 @@
 @section('scripts')
     @parent
 
-    <script src="{{ asset('assets/js/custom/create-request.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/advance-ui-modals.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/sweetalert/sweetalert.min.js') }}"></script>
-    
-    <script>
-        $(document).ready(function() {
-            var itemId = null;
-            var quantity = null;
-
-            $('.edit-item-btn').click(function(e) {
-                e.preventDefault();
-
-                itemId = $(this).data('id');
-                quantity = $(this).data('quantity');
-
-                $('#editRequestItemModal .current-quantity').text('Текущее количество: ' + quantity);
-                $('#editRequestItemModal input[name=changed_quantity]').val(quantity);
-
-                // Show modal
-                $('#editRequestItemModal').modal('open');
-            });
-
-            $('.remove-item-btn').click(function(e) {
-                e.preventDefault();
-                
-                itemId = $(this).data('id');
-
-                // Show modal
-                $('#removeRequestItemModal').modal('open');
-            });
-
-            $('#editRequestItemForm').submit(function(e) {
-                e.preventDefault();
-
-                var form = $(this);
-                var formData = form.serialize();
-
-                $.ajax({
-                    url: '/requests/updateItem/' + itemId,
-                    type: 'PUT',
-                    data: formData,
-                    success: function(item){
-
-                        $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.quantity-cell').html(generateChangedQuantityMarkup(item));
-                        $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.comment-cell').html(item.comment);
-
-                        // Show modal
-                        $('#editRequestItemModal').modal('close');
-                    }
-                });
-            });
-
-            $('#removeRequestItemForm').submit(function(e) {
-                e.preventDefault();
-
-                var form = $(this);
-                var formData = form.serialize();
-
-                $.ajax({
-                    url: '/requests/removeItem/' + itemId,
-                    type: 'DELETE',
-                    data: formData,
-                    success: function(item){
-
-                        $('.request-pl-table').find(`tr[data-id=${itemId}]`).addClass('removed-item');
-                        $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.comment-cell').html(item.comment);
-
-                        // Show modal
-                        $('#removeRequestItemModal').modal('close');
-                    }
-                });
-            });
-
-            $('.pay-request-btn').click(function(e) {
-                e.preventDefault();
-
-                swal({
-                    title: "Закрыть долг по заявке?",
-                    text: "Закрыть долг значит, что все выплаты были сделаны.",
-                    icon: "warning",
-                    buttons: {
-                        cancel: 'Отмена',
-                        delete: 'Выплачено'
-                    },
-                }).then(function(e) {
-                    if(e) {
-                        $('#setAsPaidForm').submit();
-                    } else {
-
-                    }
-                });
-            });
-
-            function generateChangedQuantityMarkup(item) {
-                var icon = item.quantity > item.changed_quantity ? 'arrow_downward' : 'arrow_upward';
-                return `
-                    <span class="badge green m-0">${item.changed_quantity}</span>
-                    <i class="material-icons">${icon}</i>
-                `;
-            }
-        });
-    </script>
+    <script src="{{ asset('assets/js/custom/view-request.js') }}"></script>
 @endsection

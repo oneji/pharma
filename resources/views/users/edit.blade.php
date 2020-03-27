@@ -40,7 +40,7 @@
                         <ul class="tabs mb-2 row">
                             <li class="tab">
                                 <a class="display-flex align-items-center active" id="account-tab" href="#account">
-                                    <i class="material-icons mr-1">person_outline</i><span>Account</span>
+                                    <i class="material-icons mr-1">person_outline</i><span>Пользователь</span>
                                 </a>
                             </li>
                         </ul>

@@ -11,42 +11,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}" >
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/form-select2.min.css') }}">
-
-    <style>
-        .invoice-edit-wrapper .invoice-item .invoice-item-filed {
-            padding: 0 10px;
-        }
-
-        .my-10 {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .error {
-            color: red;
-        }
-        .delete-row-btn > i {
-            font-size: 24px !important;
-        }
-
-        .save-btn {
-            cursor: pointer;
-        }
-
-        .select2-container--default .select2-selection--multiple, 
-        .select2-container--default .select2-selection--single, 
-        .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: #ddd;
-        }
-
-        .select2-container--default .select2-selection--single {
-            background-color: transparent;
-        }
-
-        .price-list-table td {
-            padding: 5px;
-        }
-    </style>
-
 @endsection
 
 @section('content')

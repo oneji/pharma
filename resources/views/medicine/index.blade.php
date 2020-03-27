@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
-
 @endsection
 
 @section('content')
@@ -25,7 +24,7 @@
         <form action="{{ route('medicine.store') }}" method="POST">
             @csrf
             <div class="modal-content">
-                <h5>Добавить пользователя</h5>
+                <h5>Добавить наименование</h5>
                     
                 <div class="container">
                     <div class="row">
@@ -73,7 +72,7 @@
                         <thead>
                             <tr>
                                 <th class="center-align">#</th>
-                                <th>Название</th>
+                                <th>Наименование</th>
                                 <th>Производитель</th>
                                 <th>Действия</th>
                             </tr>

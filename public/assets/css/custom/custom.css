@@ -9,3 +9,112 @@ NOTE:
 ------
 PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+/* Main layout */
+.sidenav li a.active {
+	box-shadow: none;
+}
+.modal {
+	overflow: visible;
+}
+
+/* Brands page */
+.addBrandForm {
+	float: right;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Price list page */
+.invoice-edit-wrapper .invoice-item .invoice-item-filed {
+	padding: 0 10px;
+}
+
+.my-10 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.error {
+	color: red;
+}
+
+.delete-row-btn > i {
+	font-size: 24px !important;
+}
+
+.save-btn {
+	cursor: pointer;
+}
+
+.select2-container--default .select2-selection--multiple, 
+.select2-container--default .select2-selection--single, 
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	border-color: #ddd;
+}
+
+.select2-container--default .select2-selection--single {
+	background-color: transparent !important;
+}
+
+.price-list-table td {
+	padding: 5px;
+}
+
+/* Requests page */
+.contact-checkbox > .checkbox-label {
+	margin-left: 25px;
+}
+
+.request-pl-table td {
+	padding: 0 !important;
+}
+
+.view-request-table td {
+	padding: 10px 5px !important;
+}
+
+.removed-item {
+	text-decoration: line-through;
+	color: #ccc;
+}
+
+.list-feed-item {
+	position: relative;
+	padding-bottom: 1.25rem;
+	padding-left: 1.75rem;
+}
+
+.list-feed-item:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: .31252rem;
+	background-color: #fff;
+	display: inline-block;
+	border: 2px solid #607d8b;
+	z-index: 3;
+	width: .5rem;
+	height: .5rem;
+	border-radius: 50%;
+}
+
+.list-feed-item:first-child:after {
+	top: .5rem;
+}
+
+.list-feed-item:after {
+	content: '';
+	position: absolute;
+	top: .31252rem;
+	left: .1875rem;
+	bottom: -.43752rem;
+	width: 0;
+	border-left: 1px solid #607d8b;
+	border-right: 1px solid #607d8b;
+	z-index: 2;
+}
+
+.list-feed-item:last-child {
+	padding-bottom: 0;
+}

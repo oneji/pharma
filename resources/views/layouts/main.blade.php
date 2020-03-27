@@ -13,21 +13,11 @@
     <title>@section('title')@show</title>
 
     @section('head')
-        {{-- <link rel="apple-touch-icon" href="../../../app-assets/images/favicon/apple-touch-icon-152x152.png"> --}}
-        {{-- <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/favicon/favicon-32x32.png"> --}}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">
-        <style>
-            .sidenav li a.active {
-                box-shadow: none;
-            }
-            .modal {
-                overflow: visible;
-            }
-        </style>
     @show
     
 </head>

@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        @if ($req->request_payments->count() > 0)
+                        @if ($req->request_payments->count() > 0 && Auth::user()->roles->first()->name !== 'logist')
                             <div class="col s12 m3 l3">
                                 <div class="card">
                                     <div class="card-content">

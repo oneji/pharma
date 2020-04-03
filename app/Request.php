@@ -156,7 +156,7 @@ class Request extends Model
                             'price_list_items.brand_id', 
                             'price_list_items.exp_date', 
                             'medicines.name as medicine_name', 
-                            'brands.name as brand_name',
+                            'brands.name as brand_name'
                         );
                 } 
             ])

@@ -8,6 +8,9 @@ image: php:7.2.24
 pipelines:
   default:
     - step:
+        caches:
+          - composer
         script:
-          - php artisan migrate
-          - npm run dev
+          - apt-get update && apt-get install -y unzip
+          - apt-get install -y openssh-client
+          - ssh yakub@pharma.digital.tj 'bash -s' < pipeline.sh

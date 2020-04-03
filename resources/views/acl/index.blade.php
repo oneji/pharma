@@ -46,43 +46,6 @@
             </div>
         </form>
     </div>
-    
-    <div id="addPermissionModal" class="modal" style="width: 40%">
-        <form action="{{ route('acl.storePermission') }}" method="POST" id="addPermissionForm">
-            @csrf
-            <div class="modal-content">
-                <h5>Создать право доступа</h5>
-                    
-                    <div class="container">
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input id="name" name="name" type="text" required>
-                                <label for="name">Название в БД</label>
-                            </div>
-
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input id="display_name" name="display_name" type="text">
-                                <label for="display_name">Название для пользователя</label>
-                            </div>
-
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input id="description" name="description" type="text">
-                                <label for="description">Описание</label>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="submit" class="waves-effect waves-light btn green">
-                    <span>Создать</span>
-                </button>
-            </div>
-        </form>
-    </div>
 
     <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
         <div class="container">
@@ -105,10 +68,6 @@
                     <a class="btn waves-effect waves-light breadcrumbs-btn right green mr-2 modal-trigger" href="#addRoleModal">
                         <i class="material-icons hide-on-med-and-up">add</i>
                         <span class="hide-on-small-onl">Создать роль</span>
-                    </a>
-                    <a class="btn waves-effect waves-light breadcrumbs-btn right blue mr-2 modal-trigger" href="#addPermissionModal">
-                        <i class="material-icons hide-on-med-and-up">add</i>
-                        <span class="hide-on-small-onl">Создать право доступа</span>
                     </a>
                 </div>
             </div>

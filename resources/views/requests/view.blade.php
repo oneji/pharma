@@ -19,7 +19,9 @@
                                 <div class="card-tabs">
                                     <ul class="tabs tabs-fixed-width">
                                         <li class="tab"><a href="#requestData" class="active">Заявка</a></li>
-                                        <li class="tab"><a href="#requestActions">Логи заявки</a></li>
+                                        @role('superadministrator')
+                                            <li class="tab"><a href="#requestActions">Логи заявки</a></li>
+                                        @endrole
                                     </ul>
                                 </div>
 
@@ -188,28 +190,30 @@
                                         </table>
                                     </div>
 
-                                    <div id="requestActions" style="display: block;">
-                                        <table class="striped responsive-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Лог</th>
-                                                    <th>Дата</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($reqActions as $idx => $action)
-                                                    <tr data-id="{{ $item->id }}" class="{{ $item->removed === 1 ? 'removed-item' : 0 }}">
-                                                        <td>{{ $idx + 1 }}</td>
-                                                        <td>
-                                                            <span style="font-weight: 700">{{ $action->actor_name }}</span> {{ $action->text }}
-                                                        </td>
-                                                        <td>{{ \Carbon\Carbon::parse($action->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
-                                                    </tr>                                                    
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    @role('superadministrator')
+                                        <div id="requestActions" style="display: block;">
+                                            <table class="striped responsive-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Лог</th>
+                                                        <th>Дата</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($reqActions as $idx => $action)
+                                                        <tr data-id="{{ $item->id }}" class="{{ $item->removed === 1 ? 'removed-item' : 0 }}">
+                                                            <td>{{ $idx + 1 }}</td>
+                                                            <td>
+                                                                <span style="font-weight: 700">{{ $action->actor_name }}</span> {{ $action->text }}
+                                                            </td>
+                                                            <td>{{ \Carbon\Carbon::parse($action->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
+                                                        </tr>                                                    
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endrole
                                 </div>
                             </div>
                         </div>

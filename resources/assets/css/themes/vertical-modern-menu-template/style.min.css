@@ -4932,7 +4932,8 @@ nav.display-none.search-sm .nav-wrapper form .input-field i {
 }
 
 .brand-sidebar .logo-wrapper a.brand-logo img {
-    height: 18px
+    /* height: 18px */
+    width: 100%;
 }
 
 .brand-sidebar .logo-wrapper a.navbar-toggler {
@@ -4964,12 +4965,13 @@ nav.display-none.search-sm .nav-wrapper form .input-field i {
     position: absolute;
     display: inline-block;
     margin: 1px 0;
-    padding: 22px 12px 22px 22px;
-    color: #333
+    padding: 0;
+    color: #333;
+    width: 100%;
 }
 
 .brand-sidebar .brand-logo img {
-    height: 18px
+    /* height: 18px */
 }
 
 .brand-sidebar .brand-logo.center {

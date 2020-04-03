@@ -19,12 +19,10 @@ class CheckUserChangedPassword
     {
         $currentUser = Auth::user();
 
-        if(!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        if(Auth::user()->password_changed === 0) {
-            return redirect()->route('password.edit');
+        if(Auth::check()) {
+            if(Auth::user()->password_changed === 0) {
+                return redirect()->route('password.edit');
+            }
         }
 
         return $next($request);

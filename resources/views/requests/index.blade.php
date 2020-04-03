@@ -35,12 +35,14 @@
                     </ol>
                 </div>
 
-                <div class="col s2 m6 l6">
-                    <a class="btn waves-effect waves-light breadcrumbs-btn right green" href="{{ route('requests.create') }}">
-                        <i class="material-icons hide-on-med-and-up">add</i>
-                        <span class="hide-on-small-onl">Создать заявку</span>
-                    </a>
-                </div>
+                @permission('create-requests')
+                    <div class="col s2 m6 l6">
+                        <a class="btn waves-effect waves-light breadcrumbs-btn right green" href="{{ route('requests.create') }}">
+                            <i class="material-icons hide-on-med-and-up">add</i>
+                            <span class="hide-on-small-onl">Создать заявку</span>
+                        </a>
+                    </div>
+                @endpermission
             </div>
         </div>
     </div>

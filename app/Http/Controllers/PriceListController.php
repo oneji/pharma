@@ -84,7 +84,7 @@ class PriceListController extends Controller
 
         ActionLog::create([
             'text' => ActionLog::ACTION_PRICE_LIST_CREATED,
-            'price_list_id' => $priceList
+            'price_list_id' => $priceList->id
         ]);
 
         return redirect()->route('price_lists.view', [ 'id' => $priceList->id ]);

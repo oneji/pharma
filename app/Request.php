@@ -56,7 +56,7 @@ class Request extends Model
                 ->get();
         } 
         
-        if($userRole === 'logist') {
+        if($userRole === 'logist' || $userRole === 'director') {
             return static::join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
                 ->get();

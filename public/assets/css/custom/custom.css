@@ -79,17 +79,21 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	color: #ccc;
 }
 
+.links-feed {
+	margin: 25px 0;
+}
+
 .list-feed-item {
 	position: relative;
-	padding-bottom: 1.25rem;
-	padding-left: 1.75rem;
+	padding-bottom: 10px;
+	padding-left: 20px;
 }
 
 .list-feed-item:before {
 	content: '';
 	position: absolute;
 	left: 0;
-	top: .31252rem;
+	top: .5rem;
 	background-color: #fff;
 	display: inline-block;
 	border: 2px solid #607d8b;
@@ -117,4 +121,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 .list-feed-item:last-child {
 	padding-bottom: 0;
+}
+
+.list-feed-item:last-child:after {
+	content: none;
 }

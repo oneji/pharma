@@ -185,7 +185,7 @@
                                     </div>
 
                                     <div id="requestActions" style="display: block;">
-                                        <table class="striped responsive-table request-pl-table">
+                                        <table class="striped responsive-table">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -218,16 +218,18 @@
                                             История выплат
                                             <span style="float: right">Сумма: {{ $req->payment_amount }}с.</span>
                                         </span>
-                                        @foreach ($req->request_payments as $payment)
-                                            <div class="list-feed-item display-flex flex-nowrap">
-                                                <span class="mr-3">
-                                                    {{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('D MMMM, YYYY') }}:
-                                                    <span class="badge green">{{ $payment->amount }}с.</span>
-                                                </span>
-                                            </div>
-                                        @endforeach
+                                        <div class="links-feed">
+                                            @foreach ($req->request_payments as $payment)
+                                                <div class="list-feed-item display-flex">
+                                                    <span>
+                                                        {{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('D MMMM, YYYY') }}:
+                                                        <span class="badge green">{{ $payment->amount }}с.</span>
+                                                    </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                         @if ((double)$reqPayment === (double)0)
-                                            <button type="button" class="btn btn-block btn-small green mt-2 z-depth-1">Все выплаты сделаны</button>
+                                            <button type="button" class="btn btn-block btn-small green z-depth-1">Все выплаты сделаны</button>
                                         @endif
                                     </div>
                                 </div>

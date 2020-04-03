@@ -39,6 +39,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	color: red;
 }
 
+.delete-row-btn {
+	cursor: pointer;
+}
+
 .delete-row-btn > i {
 	font-size: 24px !important;
 }

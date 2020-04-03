@@ -11,7 +11,7 @@ $(document).ready(function() {
         language: {
             search: "",
             searchPlaceholder: "Поиск",
-            lengthMenu: "Display _MENU_ записей на странице",
+            lengthMenu: "Показать _MENU_ записей на странице",
             zeroRecords: "Ничего не найдено",
             info: "Страница _PAGE_ из _PAGES_",
             infoEmpty: "Производителей не найдено",

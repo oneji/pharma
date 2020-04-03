@@ -41,43 +41,43 @@
                             <div class="row">
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">perm_identity</i>
-                                    <input id="name" name="name" type="text" class="validate">
+                                    <input id="name" name="name" type="text" class="validate" placeholder="Введите ФИО">
                                     <label for="name">ФИО</label>
                                 </div>
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">email</i>
-                                    <input id="email" name="email" type="email" class="validate">
+                                    <input id="email" name="email" type="email" class="validate" placeholder="Введите Email">
                                     <label for="email">Email</label>
                                 </div>
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">lock</i>
-                                    <input id="password" name="password" type="password" class="validate">
+                                    <input id="password" name="password" type="password" class="validate" placeholder="Введите пароль">
                                     <label for="password">Пароль</label>
                                 </div>
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">lock</i>
-                                    <input id="password_confirmation" name="password_confirmation" type="password" class="validate">
+                                    <input id="password_confirmation" name="password_confirmation" type="password" class="validate" placeholder="Подтвердите пароль">
                                     <label for="password_confirmation">Подтвердите пароль</label>
                                 </div>                                      
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">call</i>
-                                    <input name="phone" type="text" class="validate">
+                                    <input name="phone" type="text" class="validate" placeholder="Введите телефон">
                                     <label for="phone">Телефон</label>
                                 </div>
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">note</i>
-                                    <input name="note" type="text" class="validate">
+                                    <input name="note" type="text" class="validate" placeholder="Введите заметки">
                                     <label for="note">Заметки</label>
                                 </div>
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">replay_10</i>
-                                    <input name="discount_amount" type="number" min="0" max="100" class="validate" value="0">
+                                    <input name="discount_amount" type="number" min="0" max="100" class="validate" value="0" placeholder="Введите процент скидки">
                                     <label for="discount_amount">Скидка %</label>
                                 </div>
 

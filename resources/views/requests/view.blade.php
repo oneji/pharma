@@ -150,7 +150,7 @@
                                                         <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                         <td class="display-flex align-items-center quantity-cell">
                                                             @if ((int)$item->changed_quantity === 0)
-                                                                @if ($req->status === 'sent' || $req->status === 'under_revision' || $req->status === 'being_prepared' || $req->status === 'shipped')
+                                                                @if ($req->status === 'sent' || $req->status === 'under_revision' || $req->status === 'being_prepared' || $req->status === 'shipped' || $req->status === 'paid')
                                                                     {{ $item->quantity }}
                                                                 @endif
                                                             @endif
@@ -168,6 +168,10 @@
 
                                                                 @if ($req->status === 'shipped')
                                                                     {{ $item->quantity }}
+                                                                @endif
+
+                                                                @if ($req->status === 'paid')
+                                                                    {{ $item->changed_quantity }}
                                                                 @endif
                                                             @endif
                                                         </td>

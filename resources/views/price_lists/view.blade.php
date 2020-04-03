@@ -83,12 +83,14 @@
                                             <span>Распечатать</span>
                                         </a>
                                     </div>
-                                    <div class="invoice-action-btn">
-                                        <a href="{{ route('price_lists.edit', [ 'id' => $priceList['id'] ]) }}"
-                                            class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                            <span>Изменить прайс лист</span>
-                                        </a>
-                                    </div>
+                                    @permission('update-price-lists')
+                                        <div class="invoice-action-btn">
+                                            <a href="{{ route('price_lists.edit', [ 'id' => $priceList['id'] ]) }}"
+                                                class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                                <span>Изменить прайс лист</span>
+                                            </a>
+                                        </div>
+                                    @endpermission
                                     {{-- <div class="invoice-action-btn">
                                         <a href="#"
                                             class="btn waves-effect waves-light display-flex align-items-center justify-content-center">

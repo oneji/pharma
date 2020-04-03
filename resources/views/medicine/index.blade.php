@@ -30,8 +30,8 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">playlist_add</i>
-                            <input required name="name" type="text" class="validate">
-                            <label for="name" data-error="wrong" data-success="right">Название</label>
+                            <input required name="name" type="text" class="validate" placeholder="Введите наименование">
+                            <label for="name" data-error="wrong" data-success="right">Наименование</label>
                         </div>
 
                         <div class="input-field col s12">
@@ -64,7 +64,7 @@
                     <a href="#addMedicineModal"
                         class="btn waves-effect waves-light border-round z-depth-1 modal-trigger">
                         <i class="material-icons">add</i>
-                        <span class="hide-on-small-only">Добавить товар</span>
+                        <span class="hide-on-small-only">Добавить наименование</span>
                     </a>
                 </div>
                 <div class="responsive-table">

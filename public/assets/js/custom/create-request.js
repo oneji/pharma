@@ -1,10 +1,11 @@
 $(document).ready(function() {
     $('.choose-pl-item').change(function() {
+        console.log('checked')
         var totalPrice = 0;
         var discountPrice = 0;
         var discountAmount = 0;
         
-
+        $('.request-pl-item-quantity').removeAttr('required');
         $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
             var itemPrice = Number($(this).data('price'));
             discountAmount = Number($(this).data('discount'))
@@ -58,6 +59,7 @@ $(document).ready(function() {
                 var requestData = [];
 
                 $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+                    console.log('2', $(this))
                     var itemId = $(this).data('item-id');
                     var itemQuantity = $(this).parent().parent().parent().find('.request-pl-item-quantity').val();
 
@@ -96,6 +98,7 @@ $(document).ready(function() {
         var formControlsIds = [];
 
         $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+            console.log($(this))
             var controlId = $(this).data('item-id');
             if(controlId !== undefined && controlId !== '_token') {
                 formControlsIds.push(controlId);
@@ -126,6 +129,13 @@ $(document).ready(function() {
     }
 
     $('.request-pl-item-quantity').focus(function() {
+        $('.request-pl-item-quantity').removeAttr('required');
+        
         $(this).parent().parent().find('.choose-pl-item').attr('checked', 'checked');
+
+        $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+            $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+        });
+        
     });
 });

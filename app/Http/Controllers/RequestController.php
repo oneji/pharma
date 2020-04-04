@@ -66,14 +66,13 @@ class RequestController extends Controller
         }
 
         $itemIds = [];
-
         foreach ($request->data as $item) {
             if($item['id'] !== null) {
                 $itemIds[] = $item['id'];
             }
         }
 
-        $paymentAmount = RequestModel::setPaymentAmount($itemIds);
+        $paymentAmount = RequestModel::setPaymentAmount($itemIds, $request->data);
         
         $req = RequestModel::createRequest([
             'payment_amount' => $paymentAmount

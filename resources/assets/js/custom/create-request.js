@@ -1,25 +1,24 @@
 $(document).ready(function() {
     $('.choose-pl-item').change(function() {
-        console.log('checked')
-        var totalPrice = 0;
-        var discountPrice = 0;
-        var discountAmount = 0;
+        // var totalPrice = 0;
+        // var discountPrice = 0;
+        // var discountAmount = 0;
         
         $('.request-pl-item-quantity').removeAttr('required');
-        $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
-            var itemPrice = Number($(this).data('price'));
-            discountAmount = Number($(this).data('discount'))
+        // $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+        //     var itemPrice = Number($(this).data('price'));
+        //     discountAmount = Number($(this).data('discount'))
 
-            $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+        //     $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
 
-            totalPrice += Number(itemPrice);
-        });
+        //     totalPrice += Number(itemPrice);
+        // });
 
-        var totalPriceDiscount = Number((totalPrice * discountAmount) / 100);
+        // var totalPriceDiscount = Number((totalPrice * discountAmount) / 100);
         
-        $('.request-total-price').html(totalPrice + 'с.');
-        $('.request-discount-amount').html('- ' + totalPriceDiscount + 'c.');
-        $('.request-total-discount-price').html(Number(totalPrice) - Number(totalPriceDiscount) + 'с.');
+        // $('.request-total-price').html(totalPrice + 'с.');
+        // $('.request-discount-amount').html('- ' + totalPriceDiscount + 'c.');
+        // $('.request-total-discount-price').html(Number(totalPrice) - Number(totalPriceDiscount) + 'с.');
     });
 
     $('.show-chosen-btn').click(function() {
@@ -80,6 +79,7 @@ $(document).ready(function() {
                         data: requestData
                     },
                     success: function (data) {
+                        console.log(data);
                         if(data.ok) {
                             window.location.href = '/requests/view/' + data.request.id;
                         } else {
@@ -135,7 +135,29 @@ $(document).ready(function() {
 
         $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
             $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+        }); 
+    });
+
+    $('.request-pl-item-quantity').change(function() {
+        
+        var totalPrice = 0;
+        var discountPrice = 0;
+        var discountAmount = 0;
+
+        $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
+            var itemPrice = Number($(this).data('price'));
+            discountAmount = Number($(this).data('discount'))
+
+            $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
+
+            totalPrice += Number(itemPrice * $(this).parent().parent().parent().find('.request-pl-item-quantity').val());
         });
+
+        var totalPriceDiscount = Number((totalPrice * discountAmount) / 100);
+        
+        $('.request-total-price').html(totalPrice + 'с.');
+        $('.request-discount-amount').html('- ' + totalPriceDiscount + 'c.');
+        $('.request-total-discount-price').html(Number(totalPrice) - Number(totalPriceDiscount) + 'с.');
         
     });
 });

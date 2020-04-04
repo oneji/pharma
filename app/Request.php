@@ -9,6 +9,7 @@ use App\ActionLog;
 
 class Request extends Model
 {
+    // Request statuses
     const STATUS_UNDER_REVISION = 'under_revision';
     const STATUS_SENT = 'sent';
     const STATUS_WRITTEN_OUT = 'written_out';
@@ -16,6 +17,12 @@ class Request extends Model
     const STATUS_SHIPPED = 'shipped';
     const STATUS_PAID = 'paid';
     const STATUS_CANCELLED = 'cancelled';
+
+    // Request priorities
+    const PRIORITY_HIGH = 1;
+    const PRIORITY_MEDIUM = 2;
+    const PRIORITY_LOW = 3;
+
     /**
      * Get the payments for the request.
      */
@@ -71,12 +78,21 @@ class Request extends Model
     /**
      * 
      */
-    public static function setPaymentAmount($items)
+    public static function setPaymentAmount($items, $data)
     {
-        $paymentAmount = PriceListItem::whereIn('id', $items)->sum('price');
+        $paymentAmount = 0; 
+        $plItems = PriceListItem::whereIn('id', $items)->get();
         $discountAmount = Auth::user()->discount_amount;
 
-        return $paymentAmount - (($paymentAmount * $discountAmount) / 100);
+        foreach ($plItems as $key => $plItem) {
+            foreach ($data as $key => $item) {
+                if((int)$plItem->id === (int)$item['id']) {
+                    $paymentAmount += ((int)$plItem->price * (int)$item['quantity']);
+                }
+            }
+        }
+
+        return $paymentAmount;
     }
 
     /**

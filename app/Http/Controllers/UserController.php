@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Role;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use App\User;
+use App\Role;
+use App\Company;
 
 class UserController extends Controller
 {
@@ -25,11 +26,13 @@ class UserController extends Controller
         $users = User::getAllUsers();
         $roles = Role::all();
         $managers = User::getManagers();
+        $companies = Company::all();
 
         return view('users.index', [ 
             'users' => $users, 
             'roles' => $roles,
-            'managers' => $managers
+            'managers' => $managers,
+            'companies' => $companies
         ]);
     }
 
@@ -59,7 +62,8 @@ class UserController extends Controller
             'note' => $request->note,
             'discount_amount' => $request->discount_amount,
             'role' => $request->role,
-            'responsible_manager_id' => $request->responsible_manager_id
+            'responsible_manager_id' => $request->responsible_manager_id,
+            'company_id' => $request->company_id
         ]);
 
         return redirect()->route('users.index');
@@ -85,15 +89,19 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::all();
-        $managers = User::getManagers();
 
         if(!$user) return abort(404);
+        
+        $roles = Role::all();
+        $managers = User::getManagers();
+        $companies = Company::all();
+
 
         return view('users.edit', [ 
             'user' => $user,
             'roles' => $roles,
-            'managers' => $managers
+            'managers' => $managers,
+            'companies' => $companies
         ]);
     }
 
@@ -114,7 +122,8 @@ class UserController extends Controller
             'discount_amount' => $request->discount_amount,
             'status' => $request->status,
             'role' => $request->role,
-            'responsible_manager_id' => $request->responsible_manager_id
+            'responsible_manager_id' => $request->responsible_manager_id,
+            'company_id' => $request->company_id
         ], $id);
 
         return redirect()->route('users.edit', [ 'user' => $id ]);

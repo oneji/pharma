@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="input-field">
-                                <i class="material-icons prefix">playlist_add</i>
+                                <i class="material-icons prefix">all_inbox</i>
                                 <input required name="name" type="text" class="validate" placeholder="Введите производителя">
                                 <label for="name" data-error="wrong" data-success="right">Производитель</label>
                             </div>

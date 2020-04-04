@@ -9,7 +9,7 @@ $(document).ready(function() {
         dom: '<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>',
         language: {
             search: "",
-            searchPlaceholder: "Поиск по производителю",
+            searchPlaceholder: "Поиск",
             lengthMenu: "Показать _MENU_ записей на странице",
             zeroRecords: "Ничего не найдено",
             info: "Страница _PAGE_ из _PAGES_",

@@ -83,6 +83,16 @@
                                         </div>
                                         
                                         <div class="col s12 m6 l6 xl6 input-field">
+                                            <select name="company_id">
+                                                <option value="" selected disabled>Выберите компанию</option>
+                                                @foreach ($companies as $company)
+                                                    <option {{ $user->company_id === $company->id ? 'selected' : null }} value="{{ $company->id }}">{{ $company->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <label>Компания</label>
+                                        </div>
+
+                                        <div class="col s12 m6 l6 xl6 input-field">
                                             <select name="role">
                                                 @foreach ($roles as $role)
                                                     <option {{ $user->roles->first()->id === $role->id ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Товары
+    Компании
 @endsection
 
 @section('head')
@@ -14,8 +14,8 @@
 
 @section('content')
 
-    <div id="addMedicineModal" class="modal" style="width: 40%">
-        <form action="{{ route('medicine.store') }}" method="POST">
+    <div id="addCompanyModal" class="modal" style="width: 40%">
+        <form action="{{ route('companies.store') }}" method="POST">
             @csrf
             <div class="modal-content">
                 <h5>Добавить наименование</h5>
@@ -24,18 +24,8 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">all_inbox</i>
-                            <input required name="name" type="text" class="validate" placeholder="Введите наименование">
-                            <label for="name" data-error="wrong" data-success="right">Наименование</label>
-                        </div>
-
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">business</i>
-                            <select id="brand_id" name="brand_id">
-                                @foreach ($brands as $idx => $brand)
-                                    <option {{ $idx === 0 ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                @endforeach
-                            </select>
-                            <label for="brand_id">Производитель</label>
+                            <input required name="name" type="text" class="validate" placeholder="Введите компанию">
+                            <label for="name" data-error="wrong" data-success="right">Название компании</label>
                         </div>
                     </div>
                 </div>
@@ -53,12 +43,12 @@
         <div class="container">
 
             <section class="invoice-list-wrapper section">
-                <!-- create brand button-->
+                <!-- create company button-->
                 <div class="invoice-create-btn">
-                    <a href="#addMedicineModal"
+                    <a href="#addCompanyModal"
                         class="btn waves-effect waves-light border-round z-depth-1 modal-trigger">
                         <i class="material-icons">add</i>
-                        <span class="hide-on-small-only">Добавить наименование</span>
+                        <span class="hide-on-small-only">Добавить компанию</span>
                     </a>
                 </div>
                 <div class="responsive-table">
@@ -66,18 +56,16 @@
                         <thead>
                             <tr>
                                 <th class="center-align">#</th>
-                                <th>Наименование</th>
-                                <th>Производитель</th>
+                                <th>Компания</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($medicine as $idx => $med)
+                            @foreach ($companies as $idx => $company)
                                 <tr>
                                     <td class="center-align">{{ $idx + 1 }}</td>
-                                    <td>{{ $med->medicine_name }}</td>
-                                    <td>{{ $med->brand_name }}</td>
+                                    <td>{{ $company->name }}</td>
                                     <td>
                                         <div class="invoice-action">
                                             <a href="app-invoice-edit.html" class="invoice-action-edit">
@@ -104,5 +92,5 @@
     <script src="{{ asset('assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/data-tables/js/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/advance-ui-modals.min.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/medicine.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/companies.js') }}"></script>
 @endsection

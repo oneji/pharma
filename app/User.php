@@ -38,7 +38,10 @@ class User extends Authenticatable
      */
     public static function getAllUsers()
     {
-        return static::where('id', '<>', Auth::user()->id)->get();
+        return static::where('users.id', '<>', Auth::user()->id)
+            ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
+            ->select('users.*', 'companies.name as company_name')
+            ->get();
     }
     /**
      * 
@@ -53,6 +56,7 @@ class User extends Authenticatable
         $user->note = $userData['note'];
         $user->discount_amount = $userData['discount_amount'];
         $user->responsible_manager_id = $userData['responsible_manager_id'];
+        $user->company_id = $userData['company_id'];
         $user->save();
 
         // Attach role the user
@@ -74,6 +78,7 @@ class User extends Authenticatable
         $user->discount_amount = $userData['discount_amount'];
         $user->status = $userData['status'];
         $user->responsible_manager_id = $userData['responsible_manager_id'];
+        $user->company_id = $userData['company_id'];
         $user->save();
 
         // Detach the user's roles

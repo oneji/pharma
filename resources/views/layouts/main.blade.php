@@ -114,6 +114,8 @@
                         @permission('read-medicines')
                             <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
                         @endpermission
+
+                        <li><a class="{{ Route::currentRouteName() === 'companies.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('companies.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Компании</span></a></li>
                     </ul>
                 </div>
             </li>

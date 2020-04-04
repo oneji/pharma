@@ -70,6 +70,17 @@
                                 </div>
 
                                 <div class="input-field col s6">
+                                    <i class="material-icons prefix">business</i>
+                                    <select name="company_id">
+                                        <option value="" selected>Не выбран</option>
+                                        @foreach ($companies as $company)
+                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="role">Компания</label>
+                                </div>
+
+                                <div class="input-field col s6">
                                     <i class="material-icons prefix">note</i>
                                     <input name="note" type="text" class="validate" placeholder="Введите заметки">
                                     <label for="note">Заметки</label>
@@ -111,7 +122,7 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="waves-effect waves-light btn green">
-                        <span>Добавить пользователя</span>
+                        <span>Добавить</span>
                     </button>
                 </div>
             </form>
@@ -146,6 +157,7 @@
                                             <th>ФИО</th>
                                             <th>Email</th>
                                             <th>Телефон</th>
+                                            <th>Компания</th>
                                             <th>Заметки</th>
                                             <th>Скидка %</th>
                                             <th>Роль</th>
@@ -160,6 +172,7 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->company_name }}</td>
                                             <td>{{ $user->note }}</td>
                                             <td>{{ $user->discount_amount }}</td>
                                             <td><span class="badge blue">{{ $user->roles->first()->display_name }}</span></td>

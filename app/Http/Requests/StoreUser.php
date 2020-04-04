@@ -31,7 +31,8 @@ class StoreUser extends FormRequest
             'note' => 'nullable',
             'discount_amount' => 'integer|nullable',
             'role' => 'required',
-            'responsible_manager_id' => 'nullable'
+            'responsible_manager_id' => 'nullable',
+            'company_id' => 'nullable'
         ];
     }
 }

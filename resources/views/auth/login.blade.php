@@ -48,13 +48,14 @@
                                         
                                     @endif
                                 </div>
+                            </div>
+                            <div class="row margin">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">person_outline</i>
                                     <input id="email" type="text" name="email" value="{{ old('email') }}" placeholder="Введите email">
                                     <label for="email" class="center-align">Email</label>
                                 </div>
-                            </div>
-                            <div class="row margin">
+
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">lock_outline</i>
                                     <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Введите пароль">

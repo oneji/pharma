@@ -26,4 +26,17 @@ class RequestPayment extends Model
         $payment->user_id = Auth::user()->id;
         $payment->save();
     }
+
+    /**
+     * Determine total payment amount for one request
+     */
+    public static function getTotalPaymentAmount($payments)
+    {
+        $paymentsTotalSum = 0;
+        foreach ($payments as $payment) {
+            $paymentsTotalSum += (double)$payment->amount; 
+        }
+
+        return $paymentsTotalSum;
+    }
 }

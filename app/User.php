@@ -36,6 +36,14 @@ class User extends Authenticatable
     /**
      * 
      */
+    public function requests()
+    {
+        return $this->hasMany('App\Request');
+    }
+
+    /**
+     * 
+     */
     public static function getAllUsers()
     {
         return static::where('users.id', '<>', Auth::user()->id)

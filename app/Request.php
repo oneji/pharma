@@ -38,6 +38,14 @@ class Request extends Model
     {
         return $this->hasMany('App\RequestItem');
     }
+
+    /**
+     * The request that belongs to the user.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
     
     /**
      * 
@@ -61,14 +69,14 @@ class Request extends Model
                 ->orWhere('user_id', $user->id)
                 ->join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
-                ->orderBy('priority', 'asc')
+                ->orderBy('priority', 'desc')
                 ->get();
         } 
         
         if($userRole === 'logist' || $userRole === 'director') {
             return static::join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
-                ->orderBy('priority', 'asc')
+                ->orderBy('priority', 'desc')
                 ->get();
         }
 
@@ -76,14 +84,14 @@ class Request extends Model
             return static::where('requests.status', static::STATUS_SHIPPED)
                 ->join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
-                ->orderBy('priority', 'asc')
+                ->orderBy('priority', 'desc')
                 ->get();
         }
 
         return static::where('user_id', $user->id)
             ->join('users', 'users.id', '=', 'requests.user_id')
             ->select('users.name as username', 'requests.*')
-            ->orderBy('priority', 'asc')
+            ->orderBy('priority', 'desc')
             ->get();
     }
 
@@ -302,24 +310,30 @@ class Request extends Model
      */
     public static function getUnpaid()
     {
-        $requests = static::all();
+        $users = User::whereHas('requests')->with([
+            'requests' => function($query) {
+                $query->where('status', '<>', 'paid')->with('request_payments');
+            }
+        ])->get();
 
         $unpaidRequests = [];
-        foreach ($requests as $key => $req) {
-            $paymentsTotalSum = 0;
-            foreach ($req->request_payments as $key2 => $payment) {
-                $paymentsTotalSum += (double)$payment->amount;
-            }
+        foreach ($users as $user) {
+            $user->debt_amount = (double) 0;
+            $user->paid_amount = (double) 0;
 
-            if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
-                $unpaidRequests[] = [
-                    'req' => $req,
-                    'debtAmount' => (double) $req->payment_amount - (double) $paymentsTotalSum
-                ];
-                
+            foreach ($user->requests as $req) {
+                $paymentsTotalSum = RequestPayment::getTotalPaymentAmount($req->request_payments);
+
+                // Determine if the request has debt amount
+                if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
+                    $requestDebtAmount = (double) $req->payment_amount - (double) $paymentsTotalSum;
+                    $req->debt_amount = (double) $requestDebtAmount;
+                    $user->debt_amount += (double) $requestDebtAmount;
+                    $user->paid_amount += (double) $paymentsTotalSum; 
+                }
             }
         }
 
-        return $unpaidRequests;
+        return $users;
     }
 }

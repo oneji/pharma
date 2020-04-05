@@ -12,6 +12,9 @@
 */
 Auth::routes();
 
+Route::get('new-client', 'ClientController@newClient')->name('newClient.index');
+Route::post('new-client', 'ClientController@saveRequest')->name('newClient.saveRequest');
+
 Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 

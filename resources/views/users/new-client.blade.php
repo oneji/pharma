@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Kamilov T">
-    <title>Войти</title>
+    <title>Оставить заявку</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo/logo.ico') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
@@ -23,50 +23,51 @@
             <div class="container">
                 <div id="login-page" class="row">
                     <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
-                        <form class="login-form" method="POST" action="{{ route('login') }}" id="formValidate">
+                        <form class="login-form" method="POST" action="{{ route('newClient.saveRequest') }}" id="formValidate">
                             @csrf
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <h5 class="ml-4">Вход</h5>
+                                    <h5 class="ml-4">Оставьте заявку</h5>
                                 </div>
                             </div>
                             <div class="row margin">
-                                <div class="card-alert card red">
-                                    @if (Session::has('user.notfound'))
+                                <div class="card-alert card success">
+                                    @if (Session::has('success'))
                                         <div class="card-content white-text">
                                             <p>
-                                                <i class="material-icons">error</i> {{ Session::get('user.notfound') }}
+                                                <i class="material-icons">check</i> {{ Session::get('success') }}
                                             </p>
                                         </div>
-                                        
                                     @endif
-                                </div>
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix pt-2">person_outline</i>
-                                    <input id="email" type="text" name="email" value="{{ old('email') }}" placeholder="Введите email">
-                                    <label for="email" class="center-align">Email</label>
                                 </div>
                             </div>
                             <div class="row margin">
                                 <div class="input-field col s12">
-                                    <i class="material-icons prefix pt-2">lock_outline</i>
-                                    <input id="password" type="password" name="password" value="{{ old('password') }}" placeholder="Введите пароль">
-                                    <label for="password">Пароль</label>
+                                    <i class="material-icons prefix pt-2">person_outline</i>
+                                    <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Введите ФИО">
+                                    <label for="name" class="center-align">ФИО</label>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m12 l12 ml-2 mt-1">
-                                    <p>
-                                        <label>
-                                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
-                                            <span>Запомнить меня</span>
-                                        </label>
-                                    </p>
+
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">phone</i>
+                                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}" placeholder="Введите номер телефона">
+                                    <label for="phone">Номер телефона</label>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">phone</i>
+                                    <select name="company_id">
+                                        <option value="" selected>Нет компании</option>
+                                        @foreach ($companies as $company)
+                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="phone">Компания</label>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="input-field col s12">
-                                    <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Войти</button>
+                                    <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Отправить</button>
                                 </div>
                             </div>
                         </form>
@@ -86,23 +87,20 @@
 
             $("#formValidate").validate({
                 rules: {
-                    email: {
+                    name: {
                         required: true,
-                        email: true
                     },
-                    password: {
+                    phone: {
                         required: true,
-                        minlength: 5
                     }
                 },
                 //For custom messages
                 messages: {
-                    email: {
-                        required: 'Поле "Email" обязательное.',
+                    name: {
+                        required: 'Поле "ФИО" обязательное.',
                     },
-                    password: {
-                        required: 'Поле "Пароль" обязательное.',
-                        minlength: "Введите минимум 6 символов."
+                    phone: {
+                        required: 'Поле "Номер телефона" обязательное.',
                     },
                 },
                 errorElement: 'div',

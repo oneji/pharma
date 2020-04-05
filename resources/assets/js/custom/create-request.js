@@ -1,24 +1,6 @@
 $(document).ready(function() {
     $('.choose-pl-item').change(function() {
-        // var totalPrice = 0;
-        // var discountPrice = 0;
-        // var discountAmount = 0;
-        
         $('.request-pl-item-quantity').removeAttr('required');
-        // $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
-        //     var itemPrice = Number($(this).data('price'));
-        //     discountAmount = Number($(this).data('discount'))
-
-        //     $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
-
-        //     totalPrice += Number(itemPrice);
-        // });
-
-        // var totalPriceDiscount = Number((totalPrice * discountAmount) / 100);
-        
-        // $('.request-total-price').html(totalPrice + 'с.');
-        // $('.request-discount-amount').html('- ' + totalPriceDiscount + 'c.');
-        // $('.request-total-discount-price').html(Number(totalPrice) - Number(totalPriceDiscount) + 'с.');
     });
 
     $('.show-chosen-btn').click(function() {
@@ -76,7 +58,8 @@ $(document).ready(function() {
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
-                        data: requestData
+                        data: requestData,
+                        priority: $('#request_priority').val()
                     },
                     success: function (data) {
                         console.log(data);

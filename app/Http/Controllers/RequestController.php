@@ -19,6 +19,9 @@ class RequestController extends Controller
     public function index()
     {
         $requests = RequestModel::getAll();
+        $unpaidRequests = RequestModel::getUnpaid();
+
+        // return $requests;
 
         return view('requests.index', [
             'requests' => $requests
@@ -75,7 +78,8 @@ class RequestController extends Controller
         $paymentAmount = RequestModel::setPaymentAmount($itemIds, $request->data);
         
         $req = RequestModel::createRequest([
-            'payment_amount' => $paymentAmount
+            'payment_amount' => $paymentAmount,
+            'priority' => $request->priority
         ], $request->data);
 
         ActionLog::create([

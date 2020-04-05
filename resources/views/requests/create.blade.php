@@ -23,7 +23,7 @@
                                             <div class="col s12 m8 l8 ml-0">
                                                 <h4 class="indigo-text">Создание заявки</h4>
                                             </div>
-    
+
                                             <div class="col s12 m4 l4 ml-0">
                                                 <button type="button" class="btn btn-small indigo waves-effect waves-light show-chosen-btn" style="float: right">Показать выбранные</button>
                                             </div>
@@ -74,7 +74,15 @@
                                         <div class="divider mt-3"></div>
     
                                         <div class="row">
-                                            <div class="col xl4 m7 s12 offset-xl8">
+                                            <div class="input-field col m5 s12 xl4 mt-2">
+                                                <select name="priority" id="request_priority">
+                                                    <option value="1">Высокий</option>
+                                                    <option value="2" selected>Средний</option>
+                                                    <option value="3">Низкий</option>
+                                                </select>
+                                                <label>Приоритет заявки</label>
+                                            </div>
+                                            <div class="col m7 s12 xl4 offset-xl4">
                                                 <ul>
                                                     <li class="display-flex justify-content-between">
                                                         <span class="request-subtotal-title">Общая цена</span>

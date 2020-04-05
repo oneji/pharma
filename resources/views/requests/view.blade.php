@@ -18,7 +18,7 @@
                             <div class="card">
                                 <div class="card-tabs">
                                     <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a href="#requestData" class="active">Заявка</a></li>
+                                        <li class="tab"><a href="#requestData" class="active">Заявка №{{ $req->id }}</a></li>
                                         @role('superadministrator')
                                             <li class="tab"><a href="#requestActions">Логи заявки</a></li>
                                         @endrole
@@ -68,6 +68,18 @@
 
                                                 @if ($req->status === 'cancelled')
                                                     <span class="badge red">Отменена</span>
+                                                @endif
+
+                                                @if($req->priority === 1)
+                                                    <span class="badge green">Высокий приоритет</span>
+                                                @endif
+
+                                                @if ($req->priority === 2)
+                                                    <span class="badge orange">Средний приоритет</span>
+                                                @endif
+
+                                                @if ($req->priority === 3)
+                                                    <span class="badge red">Низкий приоритет</span>
                                                 @endif
                                             </div>
 

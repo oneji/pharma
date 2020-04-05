@@ -50,6 +50,7 @@ class Request extends Model
         if($userRole === 'head_manager' || $userRole === 'superadministrator') {
             return static::join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
+                ->orderBy('priority', 'asc')
                 ->get();
         }
 
@@ -60,18 +61,29 @@ class Request extends Model
                 ->orWhere('user_id', $user->id)
                 ->join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
+                ->orderBy('priority', 'asc')
                 ->get();
         } 
         
-        if($userRole === 'logist' || $userRole === 'director' || $userRole === 'cashier') {
+        if($userRole === 'logist' || $userRole === 'director') {
             return static::join('users', 'users.id', '=', 'requests.user_id')
                 ->select('users.name as username', 'requests.*')
+                ->orderBy('priority', 'asc')
+                ->get();
+        }
+
+        if($userRole === 'cashier') {
+            return static::where('requests.status', static::STATUS_SHIPPED)
+                ->join('users', 'users.id', '=', 'requests.user_id')
+                ->select('users.name as username', 'requests.*')
+                ->orderBy('priority', 'asc')
                 ->get();
         }
 
         return static::where('user_id', $user->id)
             ->join('users', 'users.id', '=', 'requests.user_id')
             ->select('users.name as username', 'requests.*')
+            ->orderBy('priority', 'asc')
             ->get();
     }
 
@@ -114,6 +126,7 @@ class Request extends Model
         $req = new Request();
         $req->payment_amount = $data['payment_amount'];
         $req->user_id = Auth::user()->id;
+        $req->priority = $data['priority'];
         $req->save();
 
         // Save items
@@ -282,5 +295,31 @@ class Request extends Model
         $req->save();
 
         return $req;
+    }
+
+    /**
+     * 
+     */
+    public static function getUnpaid()
+    {
+        $requests = static::all();
+
+        $unpaidRequests = [];
+        foreach ($requests as $key => $req) {
+            $paymentsTotalSum = 0;
+            foreach ($req->request_payments as $key2 => $payment) {
+                $paymentsTotalSum += (double)$payment->amount;
+            }
+
+            if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
+                $unpaidRequests[] = [
+                    'req' => $req,
+                    'debtAmount' => (double) $req->payment_amount - (double) $paymentsTotalSum
+                ];
+                
+            }
+        }
+
+        return $unpaidRequests;
     }
 }

@@ -60,6 +60,7 @@
                                             <th>№ заявки</th>
                                             <th>Сумма долга</th>
                                             <th>Статус</th>
+                                            <th>Приоритет</th>
                                             <th>Создал</th>
                                             <th>Действия</th>
                                         </tr>
@@ -98,6 +99,19 @@
 
                                                 @if ($req->status === 'cancelled')
                                                     <span class="badge red">Отменена</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($req->priority === 1)
+                                                    <span class="badge green">Высокий</span>
+                                                @endif
+
+                                                @if ($req->priority === 2)
+                                                    <span class="badge orange">Средний</span>
+                                                @endif
+
+                                                @if ($req->priority === 3)
+                                                    <span class="badge red">Низкий</span>
                                                 @endif
                                             </td>
                                             <td>{{ $req->username }}</td>

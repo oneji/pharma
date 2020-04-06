@@ -52,7 +52,7 @@ class UserController extends Controller
     {
         User::createUser([
             'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username,
             'password' => $request->password,
             'phone' => $request->phone,
             'note' => $request->note,
@@ -112,7 +112,7 @@ class UserController extends Controller
     {
         User::updateUser([
             'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username,
             'phone' => $request->phone,
             'note' => $request->note,
             'discount_amount' => $request->discount_amount,

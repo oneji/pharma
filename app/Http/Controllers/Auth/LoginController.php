@@ -41,23 +41,28 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function username()
+    {
+        return 'username';
+    }
+
     /**
      * 
      */
     public function login(Request $request)
     {
         $credentials = [
-            'email' => $request->email,
+            'username' => $request->username,
             'password' => $request->password
         ];
 
-        $user = User::where('email', $credentials['email'])->where('status', 1);
+        $user = User::where('username', $credentials['username'])->where('status', 1);
         
         if(!$user->exists()) {
             Session::flash('user.notfound', 'Пользователь не найден.');
 
             return redirect()->route('login')->withInput([
-                'email' => $request->email
+                'username' => $request->username
             ]);
         }   
 
@@ -66,7 +71,7 @@ class LoginController extends Controller
         }
         
         return redirect()->route('login')->withInput([
-            'email' => $request->email
+            'username' => $request->username
         ])->withErrors([
             'password' => 'Неверный пароль.'
         ]);

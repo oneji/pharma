@@ -8,22 +8,14 @@
     <meta name="keywords" content="">
     <meta name="author" content="Kamilov T">
     <title>Войти</title>
-    {{-- <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon/apple-touch-icon-152x152.png') }}"> --}}
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/favicon-32x32.png') }}"> --}}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo/logo.ico') }}" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- BEGIN: VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
-    <!-- END: VENDOR CSS-->
-    <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/login.css') }}">
-    <!-- END: Page Level CSS-->
-    <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">
-    <!-- END: Custom CSS-->
 </head>
-  <!-- END: Head-->
 <body class="vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu preload-transitions 1-column login-bg   blank-page blank-page" data-open="click" data-menu="vertical-modern-menu" data-col="1-column">
     <div class="row">
         <div class="col s12">
@@ -45,15 +37,22 @@
                                                 <i class="material-icons">error</i> {{ Session::get('user.notfound') }}
                                             </p>
                                         </div>
-                                        
+                                    @endif
+
+                                    @if ($errors->any())
+                                        <div class="card-content white-text">
+                                            @foreach ($errors->all() as $error)
+                                                <p><i class="material-icons">error</i> {{ $error }}</p>
+                                            @endforeach
+                                        </div>
                                     @endif
                                 </div>
                             </div>
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">person_outline</i>
-                                    <input id="email" type="text" name="email" value="{{ old('email') }}" placeholder="Введите email">
-                                    <label for="email" class="center-align">Email</label>
+                                    <input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="Введите имя пользователя">
+                                    <label for="username" class="center-align">Имя пользователя</label>
                                 </div>
 
                                 <div class="input-field col s12">
@@ -85,18 +84,8 @@
         </div>
     </div>
 
-    <!-- BEGIN VENDOR JS-->
     <script src="{{ asset('assets/js/vendors.min.js') }}"></script>
-    <!-- BEGIN VENDOR JS-->
-    <!-- BEGIN PAGE VENDOR JS-->
-    <!-- END PAGE VENDOR JS-->
-    <!-- BEGIN THEME  JS-->
     <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/search.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/js/custom/custom-script.min.js') }}"></script> --}}
-    <!-- END THEME  JS-->
-    <!-- BEGIN PAGE LEVEL JS-->
-    <!-- END PAGE LEVEL JS-->
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <script>
@@ -104,9 +93,8 @@
 
             $("#formValidate").validate({
                 rules: {
-                    email: {
+                    username: {
                         required: true,
-                        email: true
                     },
                     password: {
                         required: true,
@@ -115,8 +103,8 @@
                 },
                 //For custom messages
                 messages: {
-                    email: {
-                        required: 'Поле "Email" обязательное.',
+                    username: {
+                        required: 'Поле "Имя пользователя" обязательное.',
                     },
                     password: {
                         required: 'Поле "Пароль" обязательное.',

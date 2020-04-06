@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'note'
+        'name', 'username', 'password', 'phone', 'note'
     ];
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable
     {
         $user = new User();
         $user->name = $userData['name'];
-        $user->email = $userData['email'];
+        $user->username = $userData['username'];
         $user->password = Hash::make($userData['password']);
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
@@ -80,7 +80,7 @@ class User extends Authenticatable
     {
         $user = User::find($id);
         $user->name = $userData['name'];
-        $user->email = $userData['email'];
+        $user->username = $userData['username'];
         $user->phone = $userData['phone'];
         $user->note = $userData['note'];
         $user->discount_amount = $userData['discount_amount'];

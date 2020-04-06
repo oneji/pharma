@@ -46,9 +46,9 @@
                                 </div>
 
                                 <div class="input-field col s6">
-                                    <i class="material-icons prefix">email</i>
-                                    <input id="email" name="email" type="email" class="validate" placeholder="Введите Email">
-                                    <label for="email">Email</label>
+                                    <i class="material-icons prefix">perm_identity</i>
+                                    <input id="username" name="username" type="text" class="validate" placeholder="Введите имя пользователя">
+                                    <label for="username">Имя пользователя</label>
                                 </div>
 
                                 <div class="input-field col s6">

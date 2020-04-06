@@ -113,10 +113,10 @@ class RequestController extends Controller
             'request_id' => $request->request_id
         ]);
 
-        // ActionLog::create([
-        //     'text' => ActionLog::ACTION_REQUEST_EDITED,
-        //     'request_id' => $item->request_id
-        // ]);
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_EDITED,
+            'request_id' => $item->request_id
+        ]);
 
         return response()->json($item);
     }

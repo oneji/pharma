@@ -194,11 +194,12 @@
                                                             Auth::user()->hasPermission('update-requests') 
                                                             && $req->status !== 'shipped' 
                                                             && $req->status !== 'being_prepared' 
-                                                            && $req->status !== 'paid'
-                                                            && $item->removed !== 1)
+                                                            && $req->status !== 'paid')
                                                             <td>
-                                                                <a href="#" data-id="{{ $item->id }}" data-quantity="{{ $item->quantity }}"  class="edit-item-btn"><span><i class="material-icons">edit</i></span></a>
-                                                                <a href="#" data-id="{{ $item->id }}" class="remove-item-btn"><span><i class="material-icons">delete_forever</i></span></a>
+                                                                @if ($item->removed === 0)
+                                                                    <a href="#" data-id="{{ $item->id }}" data-quantity="{{ $item->quantity }}"  class="edit-item-btn"><span><i class="material-icons">edit</i></span></a>
+                                                                    <a href="#" data-id="{{ $item->id }}" class="remove-item-btn"><span><i class="material-icons">delete_forever</i></span></a>
+                                                                @endif
                                                             </td>
                                                         @endif
                                                     </tr>                                                    
@@ -220,7 +221,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($reqActions as $idx => $action)
-                                                        <tr data-id="{{ $item->id }}" class="{{ $item->removed === 1 ? 'removed-item' : 0 }}">
+                                                        <tr>
                                                             <td>{{ $idx + 1 }}</td>
                                                             <td>
                                                                 <span style="font-weight: 700">{{ $action->actor_name }}</span> {{ $action->text }}

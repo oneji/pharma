@@ -49,7 +49,9 @@ class Request extends Model
     }
     
     /**
+     * Get all requests according to the user role
      * 
+     * @return object
      */
     public static function getAll()
     {
@@ -97,11 +99,16 @@ class Request extends Model
     }
 
     /**
+     * Set request's payment amount
      * 
+     * @param array $items
+     * @param array $data
+     * 
+     * @return double $finalPaymentAmount
      */
     public static function setPaymentAmount($items, $data)
     {
-        $paymentAmount = 0; 
+        $paymentAmount = 0;
         $plItems = PriceListItem::whereIn('id', $items)->get();
         $discountAmount = Auth::user()->discount_amount;
 
@@ -120,7 +127,11 @@ class Request extends Model
     }
 
     /**
+     * Get request's payment amount
      * 
+     * @param int $id
+     * 
+     * @return double
      */
     public static function getPaymentAmount($id)
     {
@@ -131,7 +142,12 @@ class Request extends Model
     }
 
     /**
+     * Create and store the request in the db
      * 
+     * @param array $data
+     * @param array $items
+     * 
+     * @return object $req
      */
     public static function createRequest($data, $items)
     {
@@ -161,7 +177,11 @@ class Request extends Model
     }
 
     /**
+     * Get the request by id
      * 
+     * @param int $id
+     * 
+     * @return object
      */
     public static function getById($id)
     {
@@ -177,7 +197,11 @@ class Request extends Model
     }
 
     /**
+     * Get the request with removed items
      * 
+     * @param int $id
+     * 
+     * @return object
      */
     public static function getWithRemovedItems($id)
     {
@@ -205,7 +229,11 @@ class Request extends Model
     }
 
     /**
+     * Get the request without removed items
      * 
+     * @param int $id
+     * 
+     * @return object
      */
     public static function getWithoutRemovedItems($id)
     {
@@ -234,7 +262,12 @@ class Request extends Model
     }
 
     /**
+     * Update request item
      * 
+     * @param int $id
+     * @param array $data
+     * 
+     * @return object $item
      */
     public static function updateItem($id, $data)
     {
@@ -244,46 +277,61 @@ class Request extends Model
         $item->comment = $data['comment'];
         $item->save();
 
-        // Request
         $req = RequestModel::where('id', $data['request_id'])->with('request_items')->first();
-        // $prListItem = PriceListItem::find($item->price_list_item_id);
-        // $itemOldQuantity = $item->quantity;
-        // $itemNewQuantity = $item->changed_quantity;
-        // $discountAmount = Auth::user()->discount_amount;
-        
-        // $oldItemPrice = $prListItem->quantity * (double)$prListItem->price * $itemOldQuantity;
-        // $newItemPrice = $prListItem->quantity * (double)$prListItem->price * $itemNewQuantity;
-        
-        // $oldPrice = $req->payment_amount;
-        // $newPrice = ($oldPrice - $oldItemPrice) + $newItemPrice;
-        // $percentFromPaymentAmount = ($newPrice * $discountAmount) / 100;
-        
-        // $req->payment_amount = $newPrice - $percentFromPaymentAmount;
-        // $req->save();
-
         $itemIds = [];
         foreach ($req->request_items as $item) {
             $itemIds[] = $item->price_list_item_id;
         }
 
-        static::setPaymentAmount($itemIds);
+        $req->payment_amount = static::resetPaymentAmount($itemIds, $req->request_items);
+        $req->save();
 
-        return [
-            'req' => $req,
-            'itemIds' => $itemIds
-        ];
+        return $item;
     }
 
     /**
+     * Reset request payment amount
      * 
+     * @param array $items
+     * @param array $reqItems
+     * 
+     * @return double $finalPaymentAmount
      */
-    public static function resetRequestPaymentAmount($itemIds, $data)
+    public static function resetPaymentAmount($items, $requestItems)
     {
+        $paymentAmount = 0;
+        $finalPaymentAmount = 0;
+        $discountAmount = Auth::user()->discount_amount;
+        $percentFromPaymentAmount = 0;
+
+        $prListItems = PriceListItem::whereIn('id', $items)->get();
+
+        foreach ($prListItems as $listItem) {
+            foreach ($requestItems as $requestItem) {
+                if($requestItem->removed === 0) {
+                    if($listItem->id === $requestItem->price_list_item_id) {
+                        $itemQuantity = $requestItem->changed === 1 ? $requestItem->changed_quantity : $requestItem->quantity;
+    
+                        $paymentAmount += ($listItem->quantity * $listItem->price * $itemQuantity);
+                    }
+                }
+            }
+        }
+
+        $percentFromPaymentAmount = ($paymentAmount * $discountAmount) / 100;
         
+        $finalPaymentAmount = $paymentAmount - $percentFromPaymentAmount;
+
+        return $finalPaymentAmount;
     }
 
     /**
+     * Remove an item from request
      * 
+     * @param int $id
+     * @param array $data
+     * 
+     * @return object $item
      */
     public static function removeItem($id, $data)
     {
@@ -292,45 +340,25 @@ class Request extends Model
         $item->comment = $data['comment'];
         $item->save();
 
-        // Request
-        $req = RequestModel::find($data['request_id']);
-        $prListItem = PriceListItem::find($item->price_list_item_id);
-        $itemQuantity = $item->changed === 1 ? $item->changed_quantity : $item->quantity;
-        
-        $newPrice = (int)$req->payment_amount - ((int)$itemQuantity * (int)$prListItem->price);
-        
-        $req->payment_amount = $newPrice;
+        $req = RequestModel::where('id', $data['request_id'])->with('request_items')->first();
+        $itemIds = [];
+        foreach ($req->request_items as $item) {
+            $itemIds[] = $item->price_list_item_id;
+        }
+
+        $req->payment_amount = static::resetPaymentAmount($itemIds, $req->request_items);
         $req->save();
 
         return $item;
     }
 
     /**
+     * Change the request status
      * 
-     */
-    public static function prepare($id)
-    {
-        $req = static::find($id);
-        $req->status = static::STATUS_BEING_PREPARED;
-        $req->save();
-
-        return $req;
-    }
-    
-    /**
+     * @param int $id
+     * @param string $type
      * 
-     */
-    public static function ship($id)
-    {
-        $req = static::find($id);
-        $req->status = static::STATUS_SHIPPED;
-        $req->save();
-
-        return $req;
-    }
-
-    /**
-     * 
+     * @return object $req
      */
     public static function changeStatus($id, $status)
     {
@@ -342,7 +370,12 @@ class Request extends Model
     }
 
     /**
+     * Set the request as cancelled
      * 
+     * @param int $id
+     * @param string $comment
+     * 
+     * @return object $req
      */
     public static function cancel($id, $comment)
     {

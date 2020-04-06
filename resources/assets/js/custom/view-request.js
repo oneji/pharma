@@ -71,6 +71,8 @@ $(document).ready(function() {
             type: 'DELETE',
             data: data,
             success: function(item){
+                
+                console.log(item);
 
                 $('.request-pl-table').find(`tr[data-id=${itemId}]`).addClass('removed-item');
                 $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.comment-cell').html(item.comment);

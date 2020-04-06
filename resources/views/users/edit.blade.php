@@ -70,9 +70,9 @@
                                             <small class="errorTxt2"></small>
                                         </div>
                                         <div class="col s12 m6 l6 xl6 input-field">
-                                            <input id="email" name="email" type="email" class="validate"
-                                                value="{{ $user->email }}" data-error=".errorTxt3">
-                                            <label for="email">E-mail</label>
+                                            <input id="username" name="username" type="text" class="validate"
+                                                value="{{ $user->username }}" data-error=".errorTxt3">
+                                            <label for="username">Имя пользователя</label>
                                             <small class="errorTxt3"></small>
                                         </div>
                                         <div class="col s12 m6 l6 xl6 input-field">

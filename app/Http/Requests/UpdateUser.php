@@ -25,7 +25,7 @@ class UpdateUser extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'username' => 'required|unique:users',
+            'username' => 'required',
             'phone' => 'nullable',
             'note' => 'nullable',
             'discount_amount' => 'nullable',

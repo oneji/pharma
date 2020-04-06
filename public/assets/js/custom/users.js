@@ -6,9 +6,8 @@ $(document).ready(function() {
             name: {
                 required: true
             },
-            email: {
-                required: true,
-                email: true
+            username: {
+                required: true
             },
             password: {
                 required: true,
@@ -28,9 +27,8 @@ $(document).ready(function() {
             name: {
                 required: 'Обязательное поле.'
             },
-            email: {
-                required: 'Обязательное поле.',
-                email: 'Введите действительный email aдрес.'
+            username: {
+                required: 'Обязательное поле.'
             },
             password: {
                 required: 'Обязательное поле.',

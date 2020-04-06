@@ -47,10 +47,47 @@
         </form>
     </div>
 
+    <div id="addPermissionModal" class="modal" style="width: 40%">
+        <form action="{{ route('acl.storePermission') }}" method="POST" id="addPermissionForm">
+            @csrf
+            <div class="modal-content">
+                <h5>Создать право доступа</h5>
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <input id="name" name="name" type="text" required>
+                                <label for="name">Название в БД</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <input id="display_name" name="display_name" type="text">
+                                <label for="display_name">Название для пользователя</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">perm_identity</i>
+                                <input id="description" name="description" type="text">
+                                <label for="description">Описание</label>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Создать</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
         <div class="container">
             <div class="row">
-                <div class="col s10 m6 l6">
+                <div class="col s12 m6 l6">
                     <h5 class="breadcrumbs-title mt-0 mb-0"><span>Права доступа и роли</span></h5>
                     <ol class="breadcrumbs mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Главная</a></li>
@@ -58,7 +95,7 @@
                     </ol>
                 </div>
 
-                <div class="col s2 m6 l6">
+                <div class="col s12 m6 l6">
                     <a 
                         onclick="event.preventDefault(); document.getElementById('setAclForm').submit();"
                         class="btn waves-effect waves-light breadcrumbs-btn right green mr-2" href="#">
@@ -68,6 +105,10 @@
                     <a class="btn waves-effect waves-light breadcrumbs-btn right green mr-2 modal-trigger" href="#addRoleModal">
                         <i class="material-icons hide-on-med-and-up">add</i>
                         <span class="hide-on-small-onl">Создать роль</span>
+                    </a>
+                    <a class="btn waves-effect waves-light breadcrumbs-btn right blue mr-2 modal-trigger" href="#addPermissionModal">
+                        <i class="material-icons hide-on-med-and-up">add</i>
+                        <span class="hide-on-small-onl">Создать право доступа</span>
                     </a>
                 </div>
             </div>

@@ -49,7 +49,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>ФИО</th>
-                                            <th>Email</th>
+                                            <th>Имя пользователя</th>
                                             <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Скидка (%)</th>
@@ -63,7 +63,7 @@
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
                                             <td>{{ $debtor->name }}</td>
-                                            <td>{{ $debtor->email }}</td>
+                                            <td>{{ $debtor->username }}</td>
                                             <td>{{ $debtor->phone }}</td>
                                             <td>{{ $debtor->company_name }}</td>
                                             <td>{{ $debtor->discount_amount }}%</td>

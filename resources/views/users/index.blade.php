@@ -155,7 +155,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>ФИО</th>
-                                            <th>Email</th>
+                                            <th>Имя пользователя</th>
                                             <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Заметки</th>
@@ -170,7 +170,7 @@
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->username }}</td>
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ $user->company_name }}</td>
                                             <td>{{ $user->note }}</td>

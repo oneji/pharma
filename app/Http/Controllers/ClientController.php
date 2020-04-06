@@ -17,7 +17,7 @@ class ClientController extends Controller
     {
         $companies = Company::all();
 
-        return view('users.new-client', [ 'companies' => $companies ]);
+        return view('users.new-client-request', [ 'companies' => $companies ]);
     }
 
     /**

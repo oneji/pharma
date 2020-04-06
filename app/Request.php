@@ -304,36 +304,4 @@ class Request extends Model
 
         return $req;
     }
-
-    /**
-     * 
-     */
-    public static function getUnpaid()
-    {
-        $users = User::whereHas('requests')->with([
-            'requests' => function($query) {
-                $query->where('status', '<>', 'paid')->with('request_payments');
-            }
-        ])->get();
-
-        $unpaidRequests = [];
-        foreach ($users as $user) {
-            $user->debt_amount = (double) 0;
-            $user->paid_amount = (double) 0;
-
-            foreach ($user->requests as $req) {
-                $paymentsTotalSum = RequestPayment::getTotalPaymentAmount($req->request_payments);
-
-                // Determine if the request has debt amount
-                if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
-                    $requestDebtAmount = (double) $req->payment_amount - (double) $paymentsTotalSum;
-                    $req->debt_amount = (double) $requestDebtAmount;
-                    $user->debt_amount += (double) $requestDebtAmount;
-                    $user->paid_amount += (double) $paymentsTotalSum; 
-                }
-            }
-        }
-
-        return $users;
-    }
 }

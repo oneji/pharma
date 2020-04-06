@@ -64,7 +64,7 @@
                                             <div class="col m12 s12">
                                                 <div class="input-field">
                                                     <input placeholder="Подтвердите новый пароль" name="password_confirmation" type="password" required>
-                                                    <label for="password_confirmation">Подтверждение нового пароля пароль</label>
+                                                    <label for="password_confirmation">Подтверждение нового пароля</label>
                                                 </div>
                                             </div>
                                             <div class="col m12 s12">

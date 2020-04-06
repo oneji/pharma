@@ -8,14 +8,10 @@ use App\Http\Requests\UpdateUser;
 use App\User;
 use App\Role;
 use App\Company;
+use App\Request as RequestModel;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:read-users');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -148,5 +144,19 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 
+     */
+    public function debtors()
+    {
+        $debtors = User::getDebtors();
+
+        // return $debtors;
+
+        return view('users.debtors', [
+            'debtors' => $debtors
+        ]);
     }
 }

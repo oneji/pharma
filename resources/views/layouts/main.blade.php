@@ -18,7 +18,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/vendors.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/materialize.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/themes/vertical-modern-menu-template/style.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom/custom.css') }}">\
     @show
     
 </head>
@@ -132,6 +132,15 @@
                     <a class="{{ Route::currentRouteName() === 'requests.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('requests.index') }}">
                         <i class="material-icons">assignment_returned</i>
                         <span class="menu-title" data-i18n="Kanban">Заявки</span>
+                    </a>
+                </li>
+            @endpermission
+            
+            @permission('read-debtors')
+                <li class="bold">
+                    <a class="{{ Route::currentRouteName() === 'users.debtors' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.debtors') }}">
+                        <i class="material-icons">people</i>
+                        <span class="menu-title" data-i18n="Kanban">Список должников</span>
                     </a>
                 </li>
             @endpermission

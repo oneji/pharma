@@ -142,4 +142,46 @@ class User extends Authenticatable
     {
         return Role::with('users')->where('name', 'manager')->first()->users;
     }
+
+    /**
+     * 
+     */
+    /**
+     * 
+     */
+    public static function getDebtors()
+    {
+        $users = User::whereHas('requests')->with([
+            'requests' => function($query) {
+                $query->where('status', '<>', 'paid')->with('request_payments');
+            }
+        ])
+        ->leftJoin('companies', 'companies.id', '=', 'users.company_id')
+        ->select('users.*', 'companies.name as company_name')
+        ->get();
+
+        $debtors = [];
+        foreach ($users as $user) {
+            if(count($user->requests) > 0) {
+                $user->debt_amount = (double) 0;
+                $user->paid_amount = (double) 0;
+                
+                foreach ($user->requests as $req) {
+                    $paymentsTotalSum = RequestPayment::getTotalPaymentAmount($req->request_payments);
+                    
+                    // Determine if the request has debt amount
+                    if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
+                        $requestDebtAmount = (double) $req->payment_amount - (double) $paymentsTotalSum;
+                        $req->debt_amount = (double) $requestDebtAmount;
+                        $user->debt_amount += (double) $requestDebtAmount;
+                        $user->paid_amount += (double) $paymentsTotalSum; 
+                    }
+                }
+
+                $debtors[] = $user;
+            }
+        }
+
+        return $debtors;
+    }
 }

@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4affb7902e06ae55de0e4068b94a4b40",
+    "content-hash": "42290c3be1713c56434f17b6933f90a4",
     "packages": [
+        {
+            "name": "biscolab/laravel-recaptcha",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biscolab/laravel-recaptcha.git",
+                "reference": "f97b791b6fce17307b426f7121c85cb75c152fda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biscolab/laravel-recaptcha/zipball/f97b791b6fce17307b426f7121c85cb75c152fda",
+                "reference": "f97b791b6fce17307b426f7121c85cb75c152fda",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "6.*|7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biscolab\\ReCaptcha\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roberto Belotti",
+                    "email": "boby.belotti@gmail.com"
+                }
+            ],
+            "description": "Simple ReCaptcha package for Laravel 5",
+            "time": "2018-09-12T20:27:08+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "v0.1.1",

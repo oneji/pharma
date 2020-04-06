@@ -19,8 +19,15 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // Users
-    Route::resource('users', 'UserController');
-    Route::put('users/{user}/status/{status}', 'UserController@changeStatus')->name('users.status');
+    Route::middleware([ 'permission:read-users' ])->group(function() {
+        Route::resource('users', 'UserController');
+        Route::put('users/{user}/status/{status}', 'UserController@changeStatus')->name('users.status');
+    });
+    
+    Route::get('debtors', [
+        'middleware' => 'permission:read-debtors',
+        'uses' => 'UserController@debtors'
+    ])->name('users.debtors');
 
     // Brands
     Route::get('brands', 'BrandController@index')->name('brands.index');

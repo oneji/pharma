@@ -19,9 +19,6 @@ class RequestController extends Controller
     public function index()
     {
         $requests = RequestModel::getAll();
-        $unpaidRequests = RequestModel::getUnpaid();
-
-        // return $unpaidRequests;
 
         return view('requests.index', [
             'requests' => $requests

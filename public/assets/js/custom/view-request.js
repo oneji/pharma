@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var itemId = null;
     var quantity = null;
+    var requestId = $('#request-id').text();
 
     $('.edit-item-btn').click(function(e) {
         e.preventDefault();
@@ -28,13 +29,21 @@ $(document).ready(function() {
         e.preventDefault();
 
         var form = $(this);
-        var formData = form.serialize();
+        var formData = form.serializeArray();
+
+        var data = {};
+        formData.map(d => {
+            data[d.name] = d.value
+        });
+        data['request_id'] = requestId;
 
         $.ajax({
             url: '/requests/updateItem/' + itemId,
             type: 'PUT',
-            data: formData,
+            data: data,
             success: function(item){
+
+                console.log(item);
 
                 $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.quantity-cell').html(generateChangedQuantityMarkup(item));
                 $('.request-pl-table').find(`tr[data-id=${itemId}]`).find('.comment-cell').html(item.comment);
@@ -49,12 +58,18 @@ $(document).ready(function() {
         e.preventDefault();
 
         var form = $(this);
-        var formData = form.serialize();
+        var formData = form.serializeArray();
+
+        var data = {};
+        formData.map(d => {
+            data[d.name] = d.value
+        });
+        data['request_id'] = requestId;
 
         $.ajax({
             url: '/requests/removeItem/' + itemId,
             type: 'DELETE',
-            data: formData,
+            data: data,
             success: function(item){
 
                 $('.request-pl-table').find(`tr[data-id=${itemId}]`).addClass('removed-item');

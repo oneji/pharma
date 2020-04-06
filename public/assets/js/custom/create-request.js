@@ -129,11 +129,13 @@ $(document).ready(function() {
 
         $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
             var itemPrice = Number($(this).data('price'));
-            discountAmount = Number($(this).data('discount'))
+            let desiredBoxNumber = Number($(this).parent().parent().parent().find('.request-pl-item-quantity').val());
+            let priceForOneInBox = Number($(this).parent().parent().parent().find('.price-for-one-in-box').text());
+            discountAmount = Number($(this).data('discount'));
 
             $(this).parent().parent().parent().find('.request-pl-item-quantity').attr('required', 'required');
 
-            totalPrice += Number(itemPrice * $(this).parent().parent().parent().find('.request-pl-item-quantity').val());
+            totalPrice += Number(itemPrice * desiredBoxNumber * priceForOneInBox);
         });
 
         var totalPriceDiscount = Number((totalPrice * discountAmount) / 100);

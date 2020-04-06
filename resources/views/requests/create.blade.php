@@ -38,8 +38,9 @@
                                                         <th>Продукт</th>
                                                         <th>Производитель</th>
                                                         <th>Срок годности (до)</th>
+                                                        <th class="center-align">Кол-во в коробке (шт.)</th>
                                                         <th class="right-center">Цена (с.)</th>
-                                                        <th>Кол-во (шт.)</th>
+                                                        <th>Кол-во коробок (шт.)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -59,10 +60,11 @@
                                                             </td>
                                                             <td>{{ $item->brand_name }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
+                                                            <td class="center-align price-for-one-in-box">{{ $item->quantity }}</td>
                                                             <td class="indigo-text center-align price">
                                                                 <span class="badge green">{{ $item->price }}c.</span>
                                                             </td>
-                                                            <td style="max-width: 100px;">
+                                                            <td style="max-width: 100px; text-align: center">
                                                                 <input type="number"  min="0" name="quantity[{{ $item->id }}]" class="request-pl-item-quantity">
                                                             </td>
                                                         </tr>                                                    

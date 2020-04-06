@@ -73,7 +73,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $userProfile = User::getProfile($id);
+
+        return view('users.profile', [
+            'userProfile' => $userProfile
+        ]);
     }
 
     /**
@@ -122,7 +126,7 @@ class UserController extends Controller
             'company_id' => $request->company_id
         ], $id);
 
-        return redirect()->route('users.edit', [ 'user' => $id ]);
+        return redirect()->route('users.index');
     }
 
     /**
@@ -152,8 +156,6 @@ class UserController extends Controller
     public function debtors()
     {
         $debtors = User::getDebtors();
-
-        // return $debtors;
 
         return view('users.debtors', [
             'debtors' => $debtors

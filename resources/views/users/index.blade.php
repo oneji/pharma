@@ -178,6 +178,7 @@
                                             <td><span class="badge blue">{{ $user->roles->first()->display_name }}</span></td>
                                             <td><span class="badge {{ $user->password_changed === 1 ? 'green' : 'orange' }}">{{ $user->password_changed === 1 ? 'Изменил' : 'Не изменял'}}</span></td>
                                             <td>
+                                                <a href="{{ route('users.show', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">visibility</i></span></a>
                                                 <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>
 
                                                 @if ($user->status === 0)

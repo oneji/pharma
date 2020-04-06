@@ -46,7 +46,7 @@
                                                     <th>Продукт</th>
                                                     <th>Производитель</th>
                                                     <th>Срок годности (до)</th>
-                                                    <th class="center-align">Кол-во (шт.)</th>
+                                                    <th class="center-align">Кол-во в коробке (шт.)</th>
                                                     <th class="right-align">Цена (с.)</th>
                                                 </tr>
                                             </thead>

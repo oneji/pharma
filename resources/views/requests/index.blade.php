@@ -114,7 +114,9 @@
                                                     <span class="badge red">Низкий</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $req->username }}</td>
+                                            <td>
+                                                <a href="{{ route('users.show', [ 'id' => $req->user_id ]) }}">{{ $req->username }}</a>
+                                            </td>
                                             <td>
                                                 <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}"><span><i class="material-icons">remove_red_eye</i></span></a>
                                             </td>

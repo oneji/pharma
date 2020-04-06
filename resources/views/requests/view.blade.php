@@ -44,7 +44,7 @@
                                         <div class="row display-flex align-items-center mt-1">
                                             <div class="col s12 m6 l6 ml-0 display-flex align-items-center">
                                                 <h4 class="indigo-text">
-                                                    Заявка №{{ $req->id }}
+                                                    Заявка №<span id="request-id">{{ $req->id }} | {{ $req->payment_amount }}c</span>
                                                 </h4>
                                                 @if($req->status === 'under_revision')
                                                     <span class="badge blue">В рассмотрении</span>
@@ -190,7 +190,12 @@
                                                             @endif
                                                         </td>
                                                         <td class="comment-cell">{{ $item->comment }}</td>
-                                                        @if (Auth::user()->hasPermission('update-requests') && $req->status !== 'shipped' && $req->status !== 'being_prepared' && $req->status !== 'paid')
+                                                        @if (
+                                                            Auth::user()->hasPermission('update-requests') 
+                                                            && $req->status !== 'shipped' 
+                                                            && $req->status !== 'being_prepared' 
+                                                            && $req->status !== 'paid'
+                                                            && $item->removed !== 1)
                                                             <td>
                                                                 <a href="#" data-id="{{ $item->id }}" data-quantity="{{ $item->quantity }}"  class="edit-item-btn"><span><i class="material-icons">edit</i></span></a>
                                                                 <a href="#" data-id="{{ $item->id }}" class="remove-item-btn"><span><i class="material-icons">delete_forever</i></span></a>
@@ -202,6 +207,7 @@
                                         </table>
                                     </div>
 
+                                    {{-- Request logs --}}
                                     @role('superadministrator')
                                         <div id="requestActions" style="display: block;">
                                             <table class="striped responsive-table">
@@ -230,6 +236,7 @@
                             </div>
                         </div>
 
+                        {{-- Request payments --}}
                         @if ($req->request_payments->count() > 0 && Auth::user()->roles->first()->name !== 'logist')
                             <div class="col s12 m3 l3">
                                 <div class="card">

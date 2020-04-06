@@ -50,7 +50,7 @@
                                                         <h6 class="m-0">Цена</h6>
                                                     </div>
                                                     <div class="col s3 m2">
-                                                        <h6 class="m-0">Кол-во</h6>
+                                                        <h6 class="m-0">Кол-во в коробке</h6>
                                                     </div>
                                                 </div>
                                                 <div class="invoice-item display-flex mb-1" data-repeater-item>

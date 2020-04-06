@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
 use App\ActionLog;
+use App\Request as RequestModel;
 
 class Request extends Model
 {
@@ -107,12 +108,15 @@ class Request extends Model
         foreach ($plItems as $key => $plItem) {
             foreach ($data as $key => $item) {
                 if((int)$plItem->id === (int)$item['id']) {
-                    $paymentAmount += ((int)$plItem->price * (int)$item['quantity']);
+                    $paymentAmount += ((double)$plItem->price * (double)$item['quantity'] * (double)$plItem->quantity);
                 }
             }
         }
 
-        return $paymentAmount;
+        $percentFromPaymentAmount = ($paymentAmount * $discountAmount) / 100;
+        $finalPaymentAmount = $paymentAmount - $percentFromPaymentAmount;
+
+        return $finalPaymentAmount;
     }
 
     /**
@@ -240,18 +244,63 @@ class Request extends Model
         $item->comment = $data['comment'];
         $item->save();
 
-        return $item;
+        // Request
+        $req = RequestModel::where('id', $data['request_id'])->with('request_items')->first();
+        // $prListItem = PriceListItem::find($item->price_list_item_id);
+        // $itemOldQuantity = $item->quantity;
+        // $itemNewQuantity = $item->changed_quantity;
+        // $discountAmount = Auth::user()->discount_amount;
+        
+        // $oldItemPrice = $prListItem->quantity * (double)$prListItem->price * $itemOldQuantity;
+        // $newItemPrice = $prListItem->quantity * (double)$prListItem->price * $itemNewQuantity;
+        
+        // $oldPrice = $req->payment_amount;
+        // $newPrice = ($oldPrice - $oldItemPrice) + $newItemPrice;
+        // $percentFromPaymentAmount = ($newPrice * $discountAmount) / 100;
+        
+        // $req->payment_amount = $newPrice - $percentFromPaymentAmount;
+        // $req->save();
+
+        $itemIds = [];
+        foreach ($req->request_items as $item) {
+            $itemIds[] = $item->price_list_item_id;
+        }
+
+        static::setPaymentAmount($itemIds);
+
+        return [
+            'req' => $req,
+            'itemIds' => $itemIds
+        ];
     }
 
     /**
      * 
      */
-    public static function removeItem($id, $comment)
+    public static function resetRequestPaymentAmount($itemIds, $data)
+    {
+        
+    }
+
+    /**
+     * 
+     */
+    public static function removeItem($id, $data)
     {
         $item = RequestItem::find($id);
         $item->removed = 1;
-        $item->comment = $comment;
+        $item->comment = $data['comment'];
         $item->save();
+
+        // Request
+        $req = RequestModel::find($data['request_id']);
+        $prListItem = PriceListItem::find($item->price_list_item_id);
+        $itemQuantity = $item->changed === 1 ? $item->changed_quantity : $item->quantity;
+        
+        $newPrice = (int)$req->payment_amount - ((int)$itemQuantity * (int)$prListItem->price);
+        
+        $req->payment_amount = $newPrice;
+        $req->save();
 
         return $item;
     }

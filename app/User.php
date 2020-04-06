@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Support\Facades\Hash;
 use Session;
+use App\Request as RequestModel;
 
 class User extends Authenticatable
 {
@@ -183,5 +184,26 @@ class User extends Authenticatable
         }
 
         return $debtors;
+    }
+
+    /**
+     * 
+     */
+    public static function getProfile($id)
+    {
+        $userProfile = [
+            'user' => static::where('id', $id)->first(),
+            'paidRequests' => static::getPaidRequests($id)
+        ];
+
+        return $userProfile;
+    }
+
+    /**
+     * 
+     */
+    public static function getPaidRequests($id)
+    {
+        return RequestModel::where('user_id', $id)->where('status', '=', 'paid')->get();
     }
 }

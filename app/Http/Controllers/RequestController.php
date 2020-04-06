@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Request as RequestModel;
+use App\RequestItem;
 use App\PriceList;
+use App\PriceListItem;
 use App\RequestPayment;
 use App\ActionLog;
 use Auth;
@@ -105,17 +107,18 @@ class RequestController extends Controller
      */
     public function updateItem($id, Request $request)
     {
-        $reqItem = RequestModel::updateItem($id, [
+        $item = RequestModel::updateItem($id, [
             'changed_quantity' => $request->changed_quantity,
-            'comment' => $request->comment
+            'comment' => $request->comment,
+            'request_id' => $request->request_id
         ]);
 
-        ActionLog::create([
-            'text' => ActionLog::ACTION_REQUEST_EDITED,
-            'request_id' => $reqItem->request_id
-        ]);
+        // ActionLog::create([
+        //     'text' => ActionLog::ACTION_REQUEST_EDITED,
+        //     'request_id' => $item->request_id
+        // ]);
 
-        return response()->json($reqItem);
+        return response()->json($item);
     }
     
     /**
@@ -123,7 +126,10 @@ class RequestController extends Controller
      */
     public function removeItem($id, Request $request)
     {
-        $item = RequestModel::removeItem($id, $request->comment);
+        $item = RequestModel::removeItem($id, [
+            'comment' => $request->comment,
+            'request_id' => $request->request_id
+        ]);
 
         return response()->json($item);
     }

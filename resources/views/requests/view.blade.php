@@ -16,14 +16,14 @@
                     <div class="row">
                         <div class="col s12 {{ $req->request_payments->count() > 0 ? 'm9 xl9' : 'm12 xl12' }}">
                             <div class="card">
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a href="#requestData" class="active">Заявка №{{ $req->id }}</a></li>
-                                        @role('superadministrator')
+                                @role('superadministrator')
+                                    <div class="card-tabs">
+                                        <ul class="tabs tabs-fixed-width">
+                                            <li class="tab"><a href="#requestData" class="active">Заявка №{{ $req->id }}</a></li>
                                             <li class="tab"><a href="#requestActions">Логи заявки</a></li>
-                                        @endrole
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
+                                @endrole
 
                                 <div class="card-content">
                                     <div id="requestData" style="display: block;" class="active">
@@ -41,10 +41,11 @@
                                             </div>
                                         </div>
                                         
+                                        {{-- Request title, status and priority --}}
                                         <div class="row display-flex align-items-center mt-1">
                                             <div class="col s12 m6 l6 ml-0 display-flex align-items-center">
                                                 <h4 class="indigo-text">
-                                                    Заявка №<span id="request-id">{{ $req->id }} | {{ $req->payment_amount }}c</span>
+                                                    Заявка №<span id="request-id">{{ $req->id }}</span>
                                                 </h4>
                                                 @if($req->status === 'under_revision')
                                                     <span class="badge blue">В рассмотрении</span>
@@ -190,6 +191,7 @@
                                                             @endif
                                                         </td>
                                                         <td class="comment-cell">{{ $item->comment }}</td>
+                                                        {{-- Request item actions: edit and delete --}}
                                                         @if (
                                                             Auth::user()->hasPermission('update-requests') 
                                                             && $req->status !== 'shipped' 

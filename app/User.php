@@ -154,7 +154,9 @@ class User extends Authenticatable
     {
         $users = User::whereHas('requests')->with([
             'requests' => function($query) {
-                $query->where('status', '<>', 'paid')->with('request_payments');
+                $query
+                    ->where('status', '<>', RequestModel::STATUS_CANCELLED)
+                    ->with('request_payments');
             }
         ])
         ->leftJoin('companies', 'companies.id', '=', 'users.company_id')
@@ -171,15 +173,14 @@ class User extends Authenticatable
                     $paymentsTotalSum = RequestPayment::getTotalPaymentAmount($req->request_payments);
                     
                     // Determine if the request has debt amount
-                    if((double) $req->payment_amount !== (double) $paymentsTotalSum) {
-                        $requestDebtAmount = (double) $req->payment_amount - (double) $paymentsTotalSum;
-                        $req->debt_amount = (double) $requestDebtAmount;
-                        $user->debt_amount += (double) $requestDebtAmount;
-                        $user->paid_amount += (double) $paymentsTotalSum; 
-                    }
+                    $requestDebtAmount = (double)$req->payment_amount - (double)$paymentsTotalSum;
+                    $req->debt_amount = (double)$requestDebtAmount;
+                    $user->debt_amount += (double)$requestDebtAmount;
+                    $user->paid_amount += (double)$paymentsTotalSum; 
                 }
 
-                $debtors[] = $user;
+                if($user->debt_amount !== (double)0)
+                    $debtors[] = $user;
             }
         }
 

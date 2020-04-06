@@ -157,6 +157,8 @@ class UserController extends Controller
     {
         $debtors = User::getDebtors();
 
+        // return $debtors;
+
         return view('users.debtors', [
             'debtors' => $debtors
         ]);

@@ -400,17 +400,11 @@
                             <hr class="mt-5">
                             <div class="row">
                                 <div class="col s12">
-                                    <h6>Latest Updates</h6>
-                                    <p class="latest-update">Make Metronic<span class="right"> <a href="#">+480</a>
-                                        </span></p>
-                                    <p class="latest-update">Programming Language <span class="right"> <a
-                                                href="#">+12</a> </span></p>
-                                    <p class="latest-update">Project completed <span class="right"> <a
-                                                href="#">+570</a> </span></p>
-                                    <p class="latest-update">New Customer <span class="right"><a href="#">+120</a>
-                                        </span></p>
-                                    <p class="latest-update">Annual Companies<span class="right"> <a
-                                                href="#">+890</a> </span></p>
+                                    <h6>Последние выплаты по заявкам</h6>
+                                    <p class="latest-update">
+                                        Make Metronic
+                                        <span class="right"><a href="#">+480</a></span>
+                                    </p>
                                 </div>
                             </div>
                         </div>

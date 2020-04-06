@@ -194,10 +194,19 @@ class User extends Authenticatable
     {
         $userProfile = [
             'user' => static::where('id', $id)->first(),
-            'paidRequests' => static::getPaidRequests($id)
+            'paidRequests' => static::getPaidRequests($id),
+            'latestPayments' => Auth::user()->request_payments
         ];
 
         return $userProfile;
+    }
+
+    /**
+     * Get all of the posts for the country.
+     */
+    public function request_payments()
+    {
+        return $this->hasManyThrough('App\RequestPayment', 'App\Request');
     }
 
     /**

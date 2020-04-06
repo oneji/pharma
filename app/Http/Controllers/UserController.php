@@ -75,6 +75,8 @@ class UserController extends Controller
     {
         $userProfile = User::getProfile($id);
 
+        return $userProfile;
+
         return view('users.profile', [
             'userProfile' => $userProfile
         ]);
@@ -156,8 +158,6 @@ class UserController extends Controller
     public function debtors()
     {
         $debtors = User::getDebtors();
-
-        // return $debtors;
 
         return view('users.debtors', [
             'debtors' => $debtors

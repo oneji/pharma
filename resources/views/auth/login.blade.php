@@ -51,8 +51,8 @@
                             <div class="row margin">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">person_outline</i>
-                                    <input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="Введите имя пользователя">
-                                    <label for="username" class="center-align">Имя пользователя</label>
+                                    <input id="username" type="text" name="username" value="{{ old('username') }}" placeholder="Введите логин">
+                                    <label for="username" class="center-align">Логин</label>
                                 </div>
 
                                 <div class="input-field col s12">
@@ -104,7 +104,7 @@
                 //For custom messages
                 messages: {
                     username: {
-                        required: 'Поле "Имя пользователя" обязательное.',
+                        required: 'Поле "Логин" обязательное.',
                     },
                     password: {
                         required: 'Поле "Пароль" обязательное.',

@@ -55,6 +55,7 @@
                                             <th>Скидка (%)</th>
                                             <th>Общая сумма долга</th>
                                             <th>Оплаченая сумма</th>
+                                            <th>Дедлайн оплаты</th>
                                             {{-- <th>Действия</th> --}}
                                         </tr>
                                     </thead>
@@ -72,6 +73,9 @@
                                             </td>
                                             <td>
                                                 <span class="badge green">{{ $debtor->paid_amount }}с.</span>
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($debtor->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}
                                             </td>
                                             {{-- <td>
                                                 <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>

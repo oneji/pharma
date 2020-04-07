@@ -138,7 +138,7 @@
                                                     name="acl[{{ $role['id'] }}][permissions][{{ $permission['id'] }}]"
                                                     value="{{ $permission->id }}"
                                                     type="checkbox" 
-                                                    {{ in_array($permission->id, $role->permissions()->pluck('id')->toArray()) ? 'checked' : null }}
+                                                    {{ $role->hasPermission($permission->name) ? 'checked' : null }}
                                                 />
                                                 <span>{{ $permission->display_name }}</span>
                                             </label>

@@ -156,7 +156,8 @@ class User extends Authenticatable
             'requests' => function($query) {
                 $query
                     ->where('status', '<>', RequestModel::STATUS_CANCELLED)
-                    ->with('request_payments');
+                    ->with('request_payments')
+                    ->orderBy('payment_deadline', 'desc');
             }
         ])
         ->leftJoin('companies', 'companies.id', '=', 'users.company_id')
@@ -179,8 +180,10 @@ class User extends Authenticatable
                     $user->paid_amount += (double)$paymentsTotalSum; 
                 }
 
-                if($user->debt_amount !== (double)0)
+                if($user->debt_amount !== (double)0) {
+                    $user->payment_deadline = $user->requests->first()->payment_deadline;
                     $debtors[] = $user;
+                }
             }
         }
 
@@ -192,17 +195,23 @@ class User extends Authenticatable
      */
     public static function getProfile($id)
     {
+        $user = User::with([
+            'requests',
+            'request_payments' => function($query) {
+                $query->latest()->take(5);
+            }
+        ])->where('id', $id)->first();
+        
         $userProfile = [
-            'user' => static::where('id', $id)->first(),
+            'user' => $user,
             'paidRequests' => static::getPaidRequests($id),
-            'latestPayments' => Auth::user()->request_payments
         ];
 
         return $userProfile;
     }
 
     /**
-     * Get all of the posts for the country.
+     * Get all the user payments.
      */
     public function request_payments()
     {

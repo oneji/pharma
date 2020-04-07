@@ -1,13 +1,23 @@
 @extends('layouts.main')
 
 @section('title')
-Профиль пользователя
+    {{ $userProfile['user']->name }} | Профиль
 @endsection
 
 @section('head')
-@parent
-
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/user-profile-page.min.css') }}">
+    @parent
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/user-profile-page.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/dashboard-modern.css') }}">
+    <style>
+        .user-profile-bg {
+            height: 150px;
+            width: 100%;
+            background-position: center center;
+            background-size: cover;
+            background-image: url('../../assets/images/gallery/flat-bg.jpg');
+            margin-bottom: 5px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -30,7 +40,9 @@
         <div class="container">
             <div class="section">
                 <div class="row user-profile mt-1 ml-0 mr-0">
-                    <img class="responsive-img" alt="" src="{{ asset('assets/images/gallery/profile-bg.png') }}">
+                    <div class="user-profile-bg">
+                        {{-- <img class="responsive-img" alt="" src="{{ asset('assets/images/gallery/flat-bg.jpg') }}"> --}}
+                    </div>
                 </div>
                 <div class="section" id="user-profile">
                     <div class="row">
@@ -39,11 +51,24 @@
                             <div class="row">
                                 <div class="col s12 center-align">
                                     <img class="responsive-img circle z-depth-5" width="120"
-                                        src="{{ asset('assets/images/user/user.png') }}" alt="">
+                                        src="{{ asset('assets/images/user/6.jpg') }}" alt="">
                                     <br>
                                 </div>
                             </div>
                             <hr>
+                            <div id="profile-card" class="card animate fadeRight">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="{{ asset('assets/images/gallery/3.png') }}" alt="user bg" />
+                                </div>
+                                <div class="card-content">
+                                    <img src="{{ asset('assets/images/user/user.png') }}" alt="" class="circle responsive-img card-profile-image padding-2" />
+                                    <h5 class="card-title activator grey-text text-darken-4">{{ $userProfile['user']->name }}</h5>
+                                    <p><i class="material-icons profile-card-i">perm_identity</i>Project Manager</p>
+                                    <p><i class="material-icons profile-card-i">perm_phone_msg</i>{{ $userProfile['user']->phone }}</p>
+                                    <p><i class="material-icons profile-card-i">person</i>{{ $userProfile['user']->username }}</p>
+                                </div>
+                            </div>
+                            <hr class="mt-5">
                             <div class="row">
                                 <div class="col s12">
                                     <p class="m-0">Заявки</p>
@@ -52,118 +77,16 @@
                             </div>
                             <hr>
                             <div class="row user-projects">
-                                <h6 class="col s12">Projects</h6>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/35.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/36.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/37.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/38.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/39.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/40.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/41.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/42.png') }}">
-                                </div>
-                                <div class="col s4">
-                                    <img class="responsive-img photo-border mt-10" alt=""
-                                        src="{{ asset('assets/images/gallery/43.png') }}">
-                                </div>
+                                <h6 class="col s12">Оплаченные заявки</h6>
+                                @foreach ($userProfile['paidRequests'] as $request)
+                                    <div class="col s3">
+                                        <a class="tooltipped" href="{{ route('requests.view', [ 'id' => $request->id ]) }}" data-position="bottom" data-tooltip="Заявка №{{ $request->id }}">
+                                            <img class="responsive-img photo-border mt-10" alt="" src="{{ asset('assets/images/icon/printer.png') }}">
+                                        </a>
+                                    </div>                                    
+                                @endforeach
                             </div>
                             <hr class="mt-5">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h6>Boosts</h6>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/user.png') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Micheal S. Castilleja</p>
-                                    </a>
-                                    <p class="m-0 amber-text"><span
-                                            class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span></p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/user.png') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Thomas A. Carranza</p>
-                                    </a>
-                                    <p class="m-0 amber-text"><span
-                                            class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span></p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/user.png') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Micheal Bryant</p>
-                                    </a>
-                                    <p class="m-0 amber-text"><span
-                                            class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span></p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle pb-2">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/user.png') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Wiley J. Bryant</p>
-                                    </a>
-                                    <p class="m-0 amber-text"><span
-                                            class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span> <span
-                                            class="material-icons star-width">star_rate</span>
-                                        <span class="material-icons star-width">star_rate</span></p>
-                                </div>
-                            </div>
                         </div>
                         <!-- User Post Feed -->
                         <div class="col s12 m8 l6">
@@ -179,152 +102,63 @@
                                         <div class="row">
                                             <div class="col s12">
                                                 <ul class="tabs card-border-gray mt-4">
-                                                    @foreach ($userProfile['user']->requests as $request)
-                                                        <li class="tab col m3 s6 p-0">
-                                                            <a href="#req_{{ $request->status }}">
-                                                                <i class="material-icons vertical-align-middle">crop_portrait</i>
-                                                                В рассмотрении
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
+                                                    <li class="tab col m3 s6 p-0">
+                                                        <a href="#req_under_revision" class="active">
+                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
+                                                            В рассмотрении
+                                                        </a>
+                                                    </li>
+                                                    <li class="tab col m3 s6 p-0">
+                                                        <a href="#req_sent">
+                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
+                                                            Отправлены
+                                                        </a>
+                                                    </li>
+                                                    <li class="tab col m3 s6 p-0">
+                                                        <a href="#req_being_prepared">
+                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
+                                                            Готовятся
+                                                        </a>
+                                                    </li>
+                                                    <li class="tab col m3 s6 p-0">
+                                                        <a href="#req_shipped">
+                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
+                                                            Отгруженные
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="row mt-5">
-                                            <div class="col s1 pr-0 circle">
-                                                <a href="#"><img class="responsive-img circle"src="{{ asset('assets/images/user/12.jpg') }}" alt=""></a>
-                                            </div>
-                                            <div class="col s11">
-                                                <a href="#">
-                                                    <p class="m-0">Suzanne Martin <span><i class="material-icons vertical-align-bottom">access_time</i>1 days</span></p>
-                                                </a>
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <div class="card card-border z-depth-2">
-                                                            <div class="card-image">
-                                                                <img src="{{ asset('assets/images/gallery/post-1.png') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="card-content">
-                                                                <h6 class="font-weight-900 text-uppercase"><a
-                                                                        href="#">Designing Services</a></h6>
-                                                                <p>UI/UX & Graphics Design</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="social-icon">
-                                                            <span><i
-                                                                    class="material-icons vertical-align-bottom mr-1">favorite_border</i>90</span>
-                                                            <i
-                                                                class="material-icons vertical-align-bottom ml-3 mr-1">chat_bubble_outline</i>
-                                                            15 <span><i
-                                                                    class="material-icons vertical-align-bottom ml-3 mr-1">redo</i>
-                                                                6</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+                                        <div id="req_under_revision" class="recent-buyers-card">
+                                            @foreach ($userProfile['user']->requests as $request)
+                                                @if ($request->status === 'under_revision')
+                                                    <ul class="collection mb-0">
+                                                        <li class="collection-item avatar">
+                                                            <img src="{{ asset('assets/images/icon/printer.png') }}" alt="" class="circle" />
+                                                            <p class="font-weight-600">Заявка №{{ $request->id }}</p>
+                                                            <p class="medium-small">{{ \Carbon\Carbon::parse($request->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
+                                                        </li>
+                                                    </ul>                                          
+                                                @endif
+                                            @endforeach
                                         </div>
                                         <hr class="mt-5">
-                                        <div class="row mt-5">
-                                            <div class="col s1 pr-0 circle">
-                                                <a href="#"><img class="responsive-img circle"
-                                                        src="{{ asset('assets/images/user/12.jpg') }}" alt=""></a>
-                                            </div>
-                                            <div class="col s11">
-                                                <a href="#">
-                                                    <p class="m-0">Suzanne Martin <span><i
-                                                                class="material-icons vertical-align-bottom">access_time</i>
-                                                            5
-                                                            days</span></p>
-                                                </a>
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <div class="card card-border z-depth-2">
-                                                            <div class="card-image">
-                                                                <img src="{{ asset('assets/images/gallery/post-2.png') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="card-content">
-                                                                <h6 class="font-weight-900 text-uppercase"><a
-                                                                        href="#">Australia office hours</a></h6>
-                                                                <p>Working so hard</p>
-                                                            </div>
+                                        <div id="req_sent">
+                                            @foreach ($userProfile['user']->requests as $request)
+                                                @if ($request->status === 'sent')
+                                                    <div class="row mt-5">
+                                                        <div class="col s1 pr-0 circle">
+                                                            <a href="#"><img class="responsive-img circle" src="{{ asset('assets/images/icon/printer.png') }}" alt=""></a>
                                                         </div>
-                                                        <div class="social-icon">
-                                                            <span><i
-                                                                    class="material-icons vertical-align-bottom mr-1">favorite_border</i>90</span>
-                                                            <i
-                                                                class="material-icons vertical-align-bottom ml-3 mr-1">chat_bubble_outline</i>
-                                                            15 <span><i
-                                                                    class="material-icons vertical-align-bottom ml-3 mr-1">redo</i>
-                                                                6</span>
+                                                        <div class="col s11">
+                                                            <a href="#">
+                                                                <p class="m-0">Заявка №{{ $request->id }} <span><i class="material-icons vertical-align-bottom">access_time</i> {{ $request->created_at }}</span></p>
+                                                            </a>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr class="mt-5">
-                                        <div class="row mt-5">
-                                            <div class="col s1 pr-0 circle">
-                                                <a href="#"><img class="responsive-img circle"
-                                                        src="{{ asset('assets/images/user/7.jpg') }}" alt=""></a>
-                                            </div>
-                                            <div class="col s11">
-                                                <a href="#">
-                                                    <p class="m-0">Luiza Ales <span><i
-                                                                class="material-icons vertical-align-bottom">access_time</i>
-                                                            10
-                                                            days</span></p>
-                                                </a>
-                                                <div class="row">
-                                                    <div class="col s12">
-                                                        <div class="card card-border z-depth-2">
-                                                            <div class="card-content">
-                                                                <div class="row">
-                                                                    <div class="col s2 pr-0 circle">
-                                                                        <a href="#"><img
-                                                                                class="responsive-img circle"
-                                                                                src="{{ asset('assets/images/user/1.jpg') }}"
-                                                                                alt=""></a>
-                                                                    </div>
-                                                                    <div class="col s10">
-                                                                        <a href="#">
-                                                                            <h6>Mario Mendez</h6>
-                                                                        </a>
-                                                                        <p class="m-0 amber-text"><span
-                                                                                class="material-icons star-width">star_rate</span>
-                                                                            <span
-                                                                                class="material-icons star-width">star_rate</span>
-                                                                            <span
-                                                                                class="material-icons star-width">star_rate</span>
-                                                                            <span
-                                                                                class="material-icons star-width">star_rate</span>
-                                                                            <span
-                                                                                class="material-icons star-width">star_rate</span>
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <hr>
-                                                                <h6 class="font-weight-900 text-uppercase"><a
-                                                                        href="#">Senior Developer</a></h6>
-                                                                <p>When I hear “Senior Developer” I think of someone
-                                                                    who has mastered ... When looking at
-                                                                    software engineers I see 4 tiers of skills:
-                                                                    Luminary, Senior.</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="social-icon">
-                                                            <span><i
-                                                                    class="material-icons vertical-align-bottom mr-1">favorite_border</i>90</span>
-                                                            <i
-                                                                class="material-icons vertical-align-bottom ml-3 mr-1">chat_bubble_outline</i>
-                                                            15 <span><i
-                                                                    class="material-icons vertical-align-bottom ml-3 mr-1">redo</i>
-                                                                6</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                    </div>                                                
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -346,65 +180,21 @@
                             <hr class="mt-5">
                             <div class="row">
                                 <div class="col s12">
-                                    <h6>Who to follow</h6>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/2.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Frank Goodman</p>
-                                    </a>
-                                    <p class="m-0 grey-text lighten-3">Senior architect</p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/7.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Luiza Ales</p>
-                                    </a>
-                                    <p class="m-0 grey-text lighten-3">Senior Developer</p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/4.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Robbin Drummo</p>
-                                    </a>
-                                    <p class="m-0 grey-text lighten-3">Graphic Designer</p>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col s2 mt-2 pr-0 circle">
-                                    <a href="#"><img class="responsive-img circle"
-                                            src="{{ asset('assets/images/user/8.jpg') }}" alt=""></a>
-                                </div>
-                                <div class="col s9">
-                                    <a href="#">
-                                        <p class="m-0">Myles Steven</p>
-                                    </a>
-                                    <p class="m-0 grey-text lighten-3">Senior Developer</p>
-                                </div>
-                            </div>
-                            <hr class="mt-5">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h6>Последние выплаты по заявкам</h6>
-                                    <p class="latest-update">
-                                        Make Metronic
-                                        <span class="right"><a href="#">+480</a></span>
-                                    </p>
+                                    <div class="card recent-buyers-card animate fadeUp">
+                                        <div class="card-content">
+                                            <h4 class="card-title mb-0">Последние выплаты по заявкам</h4>
+                                            <ul class="collection mb-0">
+                                                @foreach ($userProfile['user']->request_payments as $payment)
+                                                    <li class="collection-item avatar">
+                                                        <img src="{{ asset('assets/images/icon/printer.png') }}" alt="" class="circle" />
+                                                        <p class="font-weight-600">Заявка №{{ $payment->request_id }}</p>
+                                                        <p class="medium-small">{{ \Carbon\Carbon::parse($payment->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
+                                                        <p class="secondary-content">+{{ $payment->amount }}c.</p>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -419,4 +209,9 @@
 
 @section('scripts')
     @parent
+    <script>
+        $(document).ready(function(){
+            $('.tooltipped').tooltip();
+        });
+    </script>
 @endsection

@@ -59,7 +59,8 @@ $(document).ready(function() {
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         data: requestData,
-                        priority: $('#request_priority').val()
+                        priority: $('#request_priority').val(),
+                        payment_deadline: $('#payment_deadline').val()
                     },
                     success: function (data) {
                         console.log(data);

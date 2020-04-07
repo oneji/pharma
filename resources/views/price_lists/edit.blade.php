@@ -67,7 +67,7 @@
                                                                 <input name="exp_date" type="text" class="datepicker" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
                                                             </td>
                                                             <td>
-                                                                <input class="center-align" name="price" type="text" placeholder="Цена" value="{{ $item->price }}" required>
+                                                                <input class="center-align" name="price" type="number" placeholder="Цена" value="{{ $item->price }}" required>
                                                             </td>
                                                             <td>
                                                                 <input class="center-align" name="quantity" type="number" placeholder="Кол-во" value="{{ $item->quantity }}" required>

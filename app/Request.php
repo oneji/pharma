@@ -155,6 +155,7 @@ class Request extends Model
         $req->payment_amount = $data['payment_amount'];
         $req->user_id = Auth::user()->id;
         $req->priority = $data['priority'];
+        $req->payment_deadline = Carbon::createFromFormat('d/m/Y', $data['payment_deadline']);
         $req->save();
 
         // Save items

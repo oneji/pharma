@@ -10,6 +10,7 @@ use App\PriceListItem;
 use App\RequestPayment;
 use App\ActionLog;
 use Auth;
+use App\Notifications\RequestPaid;
 
 class RequestController extends Controller
 {
@@ -78,7 +79,8 @@ class RequestController extends Controller
         
         $req = RequestModel::createRequest([
             'payment_amount' => $paymentAmount,
-            'priority' => $request->priority
+            'priority' => $request->priority,
+            'payment_deadline' => $request->payment_deadline
         ], $request->data);
 
         ActionLog::create([
@@ -156,6 +158,7 @@ class RequestController extends Controller
         if((double)$paymentAmount === (double)$request->amount) {
             
             $this->changeStatus($id, 'paid');
+            Auth::user()->notify(new RequestPaid($req));
         }
 
         return redirect()->route('requests.view', [ 'id' => $id ]);

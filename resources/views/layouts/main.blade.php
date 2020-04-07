@@ -31,30 +31,23 @@
                 <div class="nav-wrapper">
                     <ul class="navbar-list right">
                         <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
-                        <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a></li>
+                        <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">{{ Auth::user()->unreadNotifications->count() }}</small></i></a></li>
                         <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="{{ asset('assets/images/user/user.png') }}" alt="avatar"><i></i></span></a></li>
                     </ul>
                     <!-- notifications-dropdown-->
                     <ul class="dropdown-content" id="notifications-dropdown">
                         <li>
-                            <h6>NOTIFICATIONS<span class="new badge">5</span></h6>
+                            <h6>Уведомления<span class="badge green">{{ Auth::user()->unreadNotifications->count() }} новое</span></h6>
                         </li>
                         <li class="divider"></li>
-                        <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span> A new order has been placed!</a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-                        </li>
-                        <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
-                        </li>
-                        <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
-                        </li>
-                        <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
-                        </li>
-                        <li><a class="black-text" href="#!"><span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
-                            <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
-                        </li>
+                        @foreach (Auth::user()->notifications as $notification)
+                            <li>
+                                <a class="black-text" href="#!">
+                                    <span class="material-icons icon-bg-circle cyan small">star</span> Заявка №{{ $notification->data['request_id'] }} была оплачена.
+                                </a>
+                                <time class="media-meta grey-text darken-2" datetime="2015-06-12T20:50:48+08:00">{{ $notification->created_at }}</time>
+                            </li>                            
+                        @endforeach
                     </ul>
                     <!-- profile-dropdown-->
                     <ul class="dropdown-content" id="profile-dropdown">

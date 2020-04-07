@@ -47,8 +47,8 @@
 
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">perm_identity</i>
-                                    <input id="username" name="username" type="text" class="validate" placeholder="Введите имя пользователя">
-                                    <label for="username">Имя пользователя</label>
+                                    <input id="username" name="username" type="text" class="validate" placeholder="Введите логин">
+                                    <label for="username">Логин</label>
                                 </div>
 
                                 <div class="input-field col s6">
@@ -155,7 +155,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>ФИО</th>
-                                            <th>Имя пользователя</th>
+                                            <th>Логин</th>
                                             <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Заметки</th>

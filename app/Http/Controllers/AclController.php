@@ -22,7 +22,7 @@ class AclController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
         $permissions = Permission::all();
 
         return view('acl.index', [

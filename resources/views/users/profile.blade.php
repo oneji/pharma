@@ -76,15 +76,23 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row user-projects">
-                                <h6 class="col s12">Оплаченные заявки</h6>
-                                @foreach ($userProfile['paidRequests'] as $request)
-                                    <div class="col s3">
-                                        <a class="tooltipped" href="{{ route('requests.view', [ 'id' => $request->id ]) }}" data-position="bottom" data-tooltip="Заявка №{{ $request->id }}">
-                                            <img class="responsive-img photo-border mt-10" alt="" src="{{ asset('assets/images/icon/printer.png') }}">
-                                        </a>
-                                    </div>                                    
-                                @endforeach
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card recent-buyers-card animate fadeUp">
+                                        <div class="card-content">
+                                            <h4 class="card-title mb-0">Оплаченные заявки</h4>
+                                            <ul class="collection mb-0">
+                                                @foreach ($userProfile['paidRequests'] as $request)
+                                                    <li class="collection-item avatar">
+                                                        <img src="{{ asset('assets/images/icon/printer.png') }}" alt="" class="circle" />
+                                                        <p class="font-weight-600">Заявка №{{ $request->id }}</p>
+                                                        <p class="medium-small">{{ \Carbon\Carbon::parse($request->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <hr class="mt-5">
                         </div>
@@ -139,7 +147,7 @@
                                                             <p class="font-weight-600">Заявка №{{ $request->id }}</p>
                                                             <p class="medium-small">{{ \Carbon\Carbon::parse($request->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
                                                         </li>
-                                                    </ul>                                          
+                                                    </ul>
                                                 @endif
                                             @endforeach
                                         </div>

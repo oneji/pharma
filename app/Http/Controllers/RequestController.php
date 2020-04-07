@@ -9,7 +9,9 @@ use App\PriceList;
 use App\PriceListItem;
 use App\RequestPayment;
 use App\ActionLog;
+use App\User;
 use Auth;
+use Illuminate\Support\Facades\Notification;
 use App\Notifications\RequestPaid;
 
 class RequestController extends Controller
@@ -158,7 +160,8 @@ class RequestController extends Controller
         if((double)$paymentAmount === (double)$request->amount) {
             
             $this->changeStatus($id, 'paid');
-            Auth::user()->notify(new RequestPaid($req));
+
+            // Notification::send($users, new RequestPaid($req));
         }
 
         return redirect()->route('requests.view', [ 'id' => $id ]);

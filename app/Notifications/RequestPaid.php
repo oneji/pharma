@@ -12,6 +12,8 @@ class RequestPaid extends Notification
 {
     use Queueable;
 
+    public $request;
+
     /**
      * Create a new notification instance.
      *
@@ -69,7 +71,8 @@ class RequestPaid extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'request_id' => $this->request->id
+            'request_id' => $this->request->id,
+            'message' => 'Заявка №' . $this->request->id . ' была оплачена.'
         ];
     }
 }

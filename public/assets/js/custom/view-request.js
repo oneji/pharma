@@ -110,4 +110,38 @@ $(document).ready(function() {
             <i class="material-icons">${icon}</i>
         `;
     }
+
+    $('#request_priority').change(function() {
+        let priorityVal = $(this).val();
+
+        $.ajax({
+            url: '/requests/setPriority/' + requestId,
+            type: 'POST',
+            data: {
+                priority: priorityVal,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(result){
+                
+                if(result.ok) {
+                    $('.request-priority-label').remove();
+
+                    if(Number(priorityVal) === 1) {
+                        $('.request-title-block').append(`
+                            <span class="badge green request-priority-label">Высокий приоритет</span>
+                        `);
+                    } else if(Number(priorityVal) === 2) {
+                        $('.request-title-block').append(`
+                            <span class="badge orange request-priority-label">Средний приоритет</span>
+                        `);
+                    } else if(Number(priorityVal) === 3) {
+                        $('.request-title-block').append(`
+                            <span class="badge red request-priority-label">Низкий приоритет</span>
+                        `);
+                    }
+                }
+
+            }
+        });
+    });
 });

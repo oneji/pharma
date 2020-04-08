@@ -73,22 +73,14 @@
                                             </table>
                                         </div>
     
-                                        <div class="divider mt-3"></div>
+                                        <div class="divider mt-1"></div>
     
                                         <div class="row">
-                                            <div class="input-field col m5 s12 xl4 mt-2">
-                                                <select name="priority" id="request_priority">
-                                                    <option value="1">Высокий</option>
-                                                    <option value="2" selected>Средний</option>
-                                                    <option value="3">Низкий</option>
-                                                </select>
-                                                <label>Приоритет заявки</label>
-                                            </div>
                                             <div class="input-field col m5 s12 xl4 mt-2">
                                                 <input name="payment_deadline" id="payment_deadline" type="text" class="datepicker" placeholder="Выберите дату" required>
                                                 <label>Дедлайн заявки</label>
                                             </div>
-                                            <div class="col m7 s12 xl4">
+                                            <div class="col m7 s12 xl4 offset-xl4">
                                                 <ul>
                                                     <li class="display-flex justify-content-between">
                                                         <span class="request-subtotal-title">Общая цена</span>

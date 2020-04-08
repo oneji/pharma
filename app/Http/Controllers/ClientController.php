@@ -13,11 +13,23 @@ class ClientController extends Controller
     /**
      * 
      */
+    public function index()
+    {
+        $newClients = NewClientRequest::getAll();
+
+        return view('new-clients.index', [
+            'newClients' => $newClients
+        ]);
+    }
+
+    /**
+     * 
+     */
     public function newClient()
     {
         $companies = Company::all();
 
-        return view('users.new-client-request', [ 'companies' => $companies ]);
+        return view('new-clients.request', [ 'companies' => $companies ]);
     }
 
     /**
@@ -35,6 +47,6 @@ class ClientController extends Controller
 
         Session::flash('success', 'Ваша заявка успешно отправлена. ');
 
-        return redirect()->route('newClient.index');
+        return redirect()->route('newClients.newClient');
     }
 }

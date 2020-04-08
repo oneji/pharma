@@ -81,7 +81,6 @@ class RequestController extends Controller
         
         $req = RequestModel::createRequest([
             'payment_amount' => $paymentAmount,
-            'priority' => $request->priority,
             'payment_deadline' => $request->payment_deadline
         ], $request->data);
 
@@ -195,5 +194,14 @@ class RequestController extends Controller
         ]);
 
         return redirect()->route('requests.view', [ 'id' => $id ]);
+    }
+
+    /**
+     * 
+     */
+    public function setPriority($id, Request $request) {
+        RequestModel::setPriority($id, $request->priority);
+
+        return response()->json([ 'ok' => true ]);
     }
 }

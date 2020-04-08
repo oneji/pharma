@@ -154,7 +154,7 @@ class Request extends Model
         $req = new Request();
         $req->payment_amount = $data['payment_amount'];
         $req->user_id = Auth::user()->id;
-        $req->priority = $data['priority'];
+        $req->priority = static::PRIORITY_MEDIUM;
         $req->payment_deadline = Carbon::createFromFormat('d/m/Y', $data['payment_deadline']);
         $req->save();
 
@@ -176,6 +176,21 @@ class Request extends Model
 
         return $req;
     }
+
+    /**
+     * Set the request priority
+     * 
+     * @param int $id
+     * @param int $value
+     * 
+     * @return
+     */
+    public static function setPriority($id, $value)
+    {
+        $req = static::find($id);
+        $req->priority = $value;
+        $req->save();
+    } 
 
     /**
      * Get the request by id

@@ -43,7 +43,7 @@
                                         
                                         {{-- Request title, status and priority --}}
                                         <div class="row display-flex align-items-center mt-1">
-                                            <div class="col s12 m6 l6 ml-0 display-flex align-items-center">
+                                            <div class="col s12 m6 l6 ml-0 display-flex align-items-center request-title-block">
                                                 <h4 class="indigo-text">
                                                     Заявка №<span id="request-id">{{ $req->id }}</span>
                                                 </h4>
@@ -72,15 +72,15 @@
                                                 @endif
 
                                                 @if($req->priority === 1)
-                                                    <span class="badge green">Высокий приоритет</span>
+                                                    <span class="badge green request-priority-label">Высокий приоритет</span>
                                                 @endif
 
                                                 @if ($req->priority === 2)
-                                                    <span class="badge orange">Средний приоритет</span>
+                                                    <span class="badge orange request-priority-label">Средний приоритет</span>
                                                 @endif
 
                                                 @if ($req->priority === 3)
-                                                    <span class="badge red">Низкий приоритет</span>
+                                                    <span class="badge red request-priority-label">Низкий приоритет</span>
                                                 @endif
                                             </div>
 
@@ -208,7 +208,22 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                    </div>
+
+                                        <div class="divider mt-2 mb-2"></div>
+
+                                        @role('superadministrator|manager|head-manager')
+                                            <div class="row">
+                                                <div class="input-field col m5 s12 xl4">
+                                                    <select name="priority" id="request_priority">
+                                                        <option value="1" {{ $req->priority === 1 ? 'selected' : 0 }}>Высокий</option>
+                                                        <option value="2" {{ $req->priority === 2 ? 'selected' : 0 }}>Средний</option>
+                                                        <option value="3" {{ $req->priority === 3 ? 'selected' : 0 }}>Низкий</option>
+                                                    </select>
+                                                    <label>Приоритет заявки</label>
+                                                </div>
+                                            </div>
+                                        @endrole
+                                   </div>
 
                                     {{-- Request logs --}}
                                     @role('superadministrator')

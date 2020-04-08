@@ -12,8 +12,9 @@
 */
 Auth::routes();
 
-Route::get('new-client', 'ClientController@newClient')->name('newClient.index');
-Route::post('new-client', 'ClientController@saveRequest')->name('newClient.saveRequest');
+Route::get('new-client-requests', 'ClientController@index')->name('newClients.index');
+Route::get('new-client', 'ClientController@newClient')->name('newClients.newClient');
+Route::post('new-client', 'ClientController@saveRequest')->name('newClients.saveRequest');
 
 Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
@@ -58,6 +59,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     
     Route::post('requests', 'RequestController@store')->name('requests.store');
     Route::post('requests/pay/{id}', 'RequestController@pay')->name('requests.pay');
+    Route::post('requests/setPriority/{id}', 'RequestController@setPriority')->name('requests.priority');
     
     Route::delete('requests/removeItem/{id}', 'RequestController@removeItem')->name('requests.removeItem');
     

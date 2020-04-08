@@ -136,6 +136,13 @@
                     </a>
                 </li>
             @endpermission
+
+            <li class="bold">
+                <a class="{{ Route::currentRouteName() === 'newClients.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('newClients.index') }}">
+                    <i class="material-icons">people</i>
+                    <span class="menu-title" data-i18n="Kanban">Новые клиенты</span>
+                </a>
+            </li>
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
     </aside>

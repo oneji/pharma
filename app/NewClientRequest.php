@@ -26,7 +26,7 @@ class NewClientRequest extends Model
     public static function getAll()
     {
         return static::leftJoin('companies', 'companies.id', '=', 'new_client_requests.company_id')
-            ->select('new_client_requests.*', 'companies.name as company_name')
+            ->select('new_client_requests.*', 'companies.name as company_name', 'companies.id as company_id')
             ->get();
     }
 }

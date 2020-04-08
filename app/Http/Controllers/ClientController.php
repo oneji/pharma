@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Company;
+use App\Role;
+use App\User;
 use App\NewClientRequest;
 use App\Http\Requests\StoreNewClientRequest;
 use Session;
@@ -16,9 +18,15 @@ class ClientController extends Controller
     public function index()
     {
         $newClients = NewClientRequest::getAll();
+        $companies = Company::all();
+        $roles = Role::all();
+        $managers = User::getManagers();
 
         return view('new-clients.index', [
-            'newClients' => $newClients
+            'newClients' => $newClients,
+            'companies' => $companies,
+            'roles' => $roles,
+            'managers' => $managers
         ]);
     }
 

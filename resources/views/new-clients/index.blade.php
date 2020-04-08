@@ -27,11 +27,11 @@
         <form action="{{ route('users.store') }}" method="POST" id="addClientForm">
             @csrf
             <div class="modal-content">
-                <h5>Добавить пользователя</h5>
+                <h5>Добавить клиента</h5>
                 <div class="container mt-4">
                     <div class="card-alert card blue">
                         <div class="card-content white-text">
-                            <p><i class="material-icons">info</i> Для нового пользователя сгенерирован случайный пароль!</p>
+                            <p><i class="material-icons">info</i> Для нового клиента сгенерирован случайный пароль!</p>
                         </div>
                     </div>
                     <div class="row">

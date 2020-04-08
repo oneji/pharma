@@ -19,7 +19,7 @@ class ClientController extends Controller
     {
         $newClients = NewClientRequest::getAll();
         $companies = Company::all();
-        $roles = Role::all();
+        $roles = Role::getExcept('superadministrator');
         $managers = User::getManagers();
 
         return view('new-clients.index', [

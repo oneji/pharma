@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $('.tooltipped').tooltip();
-    $('.select2').select2();
 
     $('#addClientForm').validate({
         rules: {
@@ -71,7 +70,6 @@ $(document).ready(function() {
 
         let clientName = $(this).parent().parent().data('client-name');
         let clientPhone = $(this).parent().parent().data('client-phone');
-        let clientCompany = Number($(this).parent().parent().data('company-id'));
         let randomPassword = Math.random().toString(36).slice(-8);
 
         form.find('input[name="name"]').val(clientName);

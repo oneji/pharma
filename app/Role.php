@@ -19,4 +19,16 @@ class Role extends LaratrustRole
         $role->description = $data['description'];
         $role->save();
     }
+
+    /**
+     * Get all the roles except "superadministrator"
+     * 
+     * @param string $exceptionRole
+     * 
+     * @return object
+     */
+    public static function getExcept($exceptionRole)
+    {
+        return static::where('name', '<>', $exceptionRole)->get();
+    }
 }

@@ -80,8 +80,7 @@ class RequestController extends Controller
         $paymentAmount = RequestModel::setPaymentAmount($itemIds, $request->data);
         
         $req = RequestModel::createRequest([
-            'payment_amount' => $paymentAmount,
-            'payment_deadline' => $request->payment_deadline
+            'payment_amount' => $paymentAmount
         ], $request->data);
 
         ActionLog::create([
@@ -201,6 +200,26 @@ class RequestController extends Controller
      */
     public function setPriority($id, Request $request) {
         RequestModel::setPriority($id, $request->priority);
+
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_PRIORITY_CHANGED,
+            'request_id' => $id
+        ]);
+
+        return response()->json([ 'ok' => true ]);
+    }
+
+    /**
+     * 
+     */
+    public function setPaymentDeadline($id, Request $request)
+    {
+        RequestModel::setPaymentDeadline($id, $request->deadline);
+
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_SET_DEADLINE,
+            'request_id' => $id
+        ]);
 
         return response()->json([ 'ok' => true ]);
     }

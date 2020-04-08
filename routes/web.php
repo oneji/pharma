@@ -60,6 +60,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::post('requests', 'RequestController@store')->name('requests.store');
     Route::post('requests/pay/{id}', 'RequestController@pay')->name('requests.pay');
     Route::post('requests/setPriority/{id}', 'RequestController@setPriority')->name('requests.priority');
+    Route::post('requests/setPaymentDeadline/{id}', 'RequestController@setPaymentDeadline')->name('requests.paymentDeadline');
     
     Route::delete('requests/removeItem/{id}', 'RequestController@removeItem')->name('requests.removeItem');
     

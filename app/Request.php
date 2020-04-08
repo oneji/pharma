@@ -155,7 +155,7 @@ class Request extends Model
         $req->payment_amount = $data['payment_amount'];
         $req->user_id = Auth::user()->id;
         $req->priority = static::PRIORITY_MEDIUM;
-        $req->payment_deadline = Carbon::createFromFormat('d/m/Y', $data['payment_deadline']);
+        $req->payment_deadline = null;
         $req->save();
 
         // Save items
@@ -401,5 +401,15 @@ class Request extends Model
         $req->save();
 
         return $req;
+    }
+
+    /**
+     * 
+     */
+    public static function setPaymentDeadline($id, $deadline)
+    {
+        $req = static::find($id);
+        $req->payment_deadline = Carbon::createFromFormat('d/m/Y', $deadline);
+        $req->save();
     }
 }

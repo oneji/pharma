@@ -76,11 +76,7 @@
                                         <div class="divider mt-1"></div>
     
                                         <div class="row">
-                                            <div class="input-field col m5 s12 xl4 mt-2">
-                                                <input name="payment_deadline" id="payment_deadline" type="text" class="datepicker" placeholder="Выберите дату" required>
-                                                <label>Дедлайн заявки</label>
-                                            </div>
-                                            <div class="col m7 s12 xl4 offset-xl4">
+                                            <div class="col m7 s12 xl4 offset-xl8">
                                                 <ul>
                                                     <li class="display-flex justify-content-between">
                                                         <span class="request-subtotal-title">Общая цена</span>

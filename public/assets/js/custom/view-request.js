@@ -144,4 +144,22 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#payment_deadline').change(function() {
+        let paymentDeadline = $(this).val();
+
+        $.ajax({
+            url: '/requests/setPaymentDeadline/' + requestId,
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                deadline: paymentDeadline
+            },
+            success: function(result){
+                
+                console.log(result);
+
+            }
+        });
+    });
 });

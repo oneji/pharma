@@ -221,6 +221,11 @@
                                                     </select>
                                                     <label>Приоритет заявки</label>
                                                 </div>
+
+                                                <div class="input-field col m5 s12 xl4">
+                                                    <input value="{{ $req->payment_deadline }}" name="payment_deadline" id="payment_deadline" type="text" class="datepicker" placeholder="Выберите дату" required>
+                                                    <label>Дедлайн заявки</label>
+                                                </div>
                                             </div>
                                         @endrole
                                    </div>

@@ -17,5 +17,5 @@ $(document).ready(function() {
                 previous: "Пред"
             }
         }
-    });
+    }).order([ 3, 'asc' ]).draw();;
 }); 

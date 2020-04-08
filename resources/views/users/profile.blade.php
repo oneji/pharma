@@ -8,25 +8,20 @@
     @parent
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/user-profile-page.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/dashboard-modern.css') }}">
-    <style>
-        .user-profile-bg {
-            height: 150px;
-            width: 100%;
-            background-position: center center;
-            background-size: cover;
-            background-image: url('../../assets/images/gallery/flat-bg.jpg');
-            margin-bottom: 5px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/page-users.min.css') }}">
 @endsection
 
 @section('content')
-    <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+    <div class="breadcrumbs-dark pb-0 pt-2" id="breadcrumbs-wrapper">
         <!-- Search for small screen-->
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Профиль пользователя</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0">
+                        <span class="display-flex align-items-center"><i class="material-icons mr-1">account_circle</i>{{ $userProfile['user']->name }}</span>
+                    </h5>
                     <ol class="breadcrumbs mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Главная</a></li>
                         <li class="breadcrumb-item active">Профиль пользователя</li>
@@ -40,154 +35,108 @@
         <div class="container">
             <div class="section">
                 <div class="row user-profile mt-1 ml-0 mr-0">
-                    <div class="user-profile-bg">
-                        {{-- <img class="responsive-img" alt="" src="{{ asset('assets/images/gallery/flat-bg.jpg') }}"> --}}
-                    </div>
+                    <div class="user-profile-bg"></div>
                 </div>
                 <div class="section" id="user-profile">
                     <div class="row">
-                        <!-- User Profile Feed -->
-                        <div class="col s12 m4 l3 user-section-negative-margin">
-                            <div class="row">
-                                <div class="col s12 center-align">
-                                    <img class="responsive-img circle z-depth-5" width="120"
-                                        src="{{ asset('assets/images/user/6.jpg') }}" alt="">
-                                    <br>
-                                </div>
-                            </div>
-                            <hr>
-                            <div id="profile-card" class="card animate fadeRight">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="activator" src="{{ asset('assets/images/gallery/3.png') }}" alt="user bg" />
-                                </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('assets/images/user/user.png') }}" alt="" class="circle responsive-img card-profile-image padding-2" />
-                                    <h5 class="card-title activator grey-text text-darken-4">{{ $userProfile['user']->name }}</h5>
-                                    <p><i class="material-icons profile-card-i">perm_identity</i>Project Manager</p>
-                                    <p><i class="material-icons profile-card-i">perm_phone_msg</i>{{ $userProfile['user']->phone }}</p>
-                                    <p><i class="material-icons profile-card-i">person</i>{{ $userProfile['user']->username }}</p>
-                                </div>
-                            </div>
-                            <hr class="mt-5">
-                            <div class="row">
-                                <div class="col s12">
-                                    <p class="m-0">Заявки</p>
-                                    <p class="m-0">{{ $userProfile['paidRequests']->count() }} из {{ $userProfile['user']->requests->count() }} оплачены</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card recent-buyers-card animate fadeUp">
-                                        <div class="card-content">
-                                            <h4 class="card-title mb-0">Оплаченные заявки</h4>
-                                            <ul class="collection mb-0">
-                                                @foreach ($userProfile['paidRequests'] as $request)
-                                                    <li class="collection-item avatar">
-                                                        <img src="{{ asset('assets/images/icon/printer.png') }}" alt="" class="circle" />
-                                                        <p class="font-weight-600">Заявка №{{ $request->id }}</p>
-                                                        <p class="medium-small">{{ \Carbon\Carbon::parse($request->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="mt-5">
-                        </div>
                         <!-- User Post Feed -->
-                        <div class="col s12 m8 l6">
+                        <div class="col s12 m8 l9">
                             <div class="row">
-                                <div class="card user-card-negative-margin z-depth-0" id="feed">
-                                    <div class="card-content card-border-gray">
-                                        <div class="row">
-                                            <div class="col s12">
-                                                <h5>{{ $userProfile['user']->name }}</h5>
-                                                <p>{{ $userProfile['user']->roles->first()->display_name }}</p>
+                                <section class="users-list-wrapper section">
+                                    <div class="users-list-table">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <div class="responsive-table">
+                                                    <table id="requests-list" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="center-align">№ заявки</th>
+                                                                <th>Сумма долга</th>
+                                                                <th>Статус</th>
+                                                                <th>Приоритет</th>
+                                                                <th>Дедлайн оплаты</th>
+                                                                <th>Действия</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($userProfile['user']->requests as $idx => $req)
+                                                            <tr>
+                                                                <td class="center-align"><a href="{{ route('requests.view', [ 'id' => $req->id ]) }}">#{{ $req->id }}</a></td>
+                                                                <td><span class="badge green">{{ $req->payment_amount }}c.</span></td>
+                                                                <td>
+                                                                    @if($req->status === 'under_revision')
+                                                                        <span class="badge blue">В рассмотрении</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->status === 'sent')
+                                                                        <span class="badge green">Отправлена</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->status === 'written_out')
+                                                                        <span class="badge orange">Выписана</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->status === 'being_prepared')
+                                                                        <span class="badge orange">Готовится</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->status === 'shipped')
+                                                                        <span class="badge orange">Отгружена</span>
+                                                                    @endif
+                                                                    
+                                                                    @if ($req->status === 'paid')
+                                                                        <span class="badge green">Оплачена</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->status === 'cancelled')
+                                                                        <span class="badge red">Отменена</span>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if($req->priority === 1)
+                                                                        <span class="badge green">Высокий</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->priority === 2)
+                                                                        <span class="badge orange">Средний</span>
+                                                                    @endif
+                    
+                                                                    @if ($req->priority === 3)
+                                                                        <span class="badge red">Низкий</span>
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{ \Carbon\Carbon::parse($req->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
+                                                                <td>
+                                                                    <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col s12">
-                                                <ul class="tabs card-border-gray mt-4">
-                                                    <li class="tab col m3 s6 p-0">
-                                                        <a href="#req_under_revision" class="active">
-                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
-                                                            В рассмотрении
-                                                        </a>
-                                                    </li>
-                                                    <li class="tab col m3 s6 p-0">
-                                                        <a href="#req_sent">
-                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
-                                                            Отправлены
-                                                        </a>
-                                                    </li>
-                                                    <li class="tab col m3 s6 p-0">
-                                                        <a href="#req_being_prepared">
-                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
-                                                            Готовятся
-                                                        </a>
-                                                    </li>
-                                                    <li class="tab col m3 s6 p-0">
-                                                        <a href="#req_shipped">
-                                                            <i class="material-icons vertical-align-middle">crop_portrait</i>
-                                                            Отгруженные
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div id="req_under_revision" class="recent-buyers-card">
-                                            @foreach ($userProfile['user']->requests as $request)
-                                                @if ($request->status === 'under_revision')
-                                                    <ul class="collection mb-0">
-                                                        <li class="collection-item avatar">
-                                                            <img src="{{ asset('assets/images/icon/printer.png') }}" alt="" class="circle" />
-                                                            <p class="font-weight-600">Заявка №{{ $request->id }}</p>
-                                                            <p class="medium-small">{{ \Carbon\Carbon::parse($request->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</p>
-                                                        </li>
-                                                    </ul>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                        <hr class="mt-5">
-                                        <div id="req_sent">
-                                            @foreach ($userProfile['user']->requests as $request)
-                                                @if ($request->status === 'sent')
-                                                    <div class="row mt-5">
-                                                        <div class="col s1 pr-0 circle">
-                                                            <a href="#"><img class="responsive-img circle" src="{{ asset('assets/images/icon/printer.png') }}" alt=""></a>
-                                                        </div>
-                                                        <div class="col s11">
-                                                            <a href="#">
-                                                                <p class="m-0">Заявка №{{ $request->id }} <span><i class="material-icons vertical-align-bottom">access_time</i> {{ $request->created_at }}</span></p>
-                                                            </a>
-                                                        </div>
-                                                    </div>                                                
-                                                @endif
-                                            @endforeach
                                         </div>
                                     </div>
-                                </div>
+                                </section>
                             </div>
                         </div>
                         <!-- Today Highlight -->
                         <div class="col s12 m12 l3 hide-on-med-and-down">
-                            <div class="row mt-5">
-                                <div class="col s12">
-                                    <h6>Today Highlight</h6>
-                                    <img class="responsive-img card-border z-depth-2 mt-2"
-                                        src="{{ asset('assets/images/gallery/post-3') }}.png" alt="">
-                                    <p><a href="#">Meeting with clients</a></p>
-                                    <p>Crediting isn’t required, but is appreciated and allows photographers to gain
-                                        exposure. Copy the text
-                                        below or embed a credit badge</p>
-                                </div>
-                            </div>
-                            <hr class="mt-5">
                             <div class="row">
                                 <div class="col s12">
+                                    <div id="profile-card" class="card animate fadeRight">
+                                        <div class="card-image waves-effect waves-block waves-light">
+                                            <img class="activator" src="{{ asset('assets/images/gallery/3.png') }}" alt="user bg" />
+                                        </div>
+                                        <div class="card-content">
+                                            <img src="{{ asset('assets/images/user/user.png') }}" alt="" class="circle responsive-img card-profile-image padding-2" />
+                                            <h5 class="card-title activator grey-text text-darken-4">{{ $userProfile['user']->name }}</h5>
+                                            <p><i class="material-icons profile-card-i">account_circle</i>{{ $userProfile['user']->roles->first()->display_name }}</p>
+                                            <p><i class="material-icons profile-card-i">perm_phone_msg</i>{{ $userProfile['user']->phone }}</p>
+                                            <p><i class="material-icons profile-card-i">person</i>{{ $userProfile['user']->username }}</p>
+                                        </div>
+                                    </div>
+                                    <hr class="mt-5">
                                     <div class="card recent-buyers-card animate fadeUp">
                                         <div class="card-content">
                                             <h4 class="card-title mb-0">Последние выплаты по заявкам</h4>
@@ -217,9 +166,30 @@
 
 @section('scripts')
     @parent
+
+    <script src="{{ asset('assets/vendors/data-tables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             $('.tooltipped').tooltip();
+
+            $("#requests-list").DataTable({
+                language: {
+                    search: "",
+                    searchPlaceholder: "Поиск",
+                    lengthMenu: "Показать _MENU_ записей на странице",
+                    zeroRecords: "Ничего не найдено",
+                    info: "Страница _PAGE_ из _PAGES_",
+                    infoEmpty: "Производителей не найдено",
+                    infoFiltered: "(filtered from _MAX_ total records)",
+                    paginate: {
+                        first: "Первая",
+                        last: "Последняя",
+                        next: "След",
+                        previous: "Пред"
+                    }
+                }
+            }).order([ 0, 'desc' ]).draw();
         });
     </script>
 @endsection

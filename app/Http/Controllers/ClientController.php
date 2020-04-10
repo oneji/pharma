@@ -13,13 +13,15 @@ use Session;
 class ClientController extends Controller
 {
     /**
+     * Show all new client requests
      * 
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $newClients = NewClientRequest::getAll();
         $companies = Company::all();
-        $roles = Role::getExcept('superadministrator');
+        $roles = Role::all();
         $managers = User::getManagers();
 
         return view('new-clients.index', [
@@ -31,7 +33,9 @@ class ClientController extends Controller
     }
 
     /**
+     * Show new client page
      * 
+     * @return \Illuminate\Http\Response
      */
     public function newClient()
     {
@@ -41,7 +45,11 @@ class ClientController extends Controller
     }
 
     /**
+     * Store a newly creatde new client request in the db
      * 
+     * @param \Illuminate\Http\Requests\StoreNewClientRequest
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function saveRequest(StoreNewClientRequest $request)
     {

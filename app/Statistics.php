@@ -10,7 +10,9 @@ use App\RequestPayment;
 class Statistics extends Model
 {
     /**
+     * Get full statistics
      * 
+     * @return array
      */
     public static function getFull()
     {
@@ -32,7 +34,9 @@ class Statistics extends Model
     }
 
     /**
+     * Get total debt amount
      * 
+     * @return double
      */
     public static function  getTotalDebtAmount()
     {
@@ -43,7 +47,9 @@ class Statistics extends Model
     }
 
     /**
+     * Get all request types count
      * 
+     * @return array
      */
     public static function getAllRequestTypesCount()
     {

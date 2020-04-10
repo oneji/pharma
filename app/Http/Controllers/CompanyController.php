@@ -9,7 +9,9 @@ use App\Company;
 class CompanyController extends Controller
 {
     /**
+     * Show all companies
      * 
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -19,7 +21,11 @@ class CompanyController extends Controller
     }
 
     /**
+     * Store a newly created company in the db
      * 
+     * @param \Illuminate\Http\Requests\StoreCompany
+     * 
+     * @param \Illuminate\Http\Response
      */
     public function store(StoreCompany $request)
     {

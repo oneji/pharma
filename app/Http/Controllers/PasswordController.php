@@ -9,7 +9,9 @@ use App\User;
 class PasswordController extends Controller
 {
     /**
+     * Show edit password form
      * 
+     * @return \Illuminate\Http\Response
      */
     public function editPassword()
     {
@@ -17,7 +19,11 @@ class PasswordController extends Controller
     }
 
     /**
+     * Change user password
      * 
+     * @param \Illuminate\Http\Requests\ChangeUserPassword
+     * 
+     * @return \Illuminate\Http\Response 
      */
     public function changePassword(ChangeUserPassword $request)
     {

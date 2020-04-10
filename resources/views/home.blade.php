@@ -26,8 +26,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Заявки в рассмотрении</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['underRevision'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_up</i> 15%
-                            <span class="cyan text text-lighten-5">from yesterday</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'under_revision' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>
@@ -38,8 +37,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Отправленные заявки</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['sent'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_up</i> 70%
-                            <span class="red-text text-lighten-5">last month</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'sent' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>
@@ -50,8 +48,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Заявки в подготовке</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['prepared'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_up</i> 80%
-                            <span class="orange-text text-lighten-5">from yesterday</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'prepared' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>
@@ -62,8 +59,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Отгруженные заявки</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['shipped'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_down</i> 3%
-                            <span class="green-text text-lighten-5">from last month</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'shipped' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>
@@ -74,8 +70,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Оплаченные заявки</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['paid'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_down</i> 3%
-                            <span class="green-text text-lighten-5">from last month</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'paid' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>
@@ -86,8 +81,7 @@
                         <p class="card-stats-title"><i class="material-icons">content_copy</i> Отмененные заявки</p>
                         <h4 class="card-stats-number white-text">{{ $stats['allRequestTypesCount']['cancelled'] }}</h4>
                         <p class="card-stats-compare">
-                            <i class="material-icons">keyboard_arrow_down</i> 3%
-                            <span class="green-text text-lighten-5">from last month</span>
+                            <a href="{{ route('requests.getByStatus', [ 'status' => 'cancelled' ]) }}">Просмотреть</a>
                         </p>
                     </div>
                 </div>

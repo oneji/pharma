@@ -16,7 +16,9 @@ class Medicine extends Model
     }
 
     /**
-     * Save medicine
+     * Save medicine in the db
+     * 
+     * @param array $medicineData
      */
     public static function saveMedicine($medicineData)
     {
@@ -28,7 +30,9 @@ class Medicine extends Model
     }
 
     /**
+     * Get all medicine with brand name
      * 
+     * @return collection
      */
     public static function getAllMedicineWithBrand()
     {

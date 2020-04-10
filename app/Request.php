@@ -51,7 +51,7 @@ class Request extends Model
     /**
      * Get all requests according to the user role
      * 
-     * @return object
+     * @return collection
      */
     public static function getAll()
     {
@@ -404,12 +404,27 @@ class Request extends Model
     }
 
     /**
+     * Set request's payment deadline
      * 
+     * @param int $id
+     * @param string $deadline
      */
     public static function setPaymentDeadline($id, $deadline)
     {
         $req = static::find($id);
         $req->payment_deadline = Carbon::createFromFormat('d/m/Y', $deadline);
         $req->save();
+    }
+
+    /**
+     * Get request by status
+     * 
+     * @param string $status
+     * 
+     * @return collection
+     */
+    public static function getByStatus($status)
+    {
+        return static::where('status', $status)->get();
     }
 }

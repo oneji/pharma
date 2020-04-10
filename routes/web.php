@@ -56,6 +56,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('requests/create', 'RequestController@create')->name('requests.create');
     Route::get('requests/edit/{id}', 'RequestController@edit')->name('requests.edit');
     Route::get('requests/view/{id}', 'RequestController@getById')->name('requests.view');
+    Route::get('requests/status/{status}', 'RequestController@getByStatus')->name('requests.getByStatus');
     
     Route::post('requests', 'RequestController@store')->name('requests.store');
     Route::post('requests/pay/{id}', 'RequestController@pay')->name('requests.pay');

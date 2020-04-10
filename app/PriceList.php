@@ -17,7 +17,9 @@ class PriceList extends Model
     }
 
     /**
+     * Get all price lists
      * 
+     * @return collection
      */
     public static function getAll()
     {
@@ -25,7 +27,11 @@ class PriceList extends Model
     }
 
     /**
+     * Store a newly created price list in the db
      * 
+     * @param array $data
+     * 
+     * @return collection $priceList
      */
     public static function create($data)
     {
@@ -51,7 +57,11 @@ class PriceList extends Model
     } 
 
     /**
+     * Get the price list with price list items
      * 
+     * @param int $id
+     * 
+     * @return collection $priceList
      */
     public static function getWithItems($id)
     {
@@ -73,7 +83,12 @@ class PriceList extends Model
     }
 
     /**
+     * Update existing price list
      * 
+     * @param int $id
+     * @param array $data
+     * 
+     * @return collection $priceList
      */
     public static function change($id, $data)
     {
@@ -101,7 +116,9 @@ class PriceList extends Model
     }
 
     /**
+     * Get the only created price list
      * 
+     * @return collection
      */
     public static function getTheOnlyPriceList()
     {
@@ -111,7 +128,12 @@ class PriceList extends Model
     }
 
     /**
+     * Massively update price list and price list items
      * 
+     * @param int $id
+     * @param array $itemsToAdd
+     * @param array $itemsToUpdate
+     * @param array $itemsToDelete
      */
     public static function massiveUpdate($id, $itemsToAdd, $itemsToUpdate, $itemsToDelete)
     {

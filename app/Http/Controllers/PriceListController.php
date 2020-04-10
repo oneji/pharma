@@ -21,7 +21,9 @@ class PriceListController extends Controller
     }
 
     /**
+     * Show all price lists
      * 
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -50,7 +52,11 @@ class PriceListController extends Controller
     }
 
     /**
+     * Show already created price list
      * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function view($id)
     {
@@ -60,7 +66,9 @@ class PriceListController extends Controller
     }
 
     /**
+     * Show create price list form
      * 
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -76,7 +84,11 @@ class PriceListController extends Controller
     }
 
     /**
+     * Create price list 
      * 
+     * @param \Illuminate\Http\Request
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function createPriceList(Request $request)
     {
@@ -91,7 +103,11 @@ class PriceListController extends Controller
     }
 
     /**
+     * Show price list edit form
      * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -107,7 +123,11 @@ class PriceListController extends Controller
     }
 
     /**
+     * Update price list and price list items
      * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -127,8 +147,6 @@ class PriceListController extends Controller
         $itemsToDelete = PriceListItem::whereNotIn('id', $itemIds)->pluck('id');
 
         PriceList::massiveUpdate($id, $itemsToAdd, $itemsToUpdate, $itemsToDelete);
-
-        // return $itemsToUpdate;
 
         return redirect()->route('price_lists.index');
     }

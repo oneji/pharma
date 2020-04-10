@@ -26,7 +26,11 @@ class MedicineController extends Controller
     }
 
     /**
+     * Store a newly creaqted medicine in the db
      * 
+     * @param \Illuminate\Http\Requests\StoreMedicine
+     * 
+     * @return \Illuminate\Http\Response 
      */
     public function store(StoreMedicine $request)
     {

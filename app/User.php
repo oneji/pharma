@@ -35,7 +35,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * 
+     * Request that belong to the user
      */
     public function requests()
     {
@@ -43,7 +43,9 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all users
      * 
+     * @return collection
      */
     public static function getAllUsers()
     {
@@ -53,7 +55,9 @@ class User extends Authenticatable
             ->get();
     }
     /**
+     * Store a newly created user to the db
      * 
+     * @param array $userData
      */
     public static function createUser($userData)
     {
@@ -75,7 +79,10 @@ class User extends Authenticatable
     }
 
     /**
+     * Update existing user
      * 
+     * @param array $userData
+     * @param int $id
      */
     public static function updateUser($userData, $id)
     {
@@ -100,7 +107,10 @@ class User extends Authenticatable
     }
 
     /**
+     * Change user's status
      * 
+     * @param int $id
+     * @param int $status
      */
     public static function changeStatus($id, $status)
     {
@@ -110,7 +120,12 @@ class User extends Authenticatable
     }
 
     /**
+     * Update user's password
      * 
+     * @param string $oldPassword
+     * @param string $newPassword
+     * 
+     * @return array
      */
     public static function updatePassword($oldPassword, $newPassword)
     {
@@ -131,13 +146,20 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Determine if password changed
+     * 
+     * @return bool
+     */
     public static function isPasswordChanged()
     {
         return Auth::user()->password_changed === 0 ? false : true;
     }
 
     /**
+     * Get all managers
      * 
+     * @return collection
      */
     public static function getManagers()
     {
@@ -145,10 +167,9 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all debtors
      * 
-     */
-    /**
-     * 
+     * @return array $debtors
      */
     public static function getDebtors()
     {
@@ -191,7 +212,11 @@ class User extends Authenticatable
     }
 
     /**
+     * Get user profile information
      * 
+     * @param int $id
+     * 
+     * @return array $userProfile
      */
     public static function getProfile($id)
     {
@@ -219,7 +244,11 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all user's paid requests
      * 
+     * @param int $id
+     * 
+     * @return collection
      */
     public static function getPaidRequests($id)
     {

@@ -21,7 +21,11 @@ class BrandController extends Controller
     }
 
     /**
+     * Store a newly created brand in the db
      * 
+     * @param \Illuminate\Http\Requests\StoreBrand
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreBrand $request)
     {

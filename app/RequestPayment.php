@@ -17,6 +17,9 @@ class RequestPayment extends Model
 
     /**
      * Save request payment
+     * 
+     * @param int $id
+     * @param double $amount
      */
     public static function pay($id, $amount)
     {
@@ -29,6 +32,10 @@ class RequestPayment extends Model
 
     /**
      * Determine total payment amount for one request
+     * 
+     * @param collection $payments
+     * 
+     * @return double $paymentsTotalSum
      */
     public static function getTotalPaymentAmount($payments)
     {

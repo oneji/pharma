@@ -21,6 +21,11 @@ class RequestController extends Controller
         $this->middleware('permission:read-requests');
     }
 
+    /**
+     * Show all requests
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $requests = RequestModel::getAll();
@@ -31,7 +36,11 @@ class RequestController extends Controller
     }
 
     /**
+     * Get the reques by id
      * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function getById($id)
     {
@@ -47,7 +56,9 @@ class RequestController extends Controller
     }
 
     /**
+     * Show create page for request
      * 
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -59,7 +70,11 @@ class RequestController extends Controller
     }
 
     /**
+     * Store the newly created request in the db
      * 
+     * @param   \Illuminate\Http\Request $request
+     * 
+     * @return  \Illuminate\Http\ResponseJson
      */
     public function store(Request $request)
     {
@@ -95,7 +110,11 @@ class RequestController extends Controller
     }
 
     /**
+     * Show the edit page for request
      * 
+     * @param int $id
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -105,7 +124,12 @@ class RequestController extends Controller
     }
 
     /**
+     * Update an item in request
      * 
+     * @param   \Illuminate\Http\Request $request
+     * @param   int $id
+     * 
+     * @return  \Illuminate\Http\ResponseJson
      */
     public function updateItem($id, Request $request)
     {
@@ -124,7 +148,12 @@ class RequestController extends Controller
     }
     
     /**
+     * Remove request item from the request
      * 
+     * @param   \Illuminate\Http\Request $request
+     * @param   int $id
+     * 
+     * @return  \Illuminate\Http\ResponseJson
      */
     public function removeItem($id, Request $request)
     {
@@ -137,7 +166,10 @@ class RequestController extends Controller
     }
 
     /**
+     * Pay the request's debt
      * 
+     * @param   \Illuminate\Http\Request $request
+     * @param   int $id
      */
     public function pay(Request $request, $id)
     {
@@ -158,15 +190,16 @@ class RequestController extends Controller
         if((double)$paymentAmount === (double)$request->amount) {
             
             $this->changeStatus($id, 'paid');
-
-            // Notification::send($users, new RequestPaid($req));
         }
 
         return redirect()->route('requests.view', [ 'id' => $id ]);
     }
 
     /**
+     * Change request's status
      * 
+     * @param int $id
+     * @param string $status
      */
     public function changeStatus($id, $status)
     {
@@ -181,7 +214,12 @@ class RequestController extends Controller
     }
 
     /**
+     * Set request's status as cancelled
      * 
+     * @param   int $id
+     * @param   \Illuminate\Http\Request $request
+     * 
+     * @return
      */
     public function cancel($id, Request $request)
     {
@@ -196,7 +234,12 @@ class RequestController extends Controller
     }
 
     /**
+     * Set request's priority
      * 
+     * @param   int $id
+     * @param   \Illuminate\Http\Request $request
+     * 
+     * @return  \Illuminate\Http\ReponseJson
      */
     public function setPriority($id, Request $request) {
         RequestModel::setPriority($id, $request->priority);
@@ -210,7 +253,12 @@ class RequestController extends Controller
     }
 
     /**
+     * Set request's payment deadline
      * 
+     * @param   int $id
+     * @param   \Illuminate\Http\Request $request
+     * 
+     * @return  \Illuminate\Http\ReponseJson
      */
     public function setPaymentDeadline($id, Request $request)
     {
@@ -222,5 +270,21 @@ class RequestController extends Controller
         ]);
 
         return response()->json([ 'ok' => true ]);
+    }
+
+    /**
+     * Get requessts by status
+     * 
+     * @param string $status
+     * 
+     * @return collection $requests
+     */
+    public function getByStatus($status)
+    {
+        $requests = RequestModel::getByStatus($status);
+
+        return view('requests.by-status', [
+            'requests' => $requests
+        ]);
     }
 }

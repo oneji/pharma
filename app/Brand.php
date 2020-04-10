@@ -15,7 +15,9 @@ class Brand extends Model
     }
 
     /**
+     * Save brand in the db
      * 
+     * @param string $brandName
      */
     public static function saveBrand($brandName)
     {

@@ -75,8 +75,6 @@ class UserController extends Controller
     {
         $userProfile = User::getProfile($id);
 
-        // return $userProfile;
-
         return view('users.profile', [
             'userProfile' => $userProfile
         ]);
@@ -132,7 +130,12 @@ class UserController extends Controller
     }
 
     /**
+     * Change user's status
      * 
+     * @param int $id
+     * @param string $status
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function changeStatus($id, $status)
     {
@@ -154,12 +157,12 @@ class UserController extends Controller
 
     /**
      * Get all debtors
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function debtors()
     {
         $debtors = User::getDebtors();
-
-        // return $debtors;
 
         return view('users.debtors', [
             'debtors' => $debtors

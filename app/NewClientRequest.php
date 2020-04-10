@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class NewClientRequest extends Model
 {
     /**
+     * Store a newly created client request in the db
      * 
+     * @param array $data
+     * 
+     * @return collection $newClientRequest
      */
     public static function store($data)
     {
@@ -21,7 +25,9 @@ class NewClientRequest extends Model
     }
 
     /**
+     * Get all new client requests
      * 
+     * @return collection
      */
     public static function getAll()
     {

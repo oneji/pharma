@@ -21,7 +21,9 @@ class ActionLog extends Model
     const ACTION_REQUEST_PRIORITY_CHANGED =     'изменил(а) приоритет заявки';
 
     /**
+     * Create action log
      * 
+     * @param array $data
      */
     public static function create($data)
     {
@@ -34,7 +36,11 @@ class ActionLog extends Model
     }
 
     /**
+     * Get log text by request status
      * 
+     * @param string $status
+     * 
+     * @return string
      */
     public static function getLogTextByRequestStatus($status)
     {
@@ -52,7 +58,11 @@ class ActionLog extends Model
     }
 
     /**
+     * Get all logs for a specific request
      * 
+     * @param int $requestId
+     * 
+     * @return collection
      */
     public static function getRequestActions($requestId)
     {

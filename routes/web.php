@@ -12,12 +12,17 @@
 */
 Auth::routes();
 
+Route::get('sms', 'SmsController@send')->name('sms.send');
+
 Route::get('new-client-requests', 'ClientController@index')->name('newClients.index');
 Route::get('new-client', 'ClientController@newClient')->name('newClients.newClient');
 Route::post('new-client', 'ClientController@saveRequest')->name('newClients.saveRequest');
 
 Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+
+    // New clients
+    Route::post('new-client', 'ClientController@store')->name('newClients.store');
 
     // Users
     Route::middleware([ 'permission:read-users' ])->group(function() {

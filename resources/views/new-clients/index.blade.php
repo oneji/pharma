@@ -24,7 +24,7 @@
 
 @section('content')
     <div id="addClientModal" class="modal" style="width: 40%">
-        <form action="{{ route('users.store') }}" method="POST" id="addClientForm">
+        <form action="{{ route('newClients.store') }}" method="POST" id="addClientForm">
             @csrf
             <div class="modal-content">
                 <h5>Добавить клиента</h5>

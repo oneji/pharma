@@ -10,6 +10,7 @@ use App\PriceListItem;
 use App\RequestPayment;
 use App\ActionLog;
 use App\User;
+use App\Sms;
 use Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\RequestPaid;
@@ -102,6 +103,11 @@ class RequestController extends Controller
             'text' => ActionLog::ACTION_REQUEST_CREATED,
             'request_id' => $req->id
         ]);
+
+        Sms::send([
+            'phone_number' => Auth::user()->phone,
+            'request_number' => $req->id
+        ], Sms::SMS_REQUEST_CREATED);
         
         return response()->json([
             'ok' => true,

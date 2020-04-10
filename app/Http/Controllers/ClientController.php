@@ -8,6 +8,7 @@ use App\Role;
 use App\User;
 use App\NewClientRequest;
 use App\Http\Requests\StoreNewClientRequest;
+use App\Http\Requests\StoreNewClient;
 use Session;
 
 class ClientController extends Controller
@@ -64,5 +65,29 @@ class ClientController extends Controller
         Session::flash('success', 'Ваша заявка успешно отправлена. ');
 
         return redirect()->route('newClients.newClient');
+    }
+
+    /**
+     * Store a newly created client account in the db
+     * 
+     * @param \Illuminate\Http\Requests\StoreNewClient $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreNewClient $request)
+    {
+        NewClientRequest::storeNewClient([
+            'name' => $request->name,
+            'username' => $request->username,
+            'password' => $request->password,
+            'phone' => $request->phone,
+            'note' => $request->note,
+            'discount_amount' => $request->discount_amount,
+            'role' => $request->role,
+            'responsible_manager_id' => $request->responsible_manager_id,
+            'company_id' => $request->company_id
+        ]);
+
+        return redirect()->route('newClients.index');
     }
 }

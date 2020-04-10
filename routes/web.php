@@ -12,8 +12,6 @@
 */
 Auth::routes();
 
-Route::get('sms', 'SmsController@send')->name('sms.send');
-
 Route::get('new-client-requests', 'ClientController@index')->name('newClients.index');
 Route::get('new-client', 'ClientController@newClient')->name('newClients.newClient');
 Route::post('new-client', 'ClientController@saveRequest')->name('newClients.saveRequest');

@@ -57,7 +57,8 @@ class ClientController extends Controller
         $data = [
             'name' => $request->name,
             'phone' => $request->phone,
-            'company_id' => $request->company_id
+            'company_name' => $request->company_name,
+            'address' => $request->address
         ];
 
         NewClientRequest::store($data);

@@ -61,8 +61,8 @@
                                     <label for="password">Пароль</label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col s12 m12 l12 ml-2 mt-1">
+                            <div class="row margin">
+                                <div class="col s12 m12 l12 mt-1">
                                     <p>
                                         <label>
                                             <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
@@ -71,9 +71,14 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row">
                                 <div class="input-field col s12">
                                     <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12">Войти</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 m12 xl12">
+                                    <p class="margin center-align medium-small"><a href="{{ route('newClients.newClient') }}">Оставить заявку на регистрацию.</a></p>
                                 </div>
                             </div>
                         </form>

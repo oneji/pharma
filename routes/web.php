@@ -14,7 +14,7 @@ Auth::routes();
 
 Route::get('new-client-requests', 'ClientController@index')->name('newClients.index');
 Route::get('new-client', 'ClientController@newClient')->name('newClients.newClient');
-Route::post('new-client', 'ClientController@saveRequest')->name('newClients.saveRequest');
+Route::post('new-client-request', 'ClientController@saveRequest')->name('newClients.saveRequest');
 
 Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');

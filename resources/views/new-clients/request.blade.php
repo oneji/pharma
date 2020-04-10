@@ -55,14 +55,15 @@
                                 </div>
 
                                 <div class="input-field col s12">
-                                    <i class="material-icons prefix pt-2">phone</i>
-                                    <select name="company_id">
-                                        <option value="" selected>Нет компании</option>
-                                        @foreach ($companies as $company)
-                                            <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="phone">Компания</label>
+                                    <i class="material-icons prefix pt-2">business</i>
+                                    <input id="company_name" type="text" name="company_name" value="{{ old('company_name') }}" placeholder="Введите компанию">
+                                    <label for="company_name">Компания</label>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix pt-2">location_on</i>
+                                    <input id="address" type="text" name="address" value="{{ old('address') }}" placeholder="Введите адрес">
+                                    <label for="address">Адрес</label>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -92,7 +93,13 @@
                     },
                     phone: {
                         required: true,
-                    }
+                    },
+                    company_name: {
+                        required: true,
+                    },
+                    address: {
+                        required: true,
+                    },
                 },
                 //For custom messages
                 messages: {
@@ -101,6 +108,12 @@
                     },
                     phone: {
                         required: 'Поле "Номер телефона" обязательное.',
+                    },
+                    company_name: {
+                        required: 'Поле "Компания" обязательное.',
+                    },
+                    address: {
+                        required: 'Поле "Адрес" обязательное.',
                     },
                 },
                 errorElement: 'div',

@@ -86,7 +86,7 @@
                             <i class="material-icons prefix">account_circle</i>
                             <select id="role" name="role">
                                 @foreach ($roles as $idx => $role)
-                                    <option {{ $idx === 0 ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>
+                                    <option {{ $role->name === 'client' ? 'selected' : null }} value="{{ $role->id }}">{{ $role->display_name }}</option>
                                 @endforeach
                             </select>
                             <label for="role">Роли</label>
@@ -146,6 +146,7 @@
                                             <th>ФИО</th>
                                             <th>Телефон</th>
                                             <th>Компания</th>
+                                            <th>Адрес</th>
                                             <th>Дата заявки</th>
                                             <th>Действия</th>
                                         </tr>
@@ -157,6 +158,7 @@
                                             <td>{{ $client->name }}</td>
                                             <td>{{ $client->phone }}</td>
                                             <td>{{ $client->company_name }}</td>
+                                            <td>{{ $client->address }}</td>
                                             <td>{{ \Carbon\Carbon::parse($client->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                             <td><a href="#" class="add-new-client-btn"><span><i class="material-icons delete">person_add</i></span></a></td>
                                         </tr>

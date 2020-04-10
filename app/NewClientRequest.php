@@ -20,7 +20,8 @@ class NewClientRequest extends Model
         $newClientRequest = new NewClientRequest();
         $newClientRequest->name = $data['name']; 
         $newClientRequest->phone = $data['phone']; 
-        $newClientRequest->company_id = $data['company_id'];
+        $newClientRequest->company_name = $data['company_name'];
+        $newClientRequest->address = $data['address'];
         $newClientRequest->save();
 
         return $newClientRequest;
@@ -33,9 +34,7 @@ class NewClientRequest extends Model
      */
     public static function getAll()
     {
-        return static::leftJoin('companies', 'companies.id', '=', 'new_client_requests.company_id')
-            ->select('new_client_requests.*', 'companies.name as company_name', 'companies.id as company_id')
-            ->get();
+        return static::all();
     }
 
     /**

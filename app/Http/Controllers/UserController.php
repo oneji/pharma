@@ -168,4 +168,18 @@ class UserController extends Controller
             'debtors' => $debtors
         ]);
     }
+
+    /**
+     * Get all clients
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getClients()
+    {
+        $users = User::getClients();
+
+        return view('users.clients', [
+            'users' => $users
+        ]);
+    }
 }

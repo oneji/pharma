@@ -27,6 +27,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
         Route::resource('users', 'UserController');
         Route::put('users/{user}/status/{status}', 'UserController@changeStatus')->name('users.status');
     });
+    Route::get('clients', 'UserController@getClients')->name('users.clients');
     
     Route::get('debtors', [
         'middleware' => 'permission:read-debtors',

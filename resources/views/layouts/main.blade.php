@@ -98,6 +98,8 @@
                             <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
                         @endpermission
 
+                        <li><a class="{{ Route::currentRouteName() === 'users.clients' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.clients') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Клиенты</span></a></li>
+
                         @permission('read-brands')
                             <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
                         @endpermission

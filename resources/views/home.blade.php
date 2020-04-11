@@ -167,5 +167,4 @@
     <script src="{{ asset('assets/vendors/chartist-js/chartist.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/chartist-js/chartist-plugin-tooltip.js') }}"></script>
     <script src="{{ asset('assets/vendors/chartist-js/chartist-plugin-fill-donut.min.js') }}"></script>
-    <script src="{{ asset('assets/js/scripts/dashboard-modern.js') }}"></script>
 @endsection

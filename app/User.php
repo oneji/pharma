@@ -254,4 +254,25 @@ class User extends Authenticatable
     {
         return RequestModel::where('user_id', $id)->where('status', '=', 'paid')->get();
     }
+
+    /**
+     * Get all clients
+     * 
+     * @return collection
+     */
+    public static function getClients()
+    {
+        $users = static::where('users.id', '<>', Auth::user()->id)
+            ->with('roles')
+            ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
+            ->select('users.*', 'companies.name as company_name')
+            ->get();
+
+        $clients = [];
+        foreach ($users as $user) {
+            if($user->roles->first()->name === 'client') $clients[] = $user;
+        }
+
+        return $clients;
+    }
 }

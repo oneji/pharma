@@ -50,7 +50,7 @@
 
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix pt-2">phone</i>
-                                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}" placeholder="Введите номер телефона">
+                                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}" id="phone" placeholder="Введите номер телефона">
                                     <label for="phone">Номер телефона</label>
                                 </div>
 
@@ -81,10 +81,13 @@
 
     <script src="{{ asset('assets/js/vendors.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/formatter/jquery.formatter.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
+
+            $('#phone').val('992');
 
             $("#formValidate").validate({
                 rules: {
@@ -126,8 +129,6 @@
                     }
                 }
             });
-
-
         });
     </script>
 </body>

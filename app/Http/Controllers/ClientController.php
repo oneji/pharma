@@ -86,7 +86,8 @@ class ClientController extends Controller
             'discount_amount' => $request->discount_amount,
             'role' => $request->role,
             'responsible_manager_id' => $request->responsible_manager_id,
-            'company_id' => $request->company_id
+            'company_id' => $request->company_id,
+            'request_number' => $request->request_number
         ]);
 
         return redirect()->route('newClients.index');

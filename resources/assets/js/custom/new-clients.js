@@ -71,10 +71,12 @@ $(document).ready(function() {
         let clientName = $(this).parent().parent().data('client-name');
         let clientPhone = $(this).parent().parent().data('client-phone');
         let randomPassword = Math.random().toString(36).slice(-8);
+        let requestNumber = $(this).data('number');
 
         form.find('input[name="name"]').val(clientName);
         form.find('input[name="phone"]').val(clientPhone);
         form.find('input[name="password"]').val(randomPassword);
+        form.find('input[name="request_number"]').val(requestNumber);
         
         modal.modal('open');
     });

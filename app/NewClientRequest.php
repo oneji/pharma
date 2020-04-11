@@ -61,6 +61,11 @@ class NewClientRequest extends Model
             $user->roles()->attach($data['role']);
         }
 
+        // Delete the request from db
+        $req = static::find($data['request_number']);
+        $req->delete();
+
+        // Send sms notification
         Sms::send([
             'name' => $data['name'],
             'username' => $data['username'],

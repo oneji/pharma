@@ -103,6 +103,12 @@
                             <label for="role">Ответственный менеджер</label>
                         </div>
 
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">note</i>
+                            <input name="request_number" type="text" placeholder="Номер заявки">
+                            <label for="request_number">Номер заявки</label>
+                        </div>
+
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -160,7 +166,7 @@
                                             <td>{{ $client->company_name }}</td>
                                             <td>{{ $client->address }}</td>
                                             <td>{{ \Carbon\Carbon::parse($client->created_at)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
-                                            <td><a href="#" class="add-new-client-btn"><span><i class="material-icons delete">person_add</i></span></a></td>
+                                            <td><a href="#" class="add-new-client-btn" data-number="{{ $client->id }}"><span><i class="material-icons delete">person_add</i></span></a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>

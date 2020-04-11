@@ -212,21 +212,23 @@
                                         <div class="divider mt-2 mb-2"></div>
 
                                         @role('superadministrator|manager|head-manager')
-                                            <div class="row">
-                                                <div class="input-field col m5 s12 xl4">
-                                                    <select name="priority" id="request_priority">
-                                                        <option value="1" {{ $req->priority === 1 ? 'selected' : 0 }}>Высокий</option>
-                                                        <option value="2" {{ $req->priority === 2 ? 'selected' : 0 }}>Средний</option>
-                                                        <option value="3" {{ $req->priority === 3 ? 'selected' : 0 }}>Низкий</option>
-                                                    </select>
-                                                    <label>Приоритет заявки</label>
-                                                </div>
+                                            @if ($req->status !== 'paid')
+                                                <div class="row">
+                                                    <div class="input-field col m5 s12 xl4">
+                                                        <select name="priority" id="request_priority">
+                                                            <option value="1" {{ $req->priority === 1 ? 'selected' : 0 }}>Высокий</option>
+                                                            <option value="2" {{ $req->priority === 2 ? 'selected' : 0 }}>Средний</option>
+                                                            <option value="3" {{ $req->priority === 3 ? 'selected' : 0 }}>Низкий</option>
+                                                        </select>
+                                                        <label>Приоритет заявки</label>
+                                                    </div>
 
-                                                <div class="input-field col m5 s12 xl4">
-                                                    <input value="{{ $req->payment_deadline }}" name="payment_deadline" id="payment_deadline" type="text" class="datepicker" placeholder="Выберите дату" required>
-                                                    <label>Дедлайн заявки</label>
+                                                    <div class="input-field col m5 s12 xl4">
+                                                        <input value="{{ \Carbon\Carbon::parse($req->payment_deadline)->locale('ru')->isoFormat('DD/MM/YYYY') }}" name="payment_deadline" id="payment_deadline" type="text" class="datepicker" placeholder="Выберите дату" required>
+                                                        <label>Дедлайн заявки</label>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endrole
                                    </div>
 

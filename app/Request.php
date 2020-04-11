@@ -382,6 +382,14 @@ class Request extends Model
         $req->status = $status;
         $req->save();
 
+        if($status === static::STATUS_SHIPPED) {
+            Sms::send([
+                'phone_number' => $req->user->phone,
+                'request_number' => $req->id,
+                'debtAmount' => $req->payment_amount
+            ], Sms::SMS_REQUEST_SHIPPED);
+        }
+
         return $req;
     }
 

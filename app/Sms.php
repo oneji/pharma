@@ -15,8 +15,9 @@ class Sms extends Model
     const SMS_SYSTEM_URL =  'wwww.pharma.digital.tj';
 
     // Sms text messages
-    const SMS_REQUEST_CREATED = 'smsRequestCreated';
     const SMS_CLIENT_CREATED = 'smsClientCreated';
+    const SMS_REQUEST_CREATED = 'smsRequestCreated';
+    const SMS_REQUEST_SHIPPED = 'smsRequestShipped';
 
     /**
      * Send sms to the user's phone number
@@ -67,6 +68,9 @@ class Sms extends Model
             $msg =  $data['name'] . " вы были зарегистрированы как пользователь системы " . static::SMS_SYSTEM_URL . "\n" .
                     "Ваш логин: " . $data['username'] . "\n" .
                     "Ваш пароль: " . $data['password'];
+        } else if($smsType === static::SMS_REQUEST_SHIPPED) {
+            $msg =  "Ваша заявка №" . $data['request_number'] . " была отгружена.\n" .
+                    "Общая сумма долга по заявке составляет " . $data['debtAmount'] . " сомони.";
         }
 
         return $msg;

@@ -36,6 +36,39 @@ $(document).ready(function() {
     });
 
     var t = $(".invoice-create-btn");
+    $(".action-btns").append(t);
 
-    $(".action-btns").append(t)
+    var companyId = 0;
+    let form = $('#editCompanyForm');
+    let modal = $('#editCompanyModal');
+
+    $('.edit-company-btn').click(function(e) {
+        e.preventDefault();
+
+        let el = $(this);
+        companyId = el.data('id');
+        let companyName = el.parent().parent().parent().find('td.company-name').text();
+        form.find('input[name="name"]').val(companyName);
+
+        modal.modal('open');
+    });
+
+    form.submit(function(e) {
+        e.preventDefault();
+
+        let companyName = form.find('input[name="name"]').val();
+
+        $.ajax({
+            url: `/companies/${companyId}`,
+            type: 'PUT',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                name: companyName
+            },
+            success: function (data) {
+                $(`.companies-table tr[data-id="${companyId}"]`).find('.company-name').text(companyName);
+                modal.modal('close');
+            }
+        });
+    });
 }); 

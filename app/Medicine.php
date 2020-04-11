@@ -42,4 +42,16 @@ class Medicine extends Model
             ->select('brand_medicine.*', 'medicines.name as medicine_name', 'brands.name as brand_name')
             ->get();
     }
+
+    /**
+     * Update medicine item
+     * @param int $id
+     * @param array $medicineData
+     */
+    public static function updateMedicine($id, $medicineData)
+    {
+        $medicine = static::find($id);
+        $medicine->name = $medicineData['name'];
+        $medicine->save();
+    }
 }

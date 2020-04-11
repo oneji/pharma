@@ -18,7 +18,7 @@
         <form action="{{ route('companies.store') }}" method="POST">
             @csrf
             <div class="modal-content">
-                <h5>Добавить наименование</h5>
+                <h5>Добавить компанию</h5>
                     
                 <div class="container">
                     <div class="row">
@@ -39,6 +39,31 @@
         </form>
     </div>
 
+    <div id="editCompanyModal" class="modal" style="width: 40%">
+        <form method="PUT" id="editCompanyForm">
+            @csrf
+            <div class="modal-content">
+                <h5>Изменить компанию</h5>
+                    
+                <div class="container">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">all_inbox</i>
+                            <input required name="name" type="text" class="validate" placeholder="Введите компанию">
+                            <label for="name" data-error="wrong" data-success="right">Название компании</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Изменить</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="col s12">
         <div class="container">
 
@@ -52,7 +77,7 @@
                     </a>
                 </div>
                 <div class="responsive-table">
-                    <table class="table invoice-data-table white border-radius-4 pt-1">
+                    <table class="table companies-table invoice-data-table white border-radius-4 pt-1">
                         <thead>
                             <tr>
                                 <th class="center-align">#</th>
@@ -63,12 +88,12 @@
 
                         <tbody>
                             @foreach ($companies as $idx => $company)
-                                <tr>
+                                <tr data-id="{{ $company->id }}">
                                     <td class="center-align">{{ $idx + 1 }}</td>
-                                    <td>{{ $company->name }}</td>
+                                    <td class="company-name">{{ $company->name }}</td>
                                     <td>
                                         <div class="invoice-action">
-                                            <a href="app-invoice-edit.html" class="invoice-action-edit">
+                                            <a href="#" class="edit-company-btn" data-id="{{ $company->id }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                         </div>

@@ -40,6 +40,33 @@
         </form>
     </div>
 
+    <div id="editBrandModal" class="modal" style="width: 40%">
+        <form method="PUT" id="editBrandForm">
+            @csrf
+            <div class="modal-content">
+                <h5>Изменить производителя</h5>
+                    
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field">
+                                <i class="material-icons prefix">all_inbox</i>
+                                <input required name="name" type="text" class="validate" placeholder="Введите производителя">
+                                <label for="name" data-error="wrong" data-success="right">Производитель</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Изменить</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="col s12">
         <div class="container">
 
@@ -53,7 +80,7 @@
                     </a>
                 </div>
                 <div class="responsive-table">
-                    <table class="table invoice-data-table white border-radius-4 pt-1">
+                    <table class="table brands-table invoice-data-table white border-radius-4 pt-1">
                         <thead>
                             <tr>
                                 <th class="center-align">#</th>
@@ -64,12 +91,12 @@
 
                         <tbody>
                             @foreach ($brands as $idx => $brand)
-                                <tr>
+                                <tr data-id="{{ $brand->id }}">
                                     <td class="center-align">{{ $idx + 1 }}</td>
-                                    <td>{{ $brand->name }}</td>
+                                    <td class="brand-name">{{ $brand->name }}</td>
                                     <td>
                                         <div class="invoice-action">
-                                            <a href="app-invoice-edit.html" class="invoice-action-edit">
+                                            <a href="#" class="edit-brand-btn" data-id="{{ $brand->id }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                         </div>

@@ -49,6 +49,31 @@
         </form>
     </div>
 
+    <div id="editMedicineModal" class="modal" style="width: 40%">
+        <form method="PUT" id="editMedicineForm">
+            @csrf
+            <div class="modal-content">
+                <h5>Изменить наименование</h5>
+                    
+                <div class="container">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">all_inbox</i>
+                            <input required name="name" type="text" class="validate" placeholder="Введите наименование">
+                            <label for="name" data-error="wrong" data-success="right">Наименование</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Изменить</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="col s12">
         <div class="container">
 
@@ -62,7 +87,7 @@
                     </a>
                 </div>
                 <div class="responsive-table">
-                    <table class="table invoice-data-table white border-radius-4 pt-1">
+                    <table class="table medicine-table invoice-data-table white border-radius-4 pt-1">
                         <thead>
                             <tr>
                                 <th class="center-align">#</th>
@@ -74,13 +99,13 @@
 
                         <tbody>
                             @foreach ($medicine as $idx => $med)
-                                <tr>
+                                <tr data-id="{{ $med->id }}">
                                     <td class="center-align">{{ $idx + 1 }}</td>
-                                    <td>{{ $med->medicine_name }}</td>
-                                    <td>{{ $med->brand_name }}</td>
+                                    <td class="medicine-name">{{ $med->medicine_name }}</td>
+                                    <td class="brand-name">{{ $med->brand_name }}</td>
                                     <td>
                                         <div class="invoice-action">
-                                            <a href="app-invoice-edit.html" class="invoice-action-edit">
+                                            <a href="#" class="edit-medicine-btn" data-id="{{ $med->id }}" data-brand-id="{{ $med->brand_id }}">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                         </div>

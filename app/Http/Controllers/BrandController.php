@@ -33,4 +33,20 @@ class BrandController extends Controller
 
         return redirect()->route('brands.index');
     }
+
+    /**
+     * Update existing brand
+     * 
+     * @param \Illuminate\Http\Requests\StoreBrand
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id, StoreBrand $request)
+    {
+        Brand::updateBrand($id, $request->name);
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
 }

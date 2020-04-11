@@ -37,14 +37,17 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     // Brands
     Route::get('brands', 'BrandController@index')->name('brands.index');
     Route::post('brands', 'BrandController@store')->name('brands.store');
+    Route::put('brands/{id}', 'BrandController@update')->name('brands.update');
 
     // Medicine
     Route::get('medicine', 'MedicineController@index')->name('medicine.index');
     Route::post('medicine', 'MedicineController@store')->name('medicine.store');
+    Route::put('medicine/{id}', 'MedicineController@update')->name('medicine.update');
 
     // Companies
     Route::get('companies', 'CompanyController@index')->name('companies.index');
     Route::post('companies', 'CompanyController@store')->name('companies.store');
+    Route::put('companies/{id}', 'CompanyController@update')->name('companies.update');
 
     // Price lists
     Route::get('price-lists', 'PriceListController@index')->name('price_lists.index');

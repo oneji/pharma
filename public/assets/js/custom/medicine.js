@@ -37,5 +37,41 @@ $(document).ready(function() {
     });
 
     var t = $(".invoice-create-btn");
-    $(".action-btns").append(t)
+    $(".action-btns").append(t);
+
+    var form = $('#editMedicineForm');
+    var modal = $('#editMedicineModal');
+    var medicineId = '';
+    var medicineName = '';
+
+    $('.edit-medicine-btn').click(function(e) {
+        e.preventDefault();        
+        // Get the medicine id
+        let el = $(this);
+        medicineId = el.data('id');
+        // Put the data into the form
+        medicineName = el.parent().parent().parent().find('.medicine-name').text();
+        form.find('input[name="name"]').val(medicineName);
+        // Open modal
+        modal.modal('open');
+    });
+
+    form.submit(function(e) {
+        e.preventDefault();
+
+        let medicineName = form.find('input[name="name"]').val();
+
+        $.ajax({
+            url: `/medicine/${medicineId}`,
+            type: 'PUT',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                name: medicineName
+            },
+            success: function (data) {
+                $(`.medicine-table tr[data-id="${medicineId}"]`).find('.medicine-name').text(medicineName);
+                modal.modal('close');
+            }
+        });
+    });
 }); 

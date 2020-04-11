@@ -17,4 +17,17 @@ class Company extends Model
         $company->name = $companyName;
         $company->save();
     }
+
+    /**
+     * Update company
+     * 
+     * @param int $id
+     * @param string $companyName
+     */
+    public static function updateCompany($id, $companyName)
+    {
+        $company = static::find($id);
+        $company->name = $companyName;
+        $company->save();
+    }
 }

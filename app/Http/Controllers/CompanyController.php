@@ -25,12 +25,29 @@ class CompanyController extends Controller
      * 
      * @param \Illuminate\Http\Requests\StoreCompany
      * 
-     * @param \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreCompany $request)
     {
         Company::saveCompany($request->name);
 
         return redirect()->route('companies.index');
+    }
+
+    /**
+     * Update company
+     * 
+     * @param int $id
+     * @param \Illuminate\Http\Requests\StoreCompany
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update($id, StoreCompany $request)
+    {
+        Company::updateCompany($id, $request->name);
+
+        return response()->json([
+            'ok' => true
+        ]);
     }
 }

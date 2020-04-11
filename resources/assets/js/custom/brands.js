@@ -36,5 +36,39 @@ $(document).ready(function() {
     });
 
     var t = $(".invoice-create-btn");
-    $(".action-btns").append(t)
+    $(".action-btns").append(t);
+
+    var brandId = 0;
+    let form = $('#editBrandForm');
+    let modal = $('#editBrandModal');
+
+    $('.edit-brand-btn').click(function(e) {
+        e.preventDefault();
+
+        let el = $(this);
+        brandId = el.data('id');
+        let brandName = el.parent().parent().parent().find('td.brand-name').text();
+        form.find('input[name="name"]').val(brandName);
+
+        modal.modal('open');
+    });
+
+    form.submit(function(e) {
+        e.preventDefault();
+
+        let brandName = form.find('input[name="name"]').val();
+
+        $.ajax({
+            url: `/brands/${brandId}`,
+            type: 'PUT',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                name: brandName
+            },
+            success: function (data) {
+                $(`.brands-table tr[data-id="${brandId}"]`).find('.brand-name').text(brandName);
+                modal.modal('close');
+            }
+        });
+    });
 }); 

@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
+    
+    /**
      * The medicine that belong to the brand.
      */
     public function medicines()

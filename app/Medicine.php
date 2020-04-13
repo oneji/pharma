@@ -25,8 +25,6 @@ class Medicine extends Model
         $medicine = new Medicine();
         $medicine->name = $medicineData['name'];
         $medicine->save();
-        
-        $medicine->brands()->attach($medicineData['brand_id']);
     }
 
     /**

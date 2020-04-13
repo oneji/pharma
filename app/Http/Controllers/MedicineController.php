@@ -17,7 +17,7 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        $medicine = Medicine::getAllMedicineWithBrand();
+        $medicine = Medicine::all();
         $brands = Brand::all();
 
         return view('medicine.index', [ 
@@ -36,8 +36,7 @@ class MedicineController extends Controller
     public function store(StoreMedicine $request)
     {
         Medicine::saveMedicine([
-            'name' => $request->name,
-            'brand_id' => $request->brand_id
+            'name' => $request->name
         ]);
 
         return redirect()->route('medicine.index');

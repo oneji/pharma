@@ -12,9 +12,6 @@
 */
 Auth::routes();
 
-Route::get('excel', 'HomeController@importExcel');
-Route::post('excel', 'HomeController@import')->name('excel.import');
-
 Route::get('new-client-requests', 'ClientController@index')->name('newClients.index');
 Route::get('new-client', 'ClientController@newClient')->name('newClients.newClient');
 Route::post('new-client-request', 'ClientController@saveRequest')->name('newClients.saveRequest');

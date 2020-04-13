@@ -3,8 +3,7 @@ $(document).ready(function() {
         columnDefs: [
             { targets: 0, orderable: 1 }, 
             { targets: 1, orderable: 1 },
-            { targets: 2, orderable: 1 },
-            { targets: 3, orderable: !1 }
+            { targets: 2, orderable: !1 },
         ],
         order: [ 0, "asc" ],
         dom: '<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>',

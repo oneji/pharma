@@ -27,16 +27,6 @@
                             <input required name="name" type="text" class="validate" placeholder="Введите наименование">
                             <label for="name" data-error="wrong" data-success="right">Наименование</label>
                         </div>
-
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">business</i>
-                            <select id="brand_id" name="brand_id">
-                                @foreach ($brands as $idx => $brand)
-                                    <option {{ $idx === 0 ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                @endforeach
-                            </select>
-                            <label for="brand_id">Производитель</label>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -92,7 +82,6 @@
                             <tr>
                                 <th class="center-align">#</th>
                                 <th>Наименование</th>
-                                <th>Производитель</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -101,8 +90,7 @@
                             @foreach ($medicine as $idx => $med)
                                 <tr data-id="{{ $med->id }}">
                                     <td class="center-align">{{ $idx + 1 }}</td>
-                                    <td class="medicine-name">{{ $med->medicine_name }}</td>
-                                    <td class="brand-name">{{ $med->brand_name }}</td>
+                                    <td class="medicine-name">{{ $med->name }}</td>
                                     <td>
                                         <div class="invoice-action">
                                             <a href="#" class="edit-medicine-btn" data-id="{{ $med->id }}" data-brand-id="{{ $med->brand_id }}">

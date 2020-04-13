@@ -24,8 +24,7 @@ class StoreMedicine extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'brand_id' => 'required|exists:brands,id'
+            'name' => 'required|max:255'
         ];
     }
 }

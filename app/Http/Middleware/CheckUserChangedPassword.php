@@ -23,6 +23,8 @@ class CheckUserChangedPassword
             if(Auth::user()->password_changed === 0) {
                 return redirect()->route('password.edit');
             }
+        } else {
+            return redirect()->route('login');
         }
 
         return $next($request);

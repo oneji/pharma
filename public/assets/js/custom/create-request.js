@@ -37,6 +37,8 @@ $(document).ready(function() {
                 }
             },
             submitHandler: function(form) {
+                $('#loading').css('display', 'flex');
+
                 var requestData = [];
 
                 $('.request-pl-table tbody .choose-pl-item:checked').each(function() {
@@ -63,7 +65,7 @@ $(document).ready(function() {
                         payment_deadline: $('#payment_deadline').val()
                     },
                     success: function (data) {
-                        console.log(data);
+                        $('#loading').hide();
                         if(data.ok) {
                             window.location.href = '/requests/view/' + data.request.id;
                         } else {

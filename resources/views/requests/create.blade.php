@@ -6,6 +6,21 @@
 
 @section('head')
     @parent
+
+    <style>
+        #loading {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 99;
+            background-color: rgba(255, 255, 255, .5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -16,6 +31,21 @@
                     <div class="row">
                         <div class="col xl12 m12 s12">
                             <div class="card">
+                                <div id="loading">
+                                    <div class="preloader-wrapper big active">
+                                        <div class="spinner-layer spinner-green-only">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="gap-patch">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <form action="{{ route('requests.store') }}" method="POST" id="createRequestForm">
                                     @csrf()
                                     <div class="card-content">

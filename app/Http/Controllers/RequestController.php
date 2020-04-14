@@ -64,9 +64,11 @@ class RequestController extends Controller
     public function create()
     {
         $priceList = PriceList::getTheOnlyPriceList();
+        $users = User::all();
 
         return view('requests.create', [
-            'priceList' => $priceList
+            'priceList' => $priceList,
+            'users' => $users
         ]);
     }
 
@@ -96,18 +98,9 @@ class RequestController extends Controller
         $paymentAmount = RequestModel::setPaymentAmount($itemIds, $request->data);
         
         $req = RequestModel::createRequest([
-            'payment_amount' => $paymentAmount
+            'payment_amount' => $paymentAmount,
+            'user_from' => $request->user_from
         ], $request->data);
-
-        ActionLog::create([
-            'text' => ActionLog::ACTION_REQUEST_CREATED,
-            'request_id' => $req->id
-        ]);
-
-        Sms::send([
-            'phone_number' => Auth::user()->phone,
-            'request_number' => $req->id
-        ], Sms::SMS_REQUEST_CREATED);
         
         return response()->json([
             'ok' => true,

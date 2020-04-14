@@ -103,10 +103,20 @@
                                             </table>
                                         </div>
     
-                                        <div class="divider mt-1"></div>
+                                        <div class="divider mt-1 mb-1"></div>
     
                                         <div class="row">
-                                            <div class="col m7 s12 xl4 offset-xl8">
+                                            <div class="input-field col m5 s12 xl4">
+                                                <select name="user_from" id="user_from">
+                                                    <option value="" selected>Не выбран</option>
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label>Заявка от имени</label>
+                                            </div>
+
+                                            <div class="col m7 s12 xl4 offset-xl4">
                                                 <ul>
                                                     <li class="display-flex justify-content-between">
                                                         <span class="request-subtotal-title">Общая цена</span>

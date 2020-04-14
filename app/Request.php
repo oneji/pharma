@@ -153,7 +153,7 @@ class Request extends Model
     {
         $req = new Request();
         $req->payment_amount = $data['payment_amount'];
-        $req->user_id = Auth::user()->id;
+        $req->user_id = $data['user_from'] !== null ? $data['user_from'] : Auth::user()->id;
         $req->priority = static::PRIORITY_MEDIUM;
         $req->payment_deadline = null;
         $req->save();
@@ -173,6 +173,18 @@ class Request extends Model
         }
 
         RequestItem::insert($reqItems);
+
+        // Logs
+        ActionLog::create([
+            'text' => ActionLog::ACTION_REQUEST_CREATED,
+            'request_id' => $req->id
+        ]);
+
+        // Send sms
+        Sms::send([
+            'phone_number' => Auth::user()->phone,
+            'request_number' => $req->id
+        ], Sms::SMS_REQUEST_CREATED);
 
         return $req;
     }

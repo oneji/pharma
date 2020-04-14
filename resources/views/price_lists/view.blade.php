@@ -53,11 +53,11 @@
                                             <tbody>
                                                 @foreach ($priceList->items as $item)
                                                     <tr>
-                                                        <td>{{ $item->medicine_name }}</td>
+                                                        <td class="pl-1">{{ $item->medicine_name }}</td>
                                                         <td>{{ $item->brand_name }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($item->exp_date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                         <td class="center-align">{{ $item->quantity }}</td>
-                                                        <td class="indigo-text right-align">{{ $item->price }}с.</td>
+                                                        <td class="indigo-text right-align pr-1">{{ $item->price }}с.</td>
                                                     </tr>                                                    
                                                 @endforeach
                                             </tbody>

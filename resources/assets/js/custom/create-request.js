@@ -62,9 +62,11 @@ $(document).ready(function() {
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         data: requestData,
                         priority: $('#request_priority').val(),
-                        payment_deadline: $('#payment_deadline').val()
+                        payment_deadline: $('#payment_deadline').val(),
+                        user_from: $('#user_from').val()
                     },
                     success: function (data) {
+                        console.log(data);
                         $('#loading').hide();
                         if(data.ok) {
                             window.location.href = '/requests/view/' + data.request.id;

@@ -7,9 +7,8 @@
 @section('head')
     @parent
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2.min.css') }}" >
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}" >
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/form-select2.min.css') }}">
 @endsection
 
@@ -27,71 +26,57 @@
                                             <h4 class="indigo-text">Изменить прайс лист</h4>
                                         </div>
                                     </div>
-                                    <div class="">
-                                        <form action="{{ route('price_lists.update', [ 'id' => $priceList['id'] ]) }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
-                                            @csrf
-                                            @method('PUT')
-                                            <table class="striped responsive-table price-list-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="center-align" style="width: 50px">#</th>
-                                                        <th>Продукт</th>
-                                                        <th>Производитель</th>
-                                                        <th class="center-align">Срок годности (до)</th>
-                                                        <th class="center-align">Цена</th>
-                                                        <th class="center-align">Кол-во в коробке (шт.)</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody data-repeater-list="price_list_data">
-                                                    @foreach ($priceList['items'] as $item)
-                                                        <tr data-repeater-item>
-                                                            <td style="width: 50px">
-                                                                <input type="text" class="center-align item-id browser-default" name="id" readonly value="{{ $item->id }}">
-                                                            </td>
-                                                            <td>
-                                                                <select class="select2 browser-default" name="medicine_id" required>
-                                                                    @foreach ($medicine as $idx => $med)
-                                                                        <option {{ $med->id === $item->medicine_id ? 'selected' : null }} value="{{ $med->id }}">{{ $med->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <select class="select2 browser-default" name="brand_id" required>
-                                                                    @foreach ($brands as $idx => $brand)
-                                                                        <option {{ $brand->id === $item->brand_id ? 'selected' : null }} value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <input name="exp_date" type="text" class="center-align datepicker browser-default" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
-                                                            </td>
-                                                            <td>
-                                                                <input class="center-align browser-default" name="price" type="number" value="{{ $item->price }}" required>
-                                                            </td>
-                                                            <td>
-                                                                <input class="center-align browser-default" name="quantity" type="number" value="{{ $item->quantity }}" required>
-                                                            </td>
-                                                            <td>
-                                                                <span data-repeater-delete class="delete-row-btn">
-                                                                    <i class="material-icons">delete</i>
-                                                                </span>
-                                                            </td>
-                                                        </tr>                                                    
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                            <div class="input-field display-flex justify-content-end">
-                                                <button class="btn blue" data-repeater-create type="button">
-                                                    <i class="material-icons left">add</i>
-                                                    <span>Добавить товар</span>
-                                                </button>
-                                                <button class="btn green create-price-list-submit-btn ml-1" type="submit">
-                                                    <span>Сохранить изменения</span>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
+
+                                    {{-- Data sources: Medicine and Brands --}}
+                                    <span style="display: none" id="brands-source">@json($brands)</span>
+                                    <span style="display: none" id="medicine-source">@json($medicine)</span>
+
+                                    <form action="{{ route('price_lists.update', [ 'id' => $priceList['id'] ]) }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
+                                        @csrf
+                                        @method('PUT')
+                                        <table class="striped responsive-table price-list-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Продукт</th>
+                                                    <th>Производитель</th>
+                                                    <th class="center-align">Срок годности (до)</th>
+                                                    <th class="center-align">Цена (с.)</th>
+                                                    <th class="center-align">Кол-во в коробке (шт.)</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-repeater-list="price_list_data" id="price-list-body">
+                                                @foreach ($priceList['items'] as $item)
+                                                    <tr data-repeater-item>
+                                                        <td  class="pl-1">
+                                                            <input hidden type="text" class="center-align item-id browser-default" name="id" value="{{ $item->id }}">
+                                                            <select class="medicine-select2 browser-default" name="medicine[]" required></select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="brands-select2 browser-default" name="brand[]" required></select>
+                                                        </td>
+                                                        <td>
+                                                            <input name="exp_date[]" type="text" class="center-align datepicker browser-default" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
+                                                        </td>
+                                                        <td>
+                                                            <input class="center-align browser-default" name="price[]" type="number" value="{{ $item->price }}" required>
+                                                        </td>
+                                                        <td>
+                                                            <input class="center-align browser-default" name="quantity[]" type="number" value="{{ $item->quantity }}" required>
+                                                        </td>
+                                                        <td><i data-repeater-delete class="delete-row-btn material-icons">delete</i></td>
+                                                    </tr>                                                    
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <div class="input-field display-flex justify-content-end">
+                                            <button class="btn blue add-item-btn" data-repeater-create type="button">Добавить товар</button>
+                                            <button class="btn green create-price-list-submit-btn ml-1" type="submit">
+                                                <span>Сохранить изменения</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                
                                 </div>
                             </div>
                         </div>
@@ -108,9 +93,4 @@
     <script src="{{ asset('assets/vendors/form_repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom/price_lists.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
-    </script>
 @endsection

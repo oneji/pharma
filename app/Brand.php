@@ -45,4 +45,12 @@ class Brand extends Model
         $brand->name = $brandName;
         $brand->save();
     }
+
+    /**
+     * 
+     */
+    public static function getForSelect()
+    {
+        return static::select('id', 'name as text')->get();
+    }
 }

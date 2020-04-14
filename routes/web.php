@@ -29,10 +29,15 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     });
     Route::get('clients', 'UserController@getClients')->name('users.clients');
     
+    // Debtors
     Route::get('debtors', [
         'middleware' => 'permission:read-debtors',
         'uses' => 'UserController@debtors'
     ])->name('users.debtors');
+
+    // Creditors
+    Route::get('creditors', 'CreditorController@index')->name('creditors.index');
+    Route::post('creditors', 'CreditorController@store')->name('creditors.store');
 
     // Brands
     Route::get('brands', 'BrandController@index')->name('brands.index');

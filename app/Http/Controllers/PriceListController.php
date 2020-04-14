@@ -112,8 +112,8 @@ class PriceListController extends Controller
     public function edit($id)
     {
         $priceList = PriceList::getWithItems($id);
-        $medicine = Medicine::all();
-        $brands = Brand::all();
+        $medicine = Medicine::getForSelect();
+        $brands = Brand::getForSelect();
 
         return view('price_lists.edit', [
             'priceList' => $priceList,
@@ -134,6 +134,8 @@ class PriceListController extends Controller
         $itemIds = [];
         $itemsToUpdate = [];
         $itemsToAdd = [];
+
+        return $request;
 
         foreach ($request->price_list_data as $value) {
             if($value['id'] !== null) {

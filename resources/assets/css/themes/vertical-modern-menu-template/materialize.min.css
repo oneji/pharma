@@ -5978,8 +5978,9 @@ label {
 }
 
 input.browser-default {
-    padding: 3px !important;
+    padding: 4px !important;
     width: 100%;
+    border: 1px solid #aaa;
 }
 
 input:not([type]),

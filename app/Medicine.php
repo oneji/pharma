@@ -52,4 +52,12 @@ class Medicine extends Model
         $medicine->name = $medicineData['name'];
         $medicine->save();
     }
+
+    /**
+     * 
+     */
+    public static function getForSelect()
+    {
+        return static::select('id', 'name as text')->get();
+    }
 }

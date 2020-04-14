@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Дебиторы
+    Кредиторы
 @endsection
 
 @section('head')
@@ -23,14 +23,67 @@
 @endsection
 
 @section('content')
+    <div style="bottom: 54px; right: 19px;" class="fixed-action-btn direction-top">
+        <a href="#" class="btn-floating btn-large primary-text gradient-shadow waves-effect waves-light btn green add-btn" data-type="new">
+            <i class="material-icons">person_add</i>
+        </a>
+    </div>
+
+    <div id="addCreditorModal" class="modal" style="width: 40%">
+        <form action="{{ route('creditors.store') }}" method="POST" id="addCreditorForm">
+            @csrf
+            <div class="modal-content">
+                <h5>Добавить долг</h5>
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <select name="user_id" required>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="user_id">Пользователь</label>
+                            </div>
+
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">filter_1</i>
+                                <input id="bill_number" required name="bill_number" type="text" class="validate" placeholder="Введите № накладной">
+                                <label for="bill_number">№ накладной</label>
+                            </div>
+
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">note</i>
+                                <input name="date" type="text" required class="datepicker" placeholder="Выберите дату">
+                                <label for="date">Дата</label>
+                            </div>
+
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">note</i>
+                                <input name="amount" required type="number" class="validate" placeholder="Введите сумму">
+                                <label for="amount">Сумма</label>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Добавить</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Дебиторы</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>Кредиторы</span></h5>
                     <ol class="breadcrumbs mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Главная</a></li>
-                        <li class="breadcrumb-item active">Дебиторы</li>
+                        <li class="breadcrumb-item active">Кредиторы</li>
                     </ol>
                 </div>
             </div>
@@ -52,54 +105,23 @@
                                             <th>Имя пользователя</th>
                                             <th>Телефон</th>
                                             <th>Компания</th>
-                                            <th>Скидка (%)</th>
-                                            <th>Общая сумма долга</th>
-                                            <th>Оплаченая сумма</th>
-                                            <th>Дедлайн оплаты</th>
+                                            <th>Сумма долга</th>
                                             {{-- <th>Действия</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($debtors as $idx => $debtor)
+                                        @foreach ($creditors as $idx => $creditor)
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
+                                            <td>{{ $creditor->name }}</td>
+                                            <td>{{ $creditor->username }}</td>
+                                            <td>{{ $creditor->phone }}</td>
+                                            <td>{{ $creditor->company_name }}</td>
                                             <td>
-                                                <a href="{{ route('users.show', [ 'id' => $debtor->id ]) }}">{{ $debtor->name }}</a>
-                                            </td>
-                                            <td>{{ $debtor->username }}</td>
-                                            <td>{{ $debtor->phone }}</td>
-                                            <td>{{ $debtor->company_name }}</td>
-                                            <td>{{ $debtor->discount_amount }}%</td>
-                                            <td>
-                                                <span class="badge blue">{{ $debtor->debt_amount }}с.</span>
-                                            </td>
-                                            <td>
-                                                <span class="badge green">{{ $debtor->paid_amount }}с.</span>
-                                            </td>
-                                            <td>
-                                                {{ \Carbon\Carbon::parse($debtor->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}
+                                                <span class="badge blue">{{ $creditor->total }}с.</span>
                                             </td>
                                             {{-- <td>
-                                                <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>
-
-                                                @if ($user->status === 0)
-                                                    <a href="#" class="tooltipped" onclick="event.preventDefault(); document.getElementById('active-form-{{ $user->id }}').submit();" data-position="bottom" data-tooltip="Активировать">
-                                                        <span><i class="material-icons delete">lock_open</i></span>
-                                                    </a>
-                                                    <form id="active-form-{{ $user->id }}" action="{{ route('users.status', [ 'user' => $user->id, 'status' => 1 ]) }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('PUT')
-                                                    </form>
-                                                    
-                                                @else
-                                                    <a href="#" class="tooltipped" onclick="event.preventDefault(); document.getElementById('deactive-form-{{ $user->id }}').submit();" data-position="bottom" data-tooltip="Деактивировать">
-                                                        <span><i class="material-icons delete">lock</i></span>
-                                                    </a>
-                                                    <form id="deactive-form-{{ $user->id }}" action="{{ route('users.status', [ 'user' => $user->id, 'status' => 0 ]) }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('PUT')
-                                                    </form>
-                                                @endif
+                                                <a href="#" class="add-btn" data-type="old" data-user="{{ $creditor->user_id }}"><span><i class="material-icons delete">post_add</i></span></a>
                                             </td> --}}
                                         </tr>
                                     @endforeach
@@ -125,4 +147,5 @@
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/app-contacts.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom/users.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/creditors.js') }}"></script>
 @endsection

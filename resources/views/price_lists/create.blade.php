@@ -7,8 +7,8 @@
 @section('head')
     @parent
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2.min.css') }}" >
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/select2/select2-materialize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/app-invoice.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/form-select2.min.css') }}">
 @endsection
@@ -70,13 +70,13 @@
                                                             </select>
                                                         </div>
                                                         <div class="col s12 m2 my-10">
-                                                            <input name="exp_date" type="text" class="datepicker" required>
+                                                            <input name="exp_date" type="text" class="datepicker browser-default center-align" required>
                                                         </div>
                                                         <div class="col s12 m2 my-10">
-                                                            <input name="price" type="text" placeholder="Введите цену" required>
+                                                            <input name="price" type="number" class="center-align browser-default" required>
                                                         </div>
                                                         <div class="col s12 m2 my-10">
-                                                            <input name="quantity" type="number" placeholder="Введите количество" required>
+                                                            <input name="quantity" type="number" class="center-align browser-default" required>
                                                         </div>
                                                     </div>
                                                     <div
@@ -88,10 +88,7 @@
                                                 </div>
                                             </div>
                                             <div class="input-field">
-                                                <button class="btn invoice-repeat-btn blue" data-repeater-create type="button">
-                                                    <i class="material-icons left">add</i>
-                                                    <span>Добавить товар</span>
-                                                </button>
+                                                <button class="btn invoice-repeat-btn blue" data-repeater-create type="button">Добавить товар</button>
                                                 <button class="btn green create-price-list-submit-btn" type="submit">
                                                     <span>Создать</span>
                                                 </button>
@@ -113,5 +110,5 @@
     <script src="{{ asset('assets/vendors/select2/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/form_repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('assets/js/custom/price_lists.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/create-price-list.js') }}"></script>
 @endsection

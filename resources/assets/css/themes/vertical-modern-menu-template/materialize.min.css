@@ -5977,6 +5977,11 @@ label {
     color: #d1d1d1
 }
 
+input.browser-default {
+    padding: 3px !important;
+    width: 100%;
+}
+
 input:not([type]),
 input[type=date]:not(.browser-default),
 input[type=datetime-local]:not(.browser-default),

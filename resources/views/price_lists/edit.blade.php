@@ -34,10 +34,10 @@
                                             <table class="striped responsive-table price-list-table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="center-align">#</th>
+                                                        <th class="center-align" style="width: 50px">#</th>
                                                         <th>Продукт</th>
                                                         <th>Производитель</th>
-                                                        <th>Срок годности (до)</th>
+                                                        <th class="center-align">Срок годности (до)</th>
                                                         <th class="center-align">Цена</th>
                                                         <th class="center-align">Кол-во в коробке (шт.)</th>
                                                         <th></th>
@@ -46,8 +46,8 @@
                                                 <tbody data-repeater-list="price_list_data">
                                                     @foreach ($priceList['items'] as $item)
                                                         <tr data-repeater-item>
-                                                            <td>
-                                                                <input style="width: 50px;" class="center-align item-id" name="id" readonly value="{{ $item->id }}" />
+                                                            <td style="width: 50px">
+                                                                <input type="text" class="center-align item-id browser-default" name="id" readonly value="{{ $item->id }}">
                                                             </td>
                                                             <td>
                                                                 <select class="select2 browser-default" name="medicine_id" required>
@@ -64,13 +64,13 @@
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <input name="exp_date" type="text" class="center-align datepicker" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
+                                                                <input name="exp_date" type="text" class="center-align datepicker browser-default" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
                                                             </td>
                                                             <td>
-                                                                <input class="center-align" name="price" type="number" placeholder="Цена" value="{{ $item->price }}" required>
+                                                                <input class="center-align browser-default" name="price" type="number" value="{{ $item->price }}" required>
                                                             </td>
                                                             <td>
-                                                                <input class="center-align" name="quantity" type="number" placeholder="Кол-во" value="{{ $item->quantity }}" required>
+                                                                <input class="center-align browser-default" name="quantity" type="number" value="{{ $item->quantity }}" required>
                                                             </td>
                                                             <td>
                                                                 <span data-repeater-delete class="delete-row-btn">

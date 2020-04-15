@@ -98,7 +98,10 @@
                             <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
                         @endpermission
 
-                        <li><a class="{{ Route::currentRouteName() === 'users.clients' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.clients') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Клиенты</span></a></li>
+                        @permission('read-clients')
+                            <li><a class="{{ Route::currentRouteName() === 'users.clients' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.clients') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Клиенты</span></a></li>
+                        @endpermission
+
 
                         @permission('read-brands')
                             <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
@@ -108,7 +111,9 @@
                             <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
                         @endpermission
 
-                        <li><a class="{{ Route::currentRouteName() === 'companies.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('companies.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Компании</span></a></li>
+                        @permission('read-companies')
+                            <li><a class="{{ Route::currentRouteName() === 'companies.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('companies.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Компании</span></a></li>
+                        @endpermission
                     </ul>
                 </div>
             </li>

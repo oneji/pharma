@@ -1,88 +1,5 @@
 $(document).ready(function() {
-    $('.medicine-select2').select2({
-        ajax: {
-            url: "/medicine/getAll",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page
-                };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        },
-        placeholder: 'Выберите товар',
-        language: {
-            searching: function() {
-                return 'Идет поиск...';
-            }
-        }
-    });
-    
-    $('.brands-select2').select2({
-        ajax: {
-            url: "/brands/getAll",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page
-                };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: data
-                };
-            },
-            cache: true,
-        },
-        placeholder: 'Выберите производителя',
-        language: {
-            searching: function() {
-                return 'Идет поиск...';
-            }
-        }
-    });
-
-    let i = 1;
-    $('.add-item-btn').click(function() {
-        let itemRow = `
-            <tr>
-                <td class="pl-1">
-                    <input hidden type="text" class="center-align item-id browser-default" name="items[${i}][id]">
-                    <select name="items[${i}][medicine]" class="medicine-select2 browser-default" required data-error=".medicine-error-${i}"></select>
-                    <small class="medicine-error-${i}"></small>
-                </td>
-                <td>
-                    <select name="items[${i}][brand]" class="brands-select2 browser-default"  required data-error=".brands-error-${i}"></select>
-                    <small class="brands-error-${i}"></small>
-                </td>
-                <td>
-                    <input name="items[${i}][exp_date]" type="text" class="center-align datepicker browser-default" required data-error=".exp-date-error-${i}">
-                    <small class="exp-date-error-${i}"></small>
-                </td>
-                <td>
-                    <input name="items[${i}][price]" type="number" class="center-align browser-default" required data-error=".price-error-${i}">
-                    <small class="price-error-${i}"></small>
-                </td>
-                <td>
-                    <input name="items[${i}][quantity]" type="number" class="center-align browser-default" required data-error=".quantity-error-${i}">
-                    <small class="quantity-error-${i}"></small>
-                </td>
-                <td><i class="delete-row-btn material-icons">delete</i></td>
-            </tr>
-        `
-        i++;
-
-        $('#price-list-body').append(itemRow);
-
+    function generateMedicineAndBrandsSelects() {
         $('.medicine-select2').select2({
             ajax: {
                 url: "/medicine/getAll",
@@ -125,7 +42,7 @@ $(document).ready(function() {
                         results: data
                     };
                 },
-                cache: true
+                cache: true,
             },
             placeholder: 'Выберите производителя',
             language: {
@@ -134,6 +51,43 @@ $(document).ready(function() {
                 }
             }
         });
+    }
+
+    generateMedicineAndBrandsSelects();
+
+    let i = 1;
+    $('.add-item-btn').click(function() {
+        let itemRow = `
+            <tr>
+                <td class="pl-1">
+                    <input hidden type="text" class="center-align item-id browser-default" name="items[${i}][id]">
+                    <select name="items[${i}][medicine]" class="medicine-select2 browser-default" required data-error=".medicine-error-${i}"></select>
+                    <small class="medicine-error-${i}"></small>
+                </td>
+                <td>
+                    <select name="items[${i}][brand]" class="brands-select2 browser-default"  required data-error=".brands-error-${i}"></select>
+                    <small class="brands-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][exp_date]" type="text" class="center-align datepicker browser-default" required data-error=".exp-date-error-${i}">
+                    <small class="exp-date-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][price]" type="number" class="center-align browser-default" required data-error=".price-error-${i}">
+                    <small class="price-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][quantity]" type="number" class="center-align browser-default" required data-error=".quantity-error-${i}">
+                    <small class="quantity-error-${i}"></small>
+                </td>
+                <td><i class="delete-row-btn material-icons">delete</i></td>
+            </tr>
+        `
+        i++;
+
+        $('#price-list-body').append(itemRow);
+
+        generateMedicineAndBrandsSelects();
 
         $('.datepicker').datepicker({
             autoClose: !0,

@@ -30,7 +30,8 @@
             <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-indigo-light-blue no-shadow">
                 <div class="nav-wrapper">
                     <ul class="navbar-list right">
-                        <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
+                        <li><a href="{{ route('users.show', [ 'id' => Auth::user()->id ]) }}"><i class="material-icons right">account_circle</i> {{ Auth::user()->name }}</a></li>
+                        {{-- <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li> --}}
                         <li><a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);" data-target="notifications-dropdown"><i class="material-icons">notifications_none<small class="notification-badge">{{ Auth::user()->unreadNotifications->count() }}</small></i></a></li>
                         <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="{{ asset('assets/images/user/user.png') }}" alt="avatar"><i></i></span></a></li>
                     </ul>
@@ -57,8 +58,7 @@
                             <a 
                                 class="grey-text text-darken-1" 
                                 href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             >
                                 <i class="material-icons">keyboard_tab</i> 
                                 Выйти
@@ -87,36 +87,39 @@
             </div>
         </div>
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
-            <li class="bold active"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">list_alt</i><span class="menu-title" data-i18n="Dashboard">Справочники</span></a>
-                <div class="collapsible-body">
-                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-                        @permission('read-acl')
-                            <li><a class="{{ Route::currentRouteName() === 'acl.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('acl.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Права доступа и роли</span></a></li>
-                        @endpermission
+            @permission('read-acl|read-users|read-clients|read-brands|read-medicines|read-companies')
+                <li class="bold active"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">list_alt</i><span class="menu-title" data-i18n="Dashboard">Справочники</span></a>
+                    <div class="collapsible-body">
+                        <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                            @permission('read-acl')
+                                <li><a class="{{ Route::currentRouteName() === 'acl.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('acl.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Права доступа и роли</span></a></li>
+                            @endpermission
 
-                        @permission('read-users')
-                            <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
-                        @endpermission
+                            @permission('read-users')
+                                <li><a class="{{ Route::currentRouteName() === 'users.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Пользователи</span></a></li>
+                            @endpermission
 
-                        @permission('read-clients')
-                            <li><a class="{{ Route::currentRouteName() === 'users.clients' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.clients') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Клиенты</span></a></li>
-                        @endpermission
+                            @permission('read-clients')
+                                <li><a class="{{ Route::currentRouteName() === 'users.clients' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('users.clients') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Клиенты</span></a></li>
+                            @endpermission
 
 
-                        @permission('read-brands')
-                            <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
-                        @endpermission
-                        
-                        @permission('read-medicines')
-                            <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
-                        @endpermission
+                            @permission('read-brands')
+                                <li><a class="{{ Route::currentRouteName() === 'brands.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('brands.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="eCommerce">Производители</span></a></li>
+                            @endpermission
+                            
+                            @permission('read-medicines')
+                                <li><a class="{{ Route::currentRouteName() === 'medicine.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('medicine.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Товары</span></a></li>
+                            @endpermission
 
-                        @permission('read-companies')
-                            <li><a class="{{ Route::currentRouteName() === 'companies.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('companies.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Компании</span></a></li>
-                        @endpermission
-                    </ul>
-                </div>
-            </li>
+                            @permission('read-companies')
+                                <li><a class="{{ Route::currentRouteName() === 'companies.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('companies.index') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Analytics">Компании</span></a></li>
+                            @endpermission
+                        </ul>
+                    </div>
+                </li>
+            @endpermission
+
             @permission('read-price-lists')
                 <li class="bold">
                     <a class="{{ Route::currentRouteName() === 'price_lists.index' ? 'gradient-45deg-indigo-blue active' : null }}" href="{{ route('price_lists.index') }}">

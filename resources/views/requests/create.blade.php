@@ -8,18 +8,7 @@
     @parent
 
     <style>
-        #loading {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 99;
-            background-color: rgba(255, 255, 255, .5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
+        
     </style>
 @endsection
 
@@ -70,7 +59,7 @@
                                                         <th>Срок годности (до)</th>
                                                         <th class="center-align">Кол-во в коробке (шт.)</th>
                                                         <th class="right-center">Цена (с.)</th>
-                                                        <th>Кол-во коробок (шт.)</th>
+                                                        <th class="center-align">Кол-во коробок (шт.)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -95,7 +84,8 @@
                                                                 <span class="badge green">{{ $item->price }}c.</span>
                                                             </td>
                                                             <td style="max-width: 100px; text-align: center">
-                                                                <input type="number"  min="0" name="quantity[{{ $item->id }}]" class="request-pl-item-quantity">
+                                                                <input type="number"  min="0" name="quantity[{{ $item->id }}]" class="request-pl-item-quantity browser-default center-align" data-error=".quantity-{{ $item->id }}">
+                                                                <small class="quantity-{{ $item->id }}"></small>
                                                             </td>
                                                         </tr>                                                    
                                                     @endforeach
@@ -107,13 +97,15 @@
     
                                         <div class="row">
                                             <div class="input-field col m5 s12 xl4">
-                                                <select name="user_from" id="user_from">
-                                                    <option value="" selected>Не выбран</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label>Заявка от имени</label>
+                                                @role('superadministrator|manager|head-manager')
+                                                    <select name="user_from" id="user_from">
+                                                        <option value="" selected>Не выбран</option>
+                                                        @foreach ($users as $user)
+                                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <label>Заявка от имени</label>
+                                                @endpermission
                                             </div>
 
                                             <div class="col m7 s12 xl4 offset-xl4">

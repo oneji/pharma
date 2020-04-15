@@ -179,8 +179,9 @@
                                             <td><span class="badge {{ $user->password_changed === 1 ? 'green' : 'orange' }}">{{ $user->password_changed === 1 ? 'Изменил' : 'Не изменял'}}</span></td>
                                             <td>
                                                 <a href="{{ route('users.show', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">visibility</i></span></a>
-                                                <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>
-
+                                                @permission('update-users')
+                                                    <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>
+                                                @endpermission
                                                 @if ($user->status === 0)
                                                     <a href="#" class="tooltipped" onclick="event.preventDefault(); document.getElementById('active-form-{{ $user->id }}').submit();" data-position="bottom" data-tooltip="Активировать">
                                                         <span><i class="material-icons delete">lock_open</i></span>

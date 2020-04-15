@@ -49,8 +49,10 @@ class Brand extends Model
     /**
      * 
      */
-    public static function getForSelect()
+    public static function getForSelect($q)
     {
-        return static::select('id', 'name as text')->get();
+        return static::where('name', 'like', '%' . $q . '%')
+            ->select('id', 'name as text')
+            ->get();
     }
 }

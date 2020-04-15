@@ -49,4 +49,13 @@ class BrandController extends Controller
             'ok' => true,
         ]);
     }
+
+
+    /**
+     * 
+     */
+    public function getAllBrandsAjax(Request $request)
+    {
+        return response()->json(Brand::getForSelect($request->q));
+    }
 }

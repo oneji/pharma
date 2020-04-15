@@ -38,14 +38,14 @@ class PriceList extends Model
         $priceList = new PriceList();
         $priceList->save();
 
-        for($i = 0; $i < count($data); $i++) {
+        foreach ($data as $item) {
             $priceListItems[] = [
                 'price_list_id' => $priceList->id,
-                'medicine_id' => $data[$i]['medicine_id'],
-                'brand_id' => $data[$i]['brand_id'],
-                'exp_date' => Carbon::createFromFormat('d/m/Y', $data[$i]['exp_date']),
-                'price' => $data[$i]['price'],
-                'quantity' => $data[$i]['quantity'],
+                'medicine_id' => $item['medicine'],
+                'brand_id' => $item['brand'],
+                'exp_date' => Carbon::createFromFormat('d/m/Y', $item['exp_date']),
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
                 'created_at' => Date('Y-m-d'),
                 'updated_at' => Date('Y-m-d'),
             ];
@@ -142,8 +142,8 @@ class PriceList extends Model
         foreach ($itemsToAdd as $item) {
             $add[] = [
                 'price_list_id' => $id,
-                'medicine_id' => $item['medicine_id'],
-                'brand_id' => $item['brand_id'],
+                'medicine_id' => $item['medicine'],
+                'brand_id' => $item['brand'],
                 'exp_date' => Carbon::createFromFormat('d/m/Y', $item['exp_date']),
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
@@ -161,8 +161,8 @@ class PriceList extends Model
         foreach ($itemsToUpdate as $item) {
 
             PriceListItem::where('id', $item['id'])->update([
-                'medicine_id' => $item['medicine_id'],
-                'brand_id' => $item['brand_id'],
+                'medicine_id' => $item['medicine'],
+                'brand_id' => $item['brand'],
                 'exp_date' => Carbon::createFromFormat('d/m/Y', $item['exp_date']),
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],

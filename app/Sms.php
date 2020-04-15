@@ -12,7 +12,7 @@ class Sms extends Model
     const SMS_HASH =        '62efddaf4d0285c92ccfa3bcf7045b95';
     const SMS_SENDER =      'SifatPharma';
     const SMS_SERVER =      'http://api.osonsms.com/sendsms_v1.php';
-    const SMS_SYSTEM_URL =  'wwww.pharma.digital.tj';
+    const SMS_SYSTEM_URL =  'www.pharma.digital.tj';
 
     // Sms text messages
     const SMS_CLIENT_CREATED = 'smsClientCreated';

@@ -27,10 +27,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- Data sources: Medicine and Brands --}}
-                                    <span style="display: none" id="brands-source">@json($brands)</span>
-                                    <span style="display: none" id="medicine-source">@json($medicine)</span>
-
                                     <form action="{{ route('price_lists.update', [ 'id' => $priceList['id'] ]) }}" method="POST" class="form invoice-item-repeater" id="createPriceListForm">
                                         @csrf
                                         @method('PUT')
@@ -45,26 +41,35 @@
                                                     <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody data-repeater-list="price_list_data" id="price-list-body">
+                                            <tbody id="price-list-body">
                                                 @foreach ($priceList['items'] as $item)
-                                                    <tr data-repeater-item>
-                                                        <td  class="pl-1">
-                                                            <input hidden type="text" class="center-align item-id browser-default" name="id" value="{{ $item->id }}">
-                                                            <select class="medicine-select2 browser-default" name="medicine[]" required></select>
+                                                    <tr>
+                                                        <td  class="pl-1" style="min-width: 250px">
+                                                            <input hidden type="text" class="center-align item-id browser-default" name="items[{{ $item->id }}][id]" value="{{ $item->id }}">
+                                                            <select name="items[{{ $item->id }}][medicine]" class="medicine-select2 browser-default" required data-error=".medicine-error-{{ $item->id }}">
+                                                                <option value="{{ $item->medicine_id }}">{{ $item->medicine_name }}</option>
+                                                            </select>
+                                                            <small class="medicine-error-{{ $item->id }}"></small>
                                                         </td>
                                                         <td>
-                                                            <select class="brands-select2 browser-default" name="brand[]" required></select>
+                                                            <select name="items[{{ $item->id }}][brand]" class="brands-select2 browser-default" required data-error=".brands-error-{{ $item->id }}">
+                                                                <option value="{{ $item->brand_id }}">{{ $item->brand_name }}</option>
+                                                            </select>
+                                                            <small class="brands-error-{{ $item->id }}"></small>
                                                         </td>
                                                         <td>
-                                                            <input name="exp_date[]" type="text" class="center-align datepicker browser-default" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}" required>
+                                                            <input name="items[{{ $item->id }}][exp_date]" type="text" class="center-align datepicker browser-default" required data-error=".exp-date-error-{{ $item->id }}" value="{{ \Carbon\Carbon::parse($item->exp_date)->format('d/m/Y') }}">
+                                                            <small class="exp-date-error-{{ $item->id }}"></small>
                                                         </td>
                                                         <td>
-                                                            <input class="center-align browser-default" name="price[]" type="number" value="{{ $item->price }}" required>
+                                                            <input name="items[{{ $item->id }}][price]" type="number" class="center-align browser-default" required data-error=".price-error-{{ $item->id }}" value="{{ $item->price }}">
+                                                            <small class="price-error-{{ $item->id }}"></small>
                                                         </td>
                                                         <td>
-                                                            <input class="center-align browser-default" name="quantity[]" type="number" value="{{ $item->quantity }}" required>
+                                                            <input name="items[{{ $item->id }}][quantity]" type="number" class="center-align browser-default" required data-error=".quantity-error-{{ $item->id }}" value="{{ $item->quantity }}">
+                                                            <small class="quantity-error-{{ $item->id }}"></small>
                                                         </td>
-                                                        <td><i data-repeater-delete class="delete-row-btn material-icons">delete</i></td>
+                                                        <td><i class="delete-row-btn material-icons">delete</i></td>
                                                     </tr>                                                    
                                                 @endforeach
                                             </tbody>
@@ -72,7 +77,7 @@
                                         <div class="input-field display-flex justify-content-end">
                                             <button class="btn blue add-item-btn" data-repeater-create type="button">Добавить товар</button>
                                             <button class="btn green create-price-list-submit-btn ml-1" type="submit">
-                                                <span>Сохранить изменения</span>
+                                                <span>Изменить</span>
                                             </button>
                                         </div>
                                     </form>
@@ -90,7 +95,6 @@
 @section('scripts')
     @parent
     <script src="{{ asset('assets/vendors/select2/select2.full.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/form_repeater/jquery.repeater.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom/price_lists.js') }}"></script>
 @endsection

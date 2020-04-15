@@ -1,58 +1,139 @@
 $(document).ready(function() {
-    let medicineSource = JSON.parse($('#medicine-source').text());
-    let brandsSource = JSON.parse($('#brands-source').text());
+    $('.medicine-select2').select2({
+        ajax: {
+            url: "/medicine/getAll",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Выберите товар',
+        language: {
+            searching: function() {
+                return 'Идет поиск...';
+            }
+        }
+    });
+    
+    $('.brands-select2').select2({
+        ajax: {
+            url: "/brands/getAll",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: data
+                };
+            },
+            cache: true,
+        },
+        placeholder: 'Выберите производителя',
+        language: {
+            searching: function() {
+                return 'Идет поиск...';
+            }
+        }
+    });
 
-    $('.medicine-select2').select2({ data: medicineSource });
-    $('.brands-select2').select2({ data: brandsSource });
-
-    // $(".invoice-item-repeater").repeater({
-    //     show: function () {
-    //         $('.datepicker').datepicker({
-    //             autoClose: !0,
-    //             format: "dd/mm/yyyy",
-    //             container: "body",
-    //             onDraw: function () {
-    //                 $(".datepicker-container").find(".datepicker-select").addClass("browser-default");
-    //                 $(".datepicker-container .select-dropdown.dropdown-trigger").remove();
-    //             }
-    //         })
-
-    //         $(this).slideDown();
-    //     },
-    //     hide: function (e) {
-    //         $(this).slideUp(e)
-    //     }
-    // })
-
+    let i = 1;
     $('.add-item-btn').click(function() {
-        console.log('...');
-
         let itemRow = `
             <tr>
                 <td class="pl-1">
-                    <input hidden type="text" class="center-align item-id browser-default" name="id">
-                    <select class="medicine-select2 browser-default" name="medicine[]" required></select>
+                    <input hidden type="text" class="center-align item-id browser-default" name="items[${i}][id]">
+                    <select name="items[${i}][medicine]" class="medicine-select2 browser-default" required data-error=".medicine-error-${i}"></select>
+                    <small class="medicine-error-${i}"></small>
                 </td>
                 <td>
-                    <select class="brands-select2 browser-default" name="brands[]" required></select>
+                    <select name="items[${i}][brand]" class="brands-select2 browser-default"  required data-error=".brands-error-${i}"></select>
+                    <small class="brands-error-${i}"></small>
                 </td>
                 <td>
-                    <input name="exp_date[]" type="text" class="center-align datepicker browser-default" required>
+                    <input name="items[${i}][exp_date]" type="text" class="center-align datepicker browser-default" required data-error=".exp-date-error-${i}">
+                    <small class="exp-date-error-${i}"></small>
                 </td>
                 <td>
-                    <input class="center-align browser-default" name="price[]" type="number" required>
+                    <input name="items[${i}][price]" type="number" class="center-align browser-default" required data-error=".price-error-${i}">
+                    <small class="price-error-${i}"></small>
                 </td>
                 <td>
-                    <input class="center-align browser-default" name="quantity[]" type="number" required>
+                    <input name="items[${i}][quantity]" type="number" class="center-align browser-default" required data-error=".quantity-error-${i}">
+                    <small class="quantity-error-${i}"></small>
                 </td>
-                <td><i data-repeater-delete class="delete-row-btn material-icons">delete</i></td>
+                <td><i class="delete-row-btn material-icons">delete</i></td>
             </tr>
         `
+        i++;
 
         $('#price-list-body').append(itemRow);
 
-        $('.medicine-select2').select2();
-        $('.brands-select2').select2();
+        $('.medicine-select2').select2({
+            ajax: {
+                url: "/medicine/getAll",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Выберите товар',
+            language: {
+                searching: function() {
+                    return 'Идет поиск...';
+                }
+            }
+        });
+        
+        $('.brands-select2').select2({
+            ajax: {
+                url: "/brands/getAll",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Выберите производителя',
+            language: {
+                searching: function() {
+                    return 'Идет поиск...';
+                }
+            }
+        });
 
         $('.datepicker').datepicker({
             autoClose: !0,
@@ -62,8 +143,7 @@ $(document).ready(function() {
                 $(".datepicker-container").find(".datepicker-select").addClass("browser-default");
                 $(".datepicker-container .select-dropdown.dropdown-trigger").remove();
             }
-        })
-
+        });
     });
 
     $('.create-price-list-submit-btn').click(function(e) {
@@ -90,6 +170,10 @@ $(document).ready(function() {
         $("#createPriceListForm").submit();
     });
 
+    $(document).on('click', '.delete-row-btn', function(e) {
+        $(this).parent().parent().remove();
+    });
+
     function collectValidationFields(form) {
         var formControlsNames = [];
 
@@ -113,8 +197,6 @@ $(document).ready(function() {
             validationRules[name] = { required: true }
         });
 
-        console.log(validationRules);
-
         return validationRules;
     }
 
@@ -123,9 +205,7 @@ $(document).ready(function() {
 
         controlNames.map(function(name) {
             validationMessages[name] = { required: 'Обязательное поле.' }
-        }); 
-
-        console.log(validationMessages);
+        });
 
         return validationMessages;
     }

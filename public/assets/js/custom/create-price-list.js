@@ -1,25 +1,149 @@
 $(document).ready(function() {
-
-    $('.select2').select2();
-
-    $(".invoice-item-repeater").repeater({
-        show: function () {
-            $('.datepicker').datepicker({
-                autoClose: !0,
-                format: "dd/mm/yyyy",
-                container: "body",
-                onDraw: function () {
-                    $(".datepicker-container").find(".datepicker-select").addClass("browser-default");
-                    $(".datepicker-container .select-dropdown.dropdown-trigger").remove();
-                }
-            })
-
-            $(this).slideDown();
+    $('.medicine-select2').select2({
+        ajax: {
+            url: "/medicine/getAll",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
         },
-        hide: function (e) {
-            $(this).slideUp(e)
+        placeholder: 'Выберите товар',
+        language: {
+            searching: function() {
+                return 'Идет поиск...';
+            }
         }
-    })
+    });
+    
+    $('.brands-select2').select2({
+        ajax: {
+            url: "/brands/getAll",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: data
+                };
+            },
+            cache: true,
+        },
+        placeholder: 'Выберите производителя',
+        language: {
+            searching: function() {
+                return 'Идет поиск...';
+            }
+        }
+    });
+
+    let i = 1;
+    $('.add-item-btn').click(function() {
+        let itemRow = `
+            <tr>
+                <td class="pl-1">
+                    <select name="items[${i}][medicine]" class="medicine-select2 browser-default" required data-error=".medicine-error-${i}"></select>
+                    <small class="medicine-error-${i}"></small>
+                </td>
+                <td>
+                    <select name="items[${i}][brand]" class="brands-select2 browser-default"  required data-error=".brands-error-${i}"></select>
+                    <small class="brands-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][exp_date]" type="text" class="center-align datepicker browser-default" required data-error=".exp-date-error-${i}">
+                    <small class="exp-date-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][price]" type="number" class="center-align browser-default" required data-error=".price-error-${i}">
+                    <small class="price-error-${i}"></small>
+                </td>
+                <td>
+                    <input name="items[${i}][quantity]" type="number" class="center-align browser-default" required data-error=".quantity-error-${i}">
+                    <small class="quantity-error-${i}"></small>
+                </td>
+                <td><i class="delete-row-btn material-icons">delete</i></td>
+            </tr>
+        `
+        i++;
+
+        $('#price-list-body').append(itemRow);
+
+        $('.medicine-select2').select2({
+            ajax: {
+                url: "/medicine/getAll",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Выберите товар',
+            language: {
+                searching: function() {
+                    return 'Идет поиск...';
+                }
+            }
+        });
+        
+        $('.brands-select2').select2({
+            ajax: {
+                url: "/brands/getAll",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Выберите производителя',
+            language: {
+                searching: function() {
+                    return 'Идет поиск...';
+                }
+            }
+        });
+
+        $('.datepicker').datepicker({
+            autoClose: !0,
+            format: "dd/mm/yyyy",
+            container: "body",
+            onDraw: function () {
+                $(".datepicker-container").find(".datepicker-select").addClass("browser-default");
+                $(".datepicker-container .select-dropdown.dropdown-trigger").remove();
+            }
+        });
+    });
 
     $('.create-price-list-submit-btn').click(function(e) {
         e.preventDefault();
@@ -45,6 +169,10 @@ $(document).ready(function() {
         $("#createPriceListForm").submit();
     });
 
+    $(document).on('click', '.delete-row-btn', function(e) {
+        $(this).parent().parent().remove();
+    });
+
     function collectValidationFields(form) {
         var formControlsNames = [];
 
@@ -58,6 +186,7 @@ $(document).ready(function() {
             });
         });
 
+        console.log(formControlsNames)
         return formControlsNames;
     }
 

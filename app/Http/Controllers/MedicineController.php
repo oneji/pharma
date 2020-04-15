@@ -60,4 +60,12 @@ class MedicineController extends Controller
             'ok' => true
         ]);
     }
+
+    /**
+     * Get all medicine: ajax
+     */
+    public function getAllMedicineAjax(Request $request)
+    {
+        return response()->json(Medicine::getForSelect($request->q));
+    }
 }

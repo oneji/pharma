@@ -92,7 +92,7 @@ class PriceListController extends Controller
      */
     public function createPriceList(Request $request)
     {
-        $priceList = PriceList::create($request->price_list_data);
+        $priceList = PriceList::create($request->items);
 
         ActionLog::create([
             'text' => ActionLog::ACTION_PRICE_LIST_CREATED,
@@ -112,8 +112,10 @@ class PriceListController extends Controller
     public function edit($id)
     {
         $priceList = PriceList::getWithItems($id);
-        $medicine = Medicine::getForSelect();
-        $brands = Brand::getForSelect();
+        $medicine = Medicine::all();
+        $brands = Brand::all();
+
+        // return $priceList;
 
         return view('price_lists.edit', [
             'priceList' => $priceList,
@@ -135,18 +137,22 @@ class PriceListController extends Controller
         $itemsToUpdate = [];
         $itemsToAdd = [];
 
-        return $request;
-
-        foreach ($request->price_list_data as $value) {
-            if($value['id'] !== null) {
-                $itemsToUpdate[] = $value;
-                $itemIds[] = $value['id'];
+        foreach ($request->items as $idx => $item) {
+            if($item['id'] !== null) {
+                $itemsToUpdate[] = $item;
+                $itemIds[] = $item['id'];
             } else {
-                $itemsToAdd[] = $value;
+                $itemsToAdd[] = $item;
             }
         }
 
         $itemsToDelete = PriceListItem::whereNotIn('id', $itemIds)->pluck('id');
+
+        // return [
+        //     'itemIds' => $itemIds,
+        //     'itemsToUpdate' => $itemsToUpdate,
+        //     'itemsToDelete' => $itemsToDelete
+        // ];
 
         PriceList::massiveUpdate($id, $itemsToAdd, $itemsToUpdate, $itemsToDelete);
 

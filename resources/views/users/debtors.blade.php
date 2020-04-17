@@ -49,8 +49,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>ФИО</th>
-                                            <th>Имя пользователя</th>
-                                            <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Скидка (%)</th>
                                             <th>Общая сумма долга</th>
@@ -61,13 +59,12 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($debtors as $idx => $debtor)
-                                        <tr>
+                                        <tr class="{{ $debtor->payment_deadline < \Carbon\Carbon::now() ? 'payment-deadline-expired' : null }} ">
                                             <td>{{ $idx + 1 }}</td>
                                             <td>
+                                                
                                                 <a href="{{ route('users.show', [ 'id' => $debtor->id ]) }}">{{ $debtor->name }}</a>
                                             </td>
-                                            <td>{{ $debtor->username }}</td>
-                                            <td>{{ $debtor->phone }}</td>
                                             <td>{{ $debtor->company_name }}</td>
                                             <td>{{ $debtor->discount_amount }}%</td>
                                             <td>
@@ -77,7 +74,11 @@
                                                 <span class="badge green">{{ $debtor->paid_amount }}с.</span>
                                             </td>
                                             <td>
-                                                {{ \Carbon\Carbon::parse($debtor->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}
+                                                @if ($debtor->payment_deadline < \Carbon\Carbon::now())
+                                                    <span class="badge red">{{ \Carbon\Carbon::parse($debtor->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}</span>
+                                                @else
+                                                    {{ \Carbon\Carbon::parse($debtor->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}
+                                                @endif
                                             </td>
                                             {{-- <td>
                                                 <a href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><span><i class="material-icons delete">edit</i></span></a>

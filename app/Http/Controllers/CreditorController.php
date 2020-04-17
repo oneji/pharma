@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Creditor;
 use App\User;
 use App\Http\Requests\StoreCreditor;
+use App\Imports\CreditorImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CreditorController extends Controller
 {
@@ -55,5 +57,35 @@ class CreditorController extends Controller
             'ok' => true,
             'creditor' => $creditor
         ]);
+    }
+
+    public function importExcel(Request $request)
+    {
+        if($request->hasFile('excel_file')) {
+            $items = Excel::toArray(new CreditorImport, $request->file('excel_file'));
+            $parsedItems = [];
+
+            for($j = 3; $j < count($items[0]); $j++) {
+                if( $items[0][$j][0] !== null && 
+                    $items[0][$j][3] !== null &&
+                    $items[0][$j][4] !== null &&
+                    $items[0][$j][5] !== null) {
+                    
+                    $parsedItems[] = [
+                        'bill_number' => $items[0][$j][0],
+                        'date' => $items[0][$j][3],
+                        'user' => $items[0][$j][4],
+                        'amount' => $items[0][$j][5],
+                    ];
+
+                }
+            }
+
+            return $parsedItems;
+        } else {
+            return [
+                'ok' => false
+            ];
+        }
     }
 }

@@ -49,4 +49,25 @@ class Creditor extends Model
     {
         return static::where('user_id', $id)->get();
     }
+
+    /**
+     * 
+     */
+    public static function getCreditsAmount($id)
+    {
+        $total = DB::table('creditors')
+            ->where('creditors.user_id', $id)
+            ->join('users', 'users.id', '=', 'creditors.user_id')
+            ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
+            ->selectRaw(DB::raw('sum(creditors.amount) as total'))
+            ->groupBy('creditors.user_id', 'users.name', 'users.id', 'users.username', 'users.phone', 'companies.name')
+            ->first();
+
+        $items = Creditor::where('user_id', $id)->get();
+
+        return [
+            'total' => $total,
+            'items' => $items
+        ];
+    } 
 }

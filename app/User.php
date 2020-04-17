@@ -212,6 +212,39 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all user debits
+     * 
+     * @return array $debits
+     */
+    public static function getDebits($user)
+    {
+        $debits = (object) [
+            'debt_amount' => 0,
+            'paid_amount' => 0
+        ];
+
+        if(count($user->requests) > 0) {
+            $user->debt_amount = (double) 0;
+            $user->paid_amount = (double) 0;
+            
+            foreach ($user->requests as $req) {
+                $paymentsTotalSum = RequestPayment::getTotalPaymentAmount($req->request_payments);
+                
+                // Determine if the request has debt amount
+                $requestDebtAmount = (double)$req->payment_amount - (double)$paymentsTotalSum;
+                $req->debt_amount = (double)$requestDebtAmount;
+                $user->debt_amount += (double)$requestDebtAmount;
+                $user->paid_amount += (double)$paymentsTotalSum; 
+            }
+        }
+
+        $user->debt_amount = round($user->debt_amount);
+        $user->paid_amount = round($user->paid_amount);
+
+        return $debits;
+    }
+
+    /**
      * Get user profile information
      * 
      * @param int $id
@@ -226,10 +259,13 @@ class User extends Authenticatable
                 $query->latest()->take(5);
             }
         ])->where('id', $id)->first();
+
+        static::getDebits($user);
         
         $userProfile = [
             'user' => $user,
             'paidRequests' => static::getPaidRequests($id),
+            'credits' => Creditor::getCreditsAmount($id)
         ];
 
         return $userProfile;

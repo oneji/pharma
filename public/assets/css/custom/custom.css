@@ -159,3 +159,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .creditor-info-table > tbody > tr > td {
 	padding: 5px;
 }
+
+/* Debitors */
+.payment-deadline-expired {
+	border: 1px solid red;
+}

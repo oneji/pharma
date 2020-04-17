@@ -75,6 +75,8 @@ class UserController extends Controller
     {
         $userProfile = User::getProfile($id);
 
+        // return $userProfile;
+
         return view('users.profile', [
             'userProfile' => $userProfile
         ]);

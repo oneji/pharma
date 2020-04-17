@@ -45,8 +45,14 @@
                                 <section class="users-list-wrapper section">
                                     <div class="users-list-table">
                                         <div class="card">
+                                            <div class="card-tabs">
+                                                <ul class="tabs tabs-fixed-width">
+                                                    <li class="tab"><a href="#requests" class="active">Заявки</a></li>
+                                                    <li class="tab"><a href="#debits">Кредиты</a></li>
+                                                </ul>
+                                            </div>
                                             <div class="card-content">
-                                                <div class="responsive-table">
+                                                <div id="requests" class="active responsive-table">
                                                     <table id="requests-list" class="table">
                                                         <thead>
                                                             <tr>
@@ -114,6 +120,29 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+
+                                                <div id="debits" class="active responsive-table">
+                                                    <table id="credits-list" class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>№ накладной</th>
+                                                                <th>Сумма</th>
+                                                                <th>Дата</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($userProfile['credits']['items'] as $idx => $credit)
+                                                                <tr>
+                                                                    <td>{{ $idx + 1 }}</td>
+                                                                    <td>#{{ $credit->bill_number }}</td>
+                                                                    <td>{{ $credit->amount }} с.</td>
+                                                                    <td>{{ \Carbon\Carbon::parse($credit->date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -134,6 +163,10 @@
                                             <p><i class="material-icons profile-card-i">account_circle</i>{{ $userProfile['user']->roles->first()->display_name }}</p>
                                             <p><i class="material-icons profile-card-i">perm_phone_msg</i>{{ $userProfile['user']->phone }}</p>
                                             <p><i class="material-icons profile-card-i">person</i>{{ $userProfile['user']->username }}</p>
+                                            <p><i class="material-icons profile-card-i">attach_money</i>Общий долг: {{ (double)$userProfile['user']->debt_amount + (double)$userProfile['user']->paid_amount }} с.</p>
+                                            <p><i class="material-icons profile-card-i">euro</i>Текущий долг: {{ $userProfile['user']->debt_amount }} с.</p>
+                                            <p><i class="material-icons profile-card-i">money_off</i>Оплачено: {{ $userProfile['user']->paid_amount }} с.</p>
+                                            <p><i class="material-icons profile-card-i">receipt</i>Приход: {{ $userProfile['credits']['total']->total }} с.</p>
                                         </div>
                                     </div>
                                     <hr class="mt-5">
@@ -173,7 +206,7 @@
         $(document).ready(function(){
             $('.tooltipped').tooltip();
 
-            $("#requests-list").DataTable({
+            $("#requests-list, #credits-list").DataTable({
                 language: {
                     search: "",
                     searchPlaceholder: "Поиск",

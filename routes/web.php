@@ -39,6 +39,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
     Route::get('creditors', 'CreditorController@index')->name('creditors.index');
     Route::get('creditors/{id}', 'CreditorController@getById')->name('creditors.getById');
     Route::post('creditors', 'CreditorController@store')->name('creditors.store');
+    Route::post('creditors/importExcel', 'CreditorController@importExcel')->name('creditors.excel');
 
     // Brands
     Route::get('brands', 'BrandController@index')->name('brands.index');

@@ -76,6 +76,35 @@
         </form>
     </div>
 
+    <div id="importExcelModal" class="modal" style="width: 40%">
+        <form action="{{ route('creditors.excel') }}" method="POST" id="importExcelForm" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-content">
+                <h5>Импорт Excel</h5>
+                    
+                    <div class="container mt-7">
+                        <div class="row">
+                            <div class="file-field input-field">
+                                <div class="btn">
+                                    <span>Выберите файл</span>
+                                    <input type="file" name="excel_file">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn green">
+                    <span>Импорт</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
     <!-- Modal Structure -->
     <div id="infoModal" class="modal">
         <div id="loading">
@@ -123,6 +152,12 @@
                         <li class="breadcrumb-item active">Кредиторы</li>
                     </ol>
                 </div>
+
+                <div class="col s2 m6 l6">
+                    <a href="#importExcelModal" class="btn waves-effect modal-trigger waves-light breadcrumbs-btn right green">
+                        <span class="hide-on-small-onl">Импорт Excel</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -139,8 +174,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>ФИО</th>
-                                            <th>Имя пользователя</th>
-                                            <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Сумма долга</th>
                                             <th>Действия</th>
@@ -151,8 +184,6 @@
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
                                             <td>{{ $creditor->name }}</td>
-                                            <td>{{ $creditor->username }}</td>
-                                            <td>{{ $creditor->phone }}</td>
                                             <td>{{ $creditor->company_name }}</td>
                                             <td>
                                                 <span class="badge blue">{{ $creditor->total }}с.</span>

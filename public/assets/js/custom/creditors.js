@@ -19,8 +19,6 @@ $(document).ready(function() {
             url: `/creditors/${user.id}`,
             type: 'GET',
             success: function (data) {
-                console.log(data);
-                
                 if(data.ok) {
                     $('.creditor-info-table tbody').html('');
                     for (let i = 0; i < data.creditor.length; i++) {

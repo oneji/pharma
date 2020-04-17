@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
 use App\ActionLog;
+use App\User;
 use App\Request as RequestModel;
 
 class Request extends Model
@@ -180,9 +181,17 @@ class Request extends Model
             'request_id' => $req->id
         ]);
 
+        $phoneNumber = '';
+        if($data['user_from'] !== null) {
+            $userFrom = User::find($data['user_from']);
+            $phoneNumber = $userFrom->phone;
+        } else {
+            $phoneNumber = Auth::user()->phone;
+        }
+
         // Send sms
         Sms::send([
-            'phone_number' => Auth::user()->phone,
+            'phone_number' => $phoneNumber,
             'request_number' => $req->id
         ], Sms::SMS_REQUEST_CREATED);
 

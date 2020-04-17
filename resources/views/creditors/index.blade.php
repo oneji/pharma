@@ -24,7 +24,7 @@
 
 @section('content')
     <div style="bottom: 54px; right: 19px;" class="fixed-action-btn direction-top">
-        <a href="#" class="btn-floating btn-large primary-text gradient-shadow waves-effect waves-light btn green add-btn" data-type="new">
+        <a href="#addCreditorModal" class="btn-floating btn-large primary-text gradient-shadow waves-effect waves-light btn green add-btn modal-trigger">
             <i class="material-icons">person_add</i>
         </a>
     </div>
@@ -76,6 +76,43 @@
         </form>
     </div>
 
+    <!-- Modal Structure -->
+    <div id="infoModal" class="modal">
+        <div id="loading">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-green-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-content">
+            <h5 id="username"></h5>
+            <table class="striped responsive-table creditor-info-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>№ накладной</th>
+                        <th>Сумма (с.)</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
+        </div>
+    </div>
+
     <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
         <div class="container">
             <div class="row">
@@ -106,7 +143,7 @@
                                             <th>Телефон</th>
                                             <th>Компания</th>
                                             <th>Сумма долга</th>
-                                            {{-- <th>Действия</th> --}}
+                                            <th>Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -120,9 +157,15 @@
                                             <td>
                                                 <span class="badge blue">{{ $creditor->total }}с.</span>
                                             </td>
-                                            {{-- <td>
-                                                <a href="#" class="add-btn" data-type="old" data-user="{{ $creditor->user_id }}"><span><i class="material-icons delete">post_add</i></span></a>
-                                            </td> --}}
+                                            <td>
+                                                <a 
+                                                    href="#infoModal" 
+                                                    class="info-btn modal-trigger" 
+                                                    data-user-id="{{ $creditor->user_id }}"
+                                                    data-user-name="{{ $creditor->name }}">
+                                                    <span><i class="material-icons delete">info</i></span>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>

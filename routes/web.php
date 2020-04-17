@@ -37,6 +37,7 @@ Route::middleware([ 'check_password_changed' ])->group(function () {
 
     // Creditors
     Route::get('creditors', 'CreditorController@index')->name('creditors.index');
+    Route::get('creditors/{id}', 'CreditorController@getById')->name('creditors.getById');
     Route::post('creditors', 'CreditorController@store')->name('creditors.store');
 
     // Brands

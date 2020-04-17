@@ -154,3 +154,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	margin-bottom: 5px;
 	border-radius: 10px;
 }
+
+/* Creditors */
+.creditor-info-table > tbody > tr > td {
+	padding: 5px;
+}

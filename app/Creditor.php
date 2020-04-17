@@ -37,4 +37,16 @@ class Creditor extends Model
         $creditor->date = Carbon::createFromFormat('d/m/Y', $data['date']);
         $creditor->save();
     }
+
+    /**
+     * Get creditor's info by id
+     * 
+     * @param int $id
+     * 
+     * @return collection
+     */
+    public static function getById($id)
+    {
+        return static::where('user_id', $id)->get();
+    }
 }

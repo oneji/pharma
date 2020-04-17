@@ -39,4 +39,21 @@ class CreditorController extends Controller
 
         return redirect()->route('creditors.index');
     }
+
+    /**
+     * Get creditor's info by id
+     * 
+     * @param int $id
+     * 
+     * @return collection
+     */
+    public function getById($id)
+    {
+        $creditor = Creditor::getById($id);
+
+        return response()->json([
+            'ok' => true,
+            'creditor' => $creditor
+        ]);
+    }
 }

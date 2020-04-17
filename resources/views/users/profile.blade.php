@@ -111,7 +111,13 @@
                                                                         <span class="badge red">Низкий</span>
                                                                     @endif
                                                                 </td>
-                                                                <td>{{ \Carbon\Carbon::parse($req->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
+                                                                <td>
+                                                                    @if ($req->payment_deadline < \Carbon\Carbon::now())
+                                                                        <span class="badge red">{{ \Carbon\Carbon::parse($req->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}</span>
+                                                                    @else
+                                                                        {{ \Carbon\Carbon::parse($req->payment_deadline)->locale('ru')->isoFormat('MMMM D, YYYY') }}
+                                                                    @endif
+                                                                </td>
                                                                 <td>
                                                                     <a href="{{ route('requests.view', [ 'id' => $req->id ]) }}"><span><i class="material-icons">remove_red_eye</i></span></a>
                                                                 </td>
@@ -136,7 +142,7 @@
                                                                 <tr>
                                                                     <td>{{ $idx + 1 }}</td>
                                                                     <td>#{{ $credit->bill_number }}</td>
-                                                                    <td>{{ $credit->amount }} с.</td>
+                                                                    <td><span class="badge green">{{ $credit->amount }} с.</span></td>
                                                                     <td>{{ \Carbon\Carbon::parse($credit->date)->locale('ru')->isoFormat('MMMM D, YYYY') }}</td>
                                                                 </tr>
                                                             @endforeach

@@ -183,7 +183,9 @@
                                         @foreach ($creditors as $idx => $creditor)
                                         <tr>
                                             <td>{{ $idx + 1 }}</td>
-                                            <td>{{ $creditor->name }}</td>
+                                            <td>
+                                                <a href="{{ route('users.show', [ 'id' => $creditor->user_id ]) }}">{{ $creditor->name }}</a>
+                                            </td>
                                             <td>{{ $creditor->company_name }}</td>
                                             <td>
                                                 <span class="badge blue">{{ $creditor->total }}с.</span>

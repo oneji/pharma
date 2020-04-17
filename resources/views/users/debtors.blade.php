@@ -59,7 +59,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($debtors as $idx => $debtor)
-                                        <tr class="{{ $debtor->payment_deadline < \Carbon\Carbon::now() ? 'payment-deadline-expired' : null }} ">
+                                        <tr class="{{ $debtor->payment_deadline < \Carbon\Carbon::now() ? 'payment-deadline-expired' : null }}">
                                             <td>{{ $idx + 1 }}</td>
                                             <td>
                                                 
